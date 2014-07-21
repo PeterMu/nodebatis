@@ -1,0 +1,8 @@
+<mapper namespace='a'>
+    <select id='selectAll'>
+        select * from a where a.id = :id and a.name like '%%'
+        <if test='age>0'>
+            and a.age = :age
+        </if>
+    </select>
+</mapper>
