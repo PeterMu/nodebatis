@@ -13,6 +13,7 @@
   "author": "petermu",
   "license": "ISC",
   "dependencies": {
-    "xmlreader": "^0.2.3"
+    "xmlreader": "^0.2.3",
+    "xml-parser": "^0.1.0"
   }
 }
