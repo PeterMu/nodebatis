@@ -62,12 +62,6 @@ class Rule
             if @allOper.indexOf(oper.tagName) isnt -1
                 that.getSQL oper
 
-    processChildNode: (node) ->
-        if node.name is 'if'
-            conds = node.test.split ' and '
-            for cond in conds
-                @parseCond cond
-
 class Session
     constructor: (sqlContainer) ->
         @sqlContainer = sqlContainer
@@ -76,23 +70,53 @@ class Session
         array = []
         for obj in sqlArray
             if typeof obj is 'string' then array.push obj
-            if obj instanceof Object then array.push @parseCond obj, param
+            if obj instanceof Object then array.push @processConds obj, param
+        return array.join ' '
+
+    processConds: (node, param) ->
+        if node.name is 'if'
+            flag = true
+            conds = node.test.split ' and '
+            for cond in conds
+                if @parseCond cond, param
+                    continue
+                else
+                    flag = false
+                    break
+            if flag
+                return node.sql.trim()
+            else
+                return ''
+        else
+            return ''
 
     parseCond: (cond, param) ->
-        oper = switch
-            when cond.indexOf('<') isnt -1 then '<'
-            when cond.indexOf('>') isnt -1 then '>'
-            when cond.indexOf('!=') isnt -1 then '!=='
-            when cond.indexOf('==') isnt -1 then '==='
-            else ''
+        flag = false
+        if param
+            switch
+                when cond.indexOf('<') isnt -1
+                    array = cond.split '<'
+                    if param[array[0].trim()] < array[1] then flag = true else flag = false
+                when cond.indexOf('>') isnt -1
+                    array = cond.split '>'
+                    if param[array[0].trim()] > array[1] then flag = true else flag = false
+                when cond.indexOf('!=') isnt -1
+                    array = cond.split '!='
+                    if param[array[0].trim()] isnt array[1] then flag = true else flag = false
+                when cond.indexOf('==') isnt -1
+                    array = cond.split '!='
+                    if param[array[0].trim()] is array[1] then flag = true else flag = false
+                else
+                    flag = false
+        return flag
 
     select: (id, param, callback) ->
         sqlArray = @sqlContainer.get id
-        console.log sqlArray
+        console.log @rawSQL sqlArray, param
 
 
 rule = new Rule 'xml/a.xml'
 sqlContainer.set rule.namespace, rule.rawSQL
 session = new Session sqlContainer
-session.select 'a.selectAll'
+session.select 'a.selectAll',age:0
 

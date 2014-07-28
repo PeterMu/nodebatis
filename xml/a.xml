@@ -9,6 +9,5 @@
         <if test='age > 0'>
             and a.haha = :haha
         </if>
-        and hehe=:hehe
     </select>
 </mapper>
