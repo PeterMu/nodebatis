@@ -2,11 +2,11 @@
 <mapper namespace='a'>
     <select id='selectAll'>
         select * from a where a.id = :id and a.name like :name 
-        <if test='age>0 and sex == "M"'>
+        <if test='age>0 and sex == M'>
             and a.age = :age
         </if>
         and a.a = a
-        <if test='age > 0'>
+        <if test='age > 100'>
             and a.haha = :haha
         </if>
     </select>

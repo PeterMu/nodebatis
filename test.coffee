@@ -104,19 +104,29 @@ class Session
                     array = cond.split '!='
                     if param[array[0].trim()] isnt array[1] then flag = true else flag = false
                 when cond.indexOf('==') isnt -1
-                    array = cond.split '!='
-                    if param[array[0].trim()] is array[1] then flag = true else flag = false
+                    array = cond.split '=='
+                    if param[array[0].trim()] is array[1].trim() then flag = true else flag = false
                 else
                     flag = false
         return flag
 
+    fillParam: (param) ->
+        reg = /\:(\w+)/g
+        match = @rawSQL.match reg
+        if match.length > 0
+            key = ''
+            for name in match
+                key = name.substring 1
+
+
     select: (id, param, callback) ->
         sqlArray = @sqlContainer.get id
-        console.log @rawSQL sqlArray, param
+        @rawSQL = @rawSQL sqlArray, param
+        @fillParam param
 
 
 rule = new Rule 'xml/a.xml'
 sqlContainer.set rule.namespace, rule.rawSQL
 session = new Session sqlContainer
-session.select 'a.selectAll',age:0
+session.select 'a.selectAll',age:10,sex:'M'
 
