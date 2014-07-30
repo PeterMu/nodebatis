@@ -49,10 +49,10 @@ class Rule
             if @allOper.indexOf(oper.tagName) isnt -1
                 that.getSQL oper
 build = (dir, sqlContainer) ->
-    fs.readdirSync dir, (err, files) ->
-        for file in files
-            rule = new Rule dir+'/'+file
-            sqlContainer.set rule.namespace, rule.rawSQL
+    files = fs.readdirSync dir
+    for file in files
+        rule = new Rule dir+'/'+file
+        sqlContainer.set rule.namespace, rule.rawSQL
 
-exports.build =build
+exports.build = build
 
