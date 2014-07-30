@@ -5,7 +5,7 @@
         <if test='age>0 and sex == M'>
             and a.age = :age
         </if>
-        and a.a = a
+        and a.age = :age
         <if test='age > 100'>
             and a.haha = :haha
         </if>
