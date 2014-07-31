@@ -13,6 +13,8 @@
   "author": "petermu",
   "license": "ISC",
   "dependencies": {
-    "xmldom": "^0.1.19"
+    "xmldom": "^0.1.19",
+    "mysql": "^2.4.1",
+    "q": "^1.0.1"
   }
 }

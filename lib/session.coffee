@@ -1,20 +1,22 @@
+Q = require 'q'
 class Session
-    constructor: (sqlContainer) ->
-        @sqlContainer = sqlContainer
+    constructor: (sqlContainer, conn) ->
+        @_sqlContainer = sqlContainer
+        @_conn = conn
 
-    rawSQL: (sqlArray, param) ->
+    _processRawSQL: (sqlArray, param) ->
         array = []
         for obj in sqlArray
             if typeof obj is 'string' then array.push obj
-            if obj instanceof Object then array.push @processConds obj, param
+            if obj instanceof Object then array.push @_processConds obj, param
         return array.join ' '
 
-    processConds: (node, param) ->
+    _processConds: (node, param) ->
         if node.name is 'if'
             flag = true
             conds = node.test.split ' and '
             for cond in conds
-                if @parseCond cond, param
+                if @_parseCond cond, param
                     continue
                 else
                     flag = false
@@ -26,7 +28,7 @@ class Session
         else
             return ''
 
-    parseCond: (cond, param) ->
+    _parseCond: (cond, param) ->
         flag = false
         if param
             switch
@@ -65,16 +67,75 @@ class Session
                 else '\\' + s
         return "'" + val + "'"
 
-    fillParam: (param) ->
+    _fillParam: (param) ->
         that = @
         reg = /\:(\w+)/g
-        @exeSQL = @rawSQL.replace reg, (match, key) ->
+        @sql = @rawSQL.replace reg, (match, key) ->
             return that.escape param[key]
-        console.log @exeSQL
 
-    select: (id, param, callback) ->
-        sqlArray = @sqlContainer.get id
-        @rawSQL = @rawSQL sqlArray, param
-        @fillParam param
+    release: ->
+        @_conn.release()
+
+    select: (id, param) ->
+        that = @
+        deferred = Q.defer()
+        sqlArray = @_sqlContainer.get id
+        @rawSQL = @_processRawSQL sqlArray, param
+        @_fillParam param
+        @_conn.query @sql, (err, rows) ->
+            if err
+                console.log err
+                deferred.resolve null
+            else
+                deferred.resolve rows
+            that.release()
+        return deferred.promise
+
+    selectOne: (id, param) ->
+        that = @
+        deferred = Q.defer()
+        sqlArray = @_sqlContainer.get id
+        @rawSQL = @_processRawSQL sqlArray, param
+        @_fillParam param
+        @_conn.query @sql, (err, rows) ->
+            if err
+                console.log err
+                deferred.resolve null
+            else
+                if rows.length>0 then deferred.resolve rows[0] else deferred.resolve null
+            that.release()
+        return deferred.promise
+
+    insert: (id, param) ->
+        that = @
+        deferred = Q.defer()
+        sqlArray = @_sqlContainer.get id
+        @rawSQL = @_processRawSQL sqlArray, param
+        @_fillParam param
+        @_conn.query @sql, (err, rows) ->
+            if err
+                console.log err
+                deferred.resolve null
+            else
+                deferred.resolve rows
+            that.release()
+        return deferred.promise
+
+    insert: (id, param) ->
+        that = @
+        deferred = Q.defer()
+        sqlArray = @_sqlContainer.get id
+        @rawSQL = @_processRawSQL sqlArray, param
+        @_fillParam param
+        @_conn.query @sql, (err, rows) ->
+            if err
+                console.log err
+                deferred.resolve null
+            else
+                deferred.resolve rows.insertId
+            that.release()
+        return deferred.promise
 
 module.exports = Session
+
+
