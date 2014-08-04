@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <mapper namespace='a'>
     <select id='selectAll'>
-        select * from test limit :start,:limit
+        select * from test where name=:name limit :start,:limit 
     </select>
     <insert id='insert'>
         insert into test(name) values(:name)

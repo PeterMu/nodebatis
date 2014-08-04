@@ -89,6 +89,7 @@ class Session
             else
                 deferred.resolve rows
             that.release()
+
         return deferred.promise
 
     selectOne: (id, param) ->

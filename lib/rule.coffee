@@ -4,24 +4,24 @@ fs = require 'fs'
 class Rule
     constructor: (dir) ->
         xml = fs.readFileSync(dir).toString()
-        @xmlDoc = new DOMParser().parseFromString xml
-        @namespace = @xmlDoc.documentElement.getAttribute 'namespace'
+        @_xmlDoc = new DOMParser().parseFromString xml
+        @namespace = @_xmlDoc.documentElement.getAttribute 'namespace'
         @rawSQL = {}
-        @getOper()
+        @_getOper()
 
-    getDocumentElement: ->
-        if @xmlDoc.documentElement.nodeName isnt 'mapper'
+    _getDocumentElement: ->
+        if @_xmlDoc.documentElement.nodeName isnt 'mapper'
             return null
         else
-            return @xmlDoc.documentElement
+            return @_xmlDoc.documentElement
 
-    getValue: (val) ->
+    _getValue: (val) ->
         return val.replace(/\n/g, '').trim()
 
-    allOper:'select,update,insert,delete,drop'
+    _allOper:'select,update,insert,delete,drop'
 
     #get sql from tags of select,insert...
-    getSQL: (dom) ->
+    _getSQL: (dom) ->
         that = @
         sqlArray = []
         id = dom.getAttribute 'id' || 'NOID'
@@ -38,16 +38,16 @@ class Rule
                 sqlArray.push cond
             #if have no childnodes,and then push the sql
             else
-                sqlArray.push that.getValue sql.data
+                sqlArray.push that._getValue sql.data
         @rawSQL[id] = sqlArray
 
-    getOper: ->
+    _getOper: ->
         that = @
         #mapper
-        doc = @getDocumentElement()
+        doc = @_getDocumentElement()
         for oper in doc.childNodes
-            if @allOper.indexOf(oper.tagName) isnt -1
-                that.getSQL oper
+            if @_allOper.indexOf(oper.tagName) isnt -1
+                that._getSQL oper
 build = (dir, sqlContainer) ->
     files = fs.readdirSync dir
     for file in files
