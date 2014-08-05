@@ -7,6 +7,6 @@ class SQLContainer
         keys = key.split '.'
         return @container[keys[0]][keys[1]]
     remove: (key) ->
-        @container[key] = null
+        delete @container[key]
 
 module.exports = SQLContainer

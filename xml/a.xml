@@ -6,4 +6,7 @@
     <insert id='insert'>
         insert into test(name) values(:name)
     </insert>
+    <update id='update'>
+        update test set name=:name 
+    </update>
 </mapper>

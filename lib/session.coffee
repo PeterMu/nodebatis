@@ -4,6 +4,9 @@ class Session
         @_sqlContainer = sqlContainer
         @_conn = conn
 
+    getConnState: ->
+        return @_conn.state
+
     _processRawSQL: (sqlArray, param) ->
         array = []
         for obj in sqlArray
@@ -69,12 +72,17 @@ class Session
 
     _fillParam: (param) ->
         that = @
-        reg = /\:(\w+)/g
-        @sql = @rawSQL.replace reg, (match, key) ->
-            return that.escape param[key]
+        if param
+            reg = /\:(\w+)/g
+            @sql = @rawSQL.replace reg, (match, key) ->
+                return that.escape param[key]
+        else
+            @sql = @rawSQL
+            return @sql
 
     release: ->
         @_conn.release()
+        delete @_conn
 
     select: (id, param) ->
         that = @
@@ -113,28 +121,55 @@ class Session
         sqlArray = @_sqlContainer.get id
         @rawSQL = @_processRawSQL sqlArray, param
         @_fillParam param
-        @_conn.query @sql, (err, rows) ->
+        @_conn.query @sql, (err, result) ->
             if err
                 console.log err
                 deferred.resolve null
             else
-                deferred.resolve rows
+                deferred.resolve result.affectedRows
             that.release()
         return deferred.promise
 
-    insert: (id, param) ->
+    update: (id, param) ->
         that = @
         deferred = Q.defer()
         sqlArray = @_sqlContainer.get id
         @rawSQL = @_processRawSQL sqlArray, param
         @_fillParam param
-        @_conn.query @sql, (err, rows) ->
+        @_conn.query @sql, (err, result) ->
             if err
                 console.log err
                 deferred.resolve null
             else
-                deferred.resolve rows.insertId
+                deferred.resolve result.affectedRows
             that.release()
+        return deferred.promise
+
+    commit: ->
+        deferred = Q.defer()
+        @_conn.commit (err)->
+            if err
+                deferred.resolve err
+            else
+                deferred.resolve null
+        return deferred.promise
+
+    rollback: ->
+        deferred = Q.defer()
+        @_conn.rollback (err)->
+            if err
+                deferred.resolve err
+            else
+                deferred.resolve null
+        return deferred.promise
+    
+    beginTransaction:  ->
+        deferred = Q.defer()
+        @_conn.beginTransaction (err) ->
+            if err
+                deferred.resolve null
+            else
+                deferred.resolve @
         return deferred.promise
 
 module.exports = Session
