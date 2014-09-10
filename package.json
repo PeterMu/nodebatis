@@ -1,0 +1,20 @@
+{
+  "name": "nodebatis",
+  "version": "0.0.1",
+  "description": "a sql maps and dao for nodejs",
+  "main": "index.js",
+  "scripts": {
+    "test": "test.js"
+  },
+  "keywords": [
+    "sql",
+    "mybatis"
+  ],
+  "author": "petermu",
+  "license": "ISC",
+  "dependencies": {
+    "xmldom": "^0.1.19",
+    "mysql": "^2.4.1",
+    "q": "^1.0.1"
+  }
+}
