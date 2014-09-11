@@ -9,4 +9,7 @@
     <update id='update'>
         update test set name=:name 
     </update>
+    <delete id='delete'>
+        delete from test
+    </delete>
 </mapper>

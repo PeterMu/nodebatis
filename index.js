@@ -1,4 +1,4 @@
-var Q, Rule, SQLContainer, Session, SessionContainer, SessionFactory, mysql;
+var Rule, SQLContainer, Session, SessionContainer, SessionFactory, mysql;
 
 SQLContainer = require('./lib/sqlContainer');
 
@@ -10,8 +10,6 @@ SessionContainer = require('./lib/sessionContainer');
 
 mysql = require('mysql');
 
-Q = require('q');
-
 SessionFactory = (function() {
   function SessionFactory(dir, options) {
     this.sqlContainer = new SQLContainer;
@@ -20,20 +18,18 @@ SessionFactory = (function() {
     this.sessionContainer = new SessionContainer;
   }
 
-  SessionFactory.prototype.getSession = function() {
-    var deferred, that;
+  SessionFactory.prototype.getSession = function(callback) {
+    var  that;
     that = this;
-    deferred = Q.defer();
     this.pool.getConnection(function(err, conn) {
       if (!err) {
         that.sessionContainer.add(conn.threadId, new Session(that.sqlContainer, conn));
-        return deferred.resolve(that.sessionContainer.get(conn.threadId));
+        callback(null, that.sessionContainer.get(conn.threadId));
       } else {
         console.log(err);
-        return deferred.resolve(null);
+        callback(err)
       }
     });
-    return deferred.promise;
   };
 
   return SessionFactory;
