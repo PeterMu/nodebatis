@@ -1,7 +1,0 @@
-test:
-    name: 'haha'
-    version: 1
-select:
-    - findByName: >
-        select * from test where 1=1 and name=:name
-            and a.name='1213'
