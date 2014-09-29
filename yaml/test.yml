@@ -1,0 +1,15 @@
+namespace: 'test'
+
+findById:
+    - select * from test where 1=1
+    - if: 
+        test: name > 10
+        sql: and name = :name
+    - and haha = :haha 
+    - and test = 1
+
+findAll:
+    - select * from test where 1=1
+    - if:
+        test: age > 10
+        sql: and name = :name

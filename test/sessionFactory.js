@@ -2,7 +2,7 @@ var SessionFactory, factory;
 
 SessionFactory = require('../index').SessionFactory;
 
-factory = new SessionFactory('/home/peter/work/nodebatis/xml', {
+factory = new SessionFactory('/Users/peter/coding/nodebatis/yaml', {
   host: 'localhost',
   user: 'root',
   password: 'root',
