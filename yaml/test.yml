@@ -9,7 +9,14 @@ findById:
     - and test = 1
 
 findAll:
-    - select * from test where 1=1
-    - if:
-        test: age > 10
-        sql: and name = :name
+    - select * from users where 1=1
+
+insertOne: 
+    - insert into users(user_code, user_name)
+      values('test', 'test')
+
+updateByName: 
+    - update users set user_name='test1' where user_name = :name 
+
+deleteByName:
+    - delete from users where user_name = :name

@@ -1,4 +1,4 @@
-var Rule, SQLContainer, Session, SessionContainer, SessionFactory, mysql;
+var Rule, SQLContainer, Session, SessionContainer, SessionFactory, pg;
 
 SQLContainer = require('./lib/sqlContainer');
 
@@ -8,23 +8,29 @@ Session = require('./lib/session');
 
 SessionContainer = require('./lib/sessionContainer');
 
-mysql = require('mysql');
+pg = require('pg')
 
 SessionFactory = (function() {
   function SessionFactory(dir, options) {
     this.sqlContainer = new SQLContainer;
     Rule.build(dir, this.sqlContainer);
-    this.pool = mysql.createPool(options);
+    this.pool = pg;
+    this.pool.defaults.user = options.user
+    this.pool.defaults.user = options.password
+    this.pool.defaults.database = options.database
+    this.pool.defaults.host = options.host
+    this.pool.port = options.port || 5432
+    this.pool.poolSize = options.connectionLimit
     this.sessionContainer = new SessionContainer;
   }
 
   SessionFactory.prototype.getSession = function(callback) {
     var  that;
     that = this;
-    this.pool.getConnection(function(err, conn) {
+    this.pool.connect(function(err, conn, done) {
       if (!err) {
-        that.sessionContainer.add(conn.threadId, new Session(that.sqlContainer, conn));
-        callback(null, that.sessionContainer.get(conn.threadId));
+        that.sessionContainer.add(conn.processID, new Session(that.sqlContainer, conn, done));
+        callback(null, that.sessionContainer.get(conn.processID));
       } else {
         console.log(err);
         callback(err)

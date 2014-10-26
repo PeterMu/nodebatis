@@ -7,13 +7,9 @@ factory = require('./sessionFactory').sessionFactory;
 //});
 
 factory.getSession(function(err, session) {
-  session.select('test.findAll', {
-    name: "test",
-    age: 12
-  },function(err, rows){
-      session.commit(function(){
-          console.log(rows) 
-      });
-  });
+  session.insert('test.insertOne',function(err, rows){
+      console.log(session.sql)
+      console.log(rows)
+  })
 })
 

@@ -4,9 +4,9 @@ SessionFactory = require('../index').SessionFactory;
 
 factory = new SessionFactory('/Users/peter/coding/nodebatis/yaml', {
   host: 'localhost',
-  user: 'root',
-  password: 'root',
-  database: 'test',
+  user: 'peter',
+  password: 'peter',
+  database: 'mis',
   connectionLimit: 3
 });
 
