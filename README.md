@@ -10,5 +10,3 @@ nodebatis
 - 使用结构简单，更加易读的yaml替换xml
 - 建立pg分支，支持postgresql, 此分支中不支持mysql
 
-### TODO
-- pg事务测试
