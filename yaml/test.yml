@@ -20,3 +20,11 @@ updateByName:
 
 deleteByName:
     - delete from users where user_name = :name
+
+addTestName: 
+    - insert into test values(:name)
+
+
+
+
+
