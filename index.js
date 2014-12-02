@@ -16,11 +16,11 @@ SessionFactory = (function() {
     Rule.build(dir, this.sqlContainer);
     this.pool = pg;
     this.pool.defaults.user = options.user
-    this.pool.defaults.user = options.password
+    this.pool.defaults.password = options.password
     this.pool.defaults.database = options.database
     this.pool.defaults.host = options.host
-    this.pool.port = options.port || 5432
-    this.pool.poolSize = options.connectionLimit
+    this.pool.defaults.port = options.port || 5432
+    this.pool.defaults.poolSize = options.connectionLimit || 3
     this.sessionContainer = new SessionContainer;
   }
 
