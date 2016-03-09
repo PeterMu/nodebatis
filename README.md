@@ -1,12 +1,14 @@
 nodebatis
 =========
 
-### Dev history
-- 使用coffee
-- 用Q解决回调问题
-- 使用xmldom解析xml文件
-- 使用yield解决回调问题
-- coffee 暂时不支持yield写法，改用callback
-- 使用结构简单，更加易读的yaml替换xml
-- 建立pg分支，支持postgresql, 此分支中不支持mysql
+类似 java 里的 mybatis 的 node 轻量化 orm 库
 
+### 项目进展
+
+已经应用到[ReadingTrip](http://readingtrip.com), 稳定运行，发布v1.0.0
+
+
+### TODO
+
+- 完善文档
+- 完善测试用例
