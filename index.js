@@ -29,7 +29,7 @@ SessionFactory = (function() {
     that = this;
     this.pool.connect(function(err, conn, done) {
       if (!err) {
-        that.sessionContainer.add(conn, sqlContainer, done);
+        that.sessionContainer.add(conn, that.sqlContainer, done);
         callback(null, that.sessionContainer.get(conn.processID));
       } else {
         console.log(err);
