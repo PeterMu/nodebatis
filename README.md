@@ -8,6 +8,10 @@ nodebatis
 已经应用到[ReadingTrip](http://readingtrip.com), 稳定运行，发布v1.0.0
 
 
+### 支持的数据库
+- 目前仅支持postgresql 
+
+
 ### TODO
 
 - 完善文档
