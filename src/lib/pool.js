@@ -21,6 +21,39 @@ export default class {
         return conn
     }
 
+    async releaseConn(conn) {
+        conn.release()
+    }
+
+    async query(sql, params) {
+        params = params || []
+        let conn = await this.getConn()
+        let that = this
+        return Promise((resolve, reject) => {
+            conn.query(sql, params, (err, results) => {
+                if (!err) {
+                    resolve(results)
+                } else {
+                    reject(err)
+                }
+                that.releaseConn(conn)
+            })
+        })
+    }
+
+    async beginTransation() {
+        let conn = await this._pool.getTransationConn()
+        return conn
+    }
+
+    async commit(conn) {
+        return await this._pool.commit(conn)
+    }
+
+    async rollback(conn) {
+        await this._pool.rollback(conn)
+    }
+
     get dialect() {
         return this.config.dialect
     }

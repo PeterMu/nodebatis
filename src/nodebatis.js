@@ -8,3 +8,4 @@ export default class {
         this.pool = new Pool(config)
     }
 }
+
