@@ -1,15 +1,10 @@
-var factory, session;
+import SqlContainer from '../src/lib/sqlContainer'
 
-factory = require('./sessionFactory').sessionFactory;
+const container = new SqlContainer('./yaml/')
 
-//process.on('uncaughtException', function(err) {
-//  return console.log(err);
-//});
-
-factory.getSession(function(err, session) {
-  session.insert('test.insertOne',function(err, rows){
-      console.log(session.sql)
-      console.log(rows)
-  })
-})
-
+console.log('test.findAll', container.get('test.findAll'))
+console.log('test.findById', container.get('test.findById', {
+    name: 9,
+    haha: 'haha',
+    order: 'order by id'
+}))

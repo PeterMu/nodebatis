@@ -1,15 +1,18 @@
 namespace: 'test'
 
+attrs: id, user_code, user_name
+
 findById:
-    - select * from test where 1=1
+    - select {{ test.attrs }} from test where
     - if: 
-        test: name > 10
+        test: :name > 10
         sql: and name = :name
     - and haha = :haha 
     - and test = 1
+    - ::order
 
 findAll:
-    - select * from users where 1=1
+    - select * from users
 
 insertOne: 
     - insert into users(user_code, user_name)

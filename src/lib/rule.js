@@ -1,10 +1,12 @@
 import yaml from 'js-yaml'
+import fs from 'fs'
 
 export default class {
     constructor(file) {
         this.doc = yaml.safeLoad(fs.readFileSync(file, 'utf8'))
         this.namespace = this.doc.namespace
         this.rawSql = new Map() 
+        this.getAllSql()
     }
 
     getAllSql() {
@@ -32,7 +34,7 @@ export default class {
                         }
                         cond.sql = s['if'].sql
                     }
-                    sqlArray.push(cond)
+                    sqls.push(cond)
                 }
             }
         }

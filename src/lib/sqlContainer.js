@@ -1,23 +1,28 @@
 import Rule from './rule'
 import path from 'path'
 import vm from 'vm'
+import fs from 'fs'
 
-const keyReg = /\:(\w+)/g
-const ddlKeyReg = /\#(\w+)/g
+const keyReg = /\:([\w\._]+)/g
+const ddlKeyReg = /\::([\w\._]+)/g
+const childKeyReg = /\{{\s*([\w\._]+)\s*}}/g
 
 export default class {
     constructor(dir) {
         this.container = new Map() 
-        let files = fs.readdirSync(dir)
+        let files = fs.readdirSync(dir), rule = null
         for (var file of files) {
             if(file.indexOf('.swp') == -1) {
                 rule = new Rule(path.join(dir, file))
-                this.container.set(rule.namespace, rule.rawSQL)
+                this.container.set(rule.namespace, rule.rawSql)
             }
         }
     }
 
     get(key, data) {
+        let sqlArray = this.getRaw(key)
+        let sql = this._parseRawSql(sqlArray, data)
+        return this._fillParams(sql, data)
     }
 
     getRaw(key) {
@@ -41,15 +46,20 @@ export default class {
     }
 
     _parseRawSql(sqlArray, data) {
-        let sqls = []
+        let sqls = [], result = '', condSql = ''
         for (let sql of sqlArray) {
             if (typeof sql == 'string') {
                 sqls.push(sql)
             } else {
-                sqls.push(this._parseCond(sql, data))
+                condSql = this._parseCond(sql, data)
+                if (condSql != '') {
+                    sqls.push(condSql)
+                }
             }
         }
-        return sqls.join('')
+        result = sqls.join(' ')
+        result = result.replace('where and', 'where')
+        return result
     }
 
     _parseCond(node, data) {
@@ -61,13 +71,39 @@ export default class {
                 statements = node.test.replace(keyReg, (match, key) => {
                     return key
                 })
-                let isTrue = new vm.Script(statements).runInContext(context)
+                let isTrue = false
+                try {
+                    isTrue = new vm.Script(statements).runInContext(context)
+                } catch (e) {
+                    console.error(e)
+                }
                 if (isTrue) {
                     sql = node.sql
                 }
             }
         }
         return sql.trim()
+    }
+
+    _fillParams(sql, data) {
+        let params = [], that = this
+        //fill ::key
+        sql = sql.replace(ddlKeyReg, (match, key) => {
+            return data[key]
+        })
+        //fill :key
+        sql = sql.replace(keyReg, (match, key) => {
+            params.push(data[key])
+            return '?'
+        })
+        //file {{key}}
+        sql = sql.replace(childKeyReg, (match, key) => {
+            return that.get(key).sql
+        }) 
+        return {
+            sql: sql,
+            params: params.length > 0 ? params : null
+        } 
     }
 }
 
