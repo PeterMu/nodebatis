@@ -1,5 +1,9 @@
 import Rule from './rule'
 import path from 'path'
+import vm from 'vm'
+
+const keyReg = /\:(\w+)/g
+const ddlKeyReg = /\#(\w+)/g
 
 export default class {
     constructor(dir) {
@@ -34,6 +38,36 @@ export default class {
             console.error('The namespace:', namespace, 'not exists!')
         }
         return sql
+    }
+
+    _parseRawSql(sqlArray, data) {
+        let sqls = []
+        for (let sql of sqlArray) {
+            if (typeof sql == 'string') {
+                sqls.push(sql)
+            } else {
+                sqls.push(this._parseCond(sql, data))
+            }
+        }
+        return sqls.join('')
+    }
+
+    _parseCond(node, data) {
+        let sql = '', statements = ''
+        data = data || {}
+        const context = new vm.createContext(data) 
+        if (node.name.toLowerCase() === 'if') {
+            if (node.test && typeof node.test == 'string') {
+                statements = node.test.replace(keyReg, (match, key) => {
+                    return key
+                })
+                let isTrue = new vm.Script(statements).runInContext(context)
+                if (isTrue) {
+                    sql = node.sql
+                }
+            }
+        }
+        return sql.trim()
     }
 }
 
