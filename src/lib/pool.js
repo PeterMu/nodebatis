@@ -27,19 +27,24 @@ export default class {
     }
 
     async query(sql, params) {
-        params = params || []
-        let conn = await this.getConn()
-        let that = this
-        return new Promise((resolve, reject) => {
-            conn.query(sql, params, (err, results) => {
-                if (!err) {
-                    resolve(results)
-                } else {
-                    reject(err)
-                }
-                that.releaseConn(conn)
+        try {
+            params = params || []
+            let conn = await this.getConn()
+            let that = this
+            return new Promise((resolve, reject) => {
+                conn.query(sql, params, (err, results) => {
+                    if (!err) {
+                        resolve(results)
+                    } else {
+                        reject(err)
+                    }
+                    that.releaseConn(conn)
+                })
             })
-        })
+        } catch(e) {
+            console.error(e)
+            throw new Error(e)
+        }
     }
 
     async beginTransation() {
