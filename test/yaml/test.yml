@@ -1,6 +1,6 @@
 namespace: 'test'
 
-attrs: id, user_code, user_name
+attrs: name, age 
 
 findById:
     - select {{ test.attrs }} from test where
@@ -12,7 +12,13 @@ findById:
     - ::order
 
 findAll:
-    - select * from users
+    - select * from test 
+
+findByAge:
+    - select {{ test.attrs }} from test where
+    - if:
+        test: :age > 19
+        sql: and name = 'name1'
 
 insertOne: 
     - insert into users(user_code, user_name)

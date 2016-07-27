@@ -6,8 +6,9 @@ export default class {
             dialect: 'mysql',
             host: '127.0.0.1',
             port: null,
-            user: null 
-            password: null 
+            database: null,
+            user: null,
+            password: null, 
             minPoolSize: 2,
             maxPoolSize: 20
         }, config)
@@ -29,7 +30,7 @@ export default class {
         params = params || []
         let conn = await this.getConn()
         let that = this
-        return Promise((resolve, reject) => {
+        return new Promise((resolve, reject) => {
             conn.query(sql, params, (err, results) => {
                 if (!err) {
                     resolve(results)
@@ -66,7 +67,7 @@ export default class {
         if (this.config.port) {
             return this.config.port
         } else {
-            throws new Error('the port is null, please set port')
+            throw new Error('the port is null, please set port')
         }
     }
 
@@ -74,7 +75,7 @@ export default class {
         if (this.config.user) {
             return this.config.user
         } else {
-            throws new Error('the user is null, please set user')
+            throw new Error('the user is null, please set user')
         }
     }
 
@@ -82,7 +83,7 @@ export default class {
         if (this.config.password) {
             return this.config.password
         } else {
-            throws new Error('the password is null, please set password')
+            throw new Error('the password is null, please set password')
         }
     }
 

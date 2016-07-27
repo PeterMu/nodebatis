@@ -12,7 +12,7 @@ export default class {
     }
 
     getConn() {
-        return Promise((resolve, reject) => {
+        return new Promise((resolve, reject) => {
             this.pool.getConnection((err, connection) => {
                 if (!err) {
                     resolve(connection)
@@ -24,7 +24,7 @@ export default class {
     }
 
     getTransationConn() {
-        return Promise((resolve, reject) => {
+        return new Promise((resolve, reject) => {
             this.pool.getConnection((err, connection) => {
                 if (!err) {
                     connection.beginTransaction(err => {
@@ -42,7 +42,7 @@ export default class {
     }
 
     commit(connection) {
-        return Promise((resolve, reject) => {
+        return new Promise((resolve, reject) => {
             connection.commit(err => {
                 if (!err) {
                     resolve(true)
@@ -54,7 +54,7 @@ export default class {
     }
 
     rollback(connection) {
-        return Promise((resolve, reject) => {
+        return new Promise((resolve, reject) => {
             connection.rollback(() => {
                 resolve(true)
             })

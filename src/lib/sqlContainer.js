@@ -96,7 +96,7 @@ export default class {
             params.push(data[key])
             return '?'
         })
-        //file {{key}}
+        //fill {{key}}
         sql = sql.replace(childKeyReg, (match, key) => {
             return that.get(key).sql
         }) 
