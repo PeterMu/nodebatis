@@ -1,4 +1,4 @@
-const STRING = ''
+const STRING = 'isString'
 const NUMBER = 'isNumeric'
 const INT = 'isInt'
 const FLOAT = 'isFloat'

@@ -14,14 +14,23 @@ export default class {
     }
 
     validate(key, data) {
-        let errors = []
+        let errors = [] 
         let model = this.get(key)
-        if (model) {
-            for (let obj of data) {
+        if (typeof data == 'object') {
+            if (Object.prototype.toString.call(data) == '[object Array]') {
+                data = data[0]
+            }
+            if (model) {
                 for (let name in model) {
                     let dataType = model[name]
-                    if (dataType != '' && !validator[dataType](obj[name].toString())) {
-                        errors.push(key + ' ' + name + ' should ' + model[name])
+                    if (dataType instanceof RegExp) {
+                        if (!dataType.test(data[name])) {
+                            errors.push(key + ': ' + name + ' should match ' + model[name].toString())
+                        }
+                    } else {
+                        if (dataType != 'isString' && !validator[dataType](data[name].toString())) {
+                            errors.push(key + ': ' + name + ' should ' + model[name].replace('is', 'be '))
+                        }
                     }
                 }
             }

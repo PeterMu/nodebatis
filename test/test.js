@@ -13,7 +13,7 @@ const nodebatis = new NodeBatis('./yaml', {
 })
 
 nodebatis.define('test.findAll', {
-    name: Types.INT,
+    name: /^\d+/,
     age: Types.INT
 })
 
