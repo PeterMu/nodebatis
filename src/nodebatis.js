@@ -1,6 +1,7 @@
 import 'babel-polyfill'
 import Pool from './lib/pool'
 import SqlContainer from './lib/sqlContainer'
+import Models from './lib/models'
 
 export default class {
     constructor(dir, config) {
@@ -12,7 +13,8 @@ export default class {
         }
         this.dir = dir
         this.debug = config.debug || false
-        this.pool = new Pool(config)
+        this.models = new Models()
+        this.pool = new Pool(config, this.models)
         this.sqlContainer = new SqlContainer(dir)
     }
 
@@ -21,7 +23,7 @@ export default class {
         if (this.debug) {
             console.info(key, sqlObj.sql)
         }
-        let result = await this.pool.query(sqlObj.sql, sqlObj.params)
+        let result = await this.pool.query(key, sqlObj.sql, sqlObj.params)
         return result
     }
 
@@ -39,6 +41,10 @@ export default class {
 
     async releaseConn(connection) {
         return await this.pool.releaseConn(connection)
+    }
+
+    define(key, model) {
+        this.models.set(key, model)
     }
 }
 

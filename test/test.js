@@ -1,5 +1,6 @@
 import NodeBatis from '../src/nodebatis'
 import util from 'util'
+import Types from '../src/types'
 
 const nodebatis = new NodeBatis('./yaml', {
     debug: true,
@@ -9,6 +10,11 @@ const nodebatis = new NodeBatis('./yaml', {
     database: 'test',
     user: 'root',
     password: 'root'
+})
+
+nodebatis.define('test.findAll', {
+    name: Types.STRING,
+    age: Types.INT
 })
 
 let findAll = async () => {

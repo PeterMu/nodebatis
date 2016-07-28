@@ -1,7 +1,7 @@
 import MysqlPool from './dialects/mysql/pool'
 
 export default class {
-    constructor (config) {
+    constructor (config, models) {
         this.config = Object.assign({
             dialect: 'mysql',
             host: '127.0.0.1',
@@ -12,6 +12,7 @@ export default class {
             minPoolSize: 2,
             maxPoolSize: 20
         }, config)
+        this.models = models
         if (this.config.dialect == 'mysql') {
             this._pool = new MysqlPool(this.config)
         }
@@ -26,7 +27,8 @@ export default class {
         conn.release()
     }
 
-    async query(sql, params) {
+    async query(key, sql, params) {
+        var that = this
         try {
             params = params || []
             let conn = await this.getConn()
@@ -35,6 +37,7 @@ export default class {
                 conn.query(sql, params, (err, results) => {
                     if (!err) {
                         resolve(results)
+                        console.log(that.models.get(key))
                     } else {
                         reject(err)
                     }
