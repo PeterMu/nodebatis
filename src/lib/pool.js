@@ -36,8 +36,12 @@ export default class {
             return new Promise((resolve, reject) => {
                 conn.query(sql, params, (err, results) => {
                     if (!err) {
-                        resolve(results)
-                        console.log(that.models.get(key))
+                        let errors = that.models.validate(key, results)
+                        if (errors) {
+                            reject(errors)
+                        } else {
+                            resolve(results)
+                        }
                     } else {
                         reject(err)
                     }

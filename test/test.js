@@ -13,13 +13,17 @@ const nodebatis = new NodeBatis('./yaml', {
 })
 
 nodebatis.define('test.findAll', {
-    name: Types.STRING,
+    name: Types.INT,
     age: Types.INT
 })
 
 let findAll = async () => {
-    let result = await nodebatis.query('test.findAll')
-    console.log('result', JSON.stringify(result))
+    try {
+        let result = await nodebatis.query('test.findAll')
+        console.log('result', JSON.stringify(result))
+    } catch (e) {
+        console.log(e)
+    }
 }
 
 findAll()
