@@ -16,15 +16,23 @@ var _sqlContainer = require('./lib/sqlContainer');
 
 var _sqlContainer2 = _interopRequireDefault(_sqlContainer);
 
+var _models = require('./lib/models');
+
+var _models2 = _interopRequireDefault(_models);
+
+var _types = require('./types');
+
+var _types2 = _interopRequireDefault(_types);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { return step("next", value); }, function (err) { return step("throw", err); }); } } return step("next"); }); }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var _class = function () {
-    function _class(dir, config) {
-        _classCallCheck(this, _class);
+var NodeBatis = function () {
+    function NodeBatis(dir, config) {
+        _classCallCheck(this, NodeBatis);
 
         if (!dir) {
             throw new Error('please set dir!');
@@ -34,11 +42,12 @@ var _class = function () {
         }
         this.dir = dir;
         this.debug = config.debug || false;
-        this.pool = new _pool2.default(config);
+        this.models = new _models2.default();
+        this.pool = new _pool2.default(config, this.models);
         this.sqlContainer = new _sqlContainer2.default(dir);
     }
 
-    _createClass(_class, [{
+    _createClass(NodeBatis, [{
         key: 'query',
         value: function () {
             var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(key, data) {
@@ -53,7 +62,7 @@ var _class = function () {
                                     console.info(key, sqlObj.sql);
                                 }
                                 _context.next = 4;
-                                return this.pool.query(sqlObj.sql, sqlObj.params);
+                                return this.pool.query(key, sqlObj.sql, sqlObj.params);
 
                             case 4:
                                 result = _context.sent;
@@ -182,9 +191,16 @@ var _class = function () {
 
             return releaseConn;
         }()
+    }, {
+        key: 'define',
+        value: function define(key, model) {
+            this.models.set(key, model);
+        }
     }]);
 
-    return _class;
+    return NodeBatis;
 }();
 
-exports.default = _class;
+NodeBatis.Types = _types2.default;
+
+exports.default = NodeBatis;

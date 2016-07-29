@@ -2,9 +2,10 @@
   "name": "nodebatis",
   "version": "2.0.0",
   "description": "a sql style orm for nodejs",
-  "main": "nodebatis.js",
+  "main": "dist/nodebatis.js",
   "scripts": {
-    "test": "test.js"
+    "test": "node test/dist/test.js",
+    "test-dev": "node -r 'babel-register' test/src/test.js"
   },
   "keywords": [
     "orm",

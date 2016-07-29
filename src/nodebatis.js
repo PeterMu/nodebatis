@@ -2,8 +2,10 @@ import 'babel-polyfill'
 import Pool from './lib/pool'
 import SqlContainer from './lib/sqlContainer'
 import Models from './lib/models'
+import Types from './types'
 
-export default class {
+class NodeBatis {
+
     constructor(dir, config) {
         if (!dir) {
             throw new Error('please set dir!')
@@ -47,4 +49,8 @@ export default class {
         this.models.set(key, model)
     }
 }
+
+NodeBatis.Types = Types
+
+export default NodeBatis
 

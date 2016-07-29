@@ -1,8 +1,10 @@
-import NodeBatis from '../src/nodebatis'
+import NodeBatis from '../../dist/nodebatis'
 import util from 'util'
-import Types from '../src/types'
+import path from 'path'
 
-const nodebatis = new NodeBatis('./yaml', {
+const Types = NodeBatis.Types
+
+const nodebatis = new NodeBatis(path.resolve(__dirname, '../yaml'), {
     debug: true,
     dialect: 'mysql',
     host: '127.0.0.1',

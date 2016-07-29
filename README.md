@@ -1,18 +1,56 @@
 nodebatis
 =========
 
-类似 java 里的 mybatis 的 node 轻量化 orm 库
+支持原生 SQL 的轻量化 ORM 框架。
 
-### 项目进展
+# 适用场景
 
-已经应用到[ReadingTrip](http://readingtrip.com), 稳定运行，发布v1.0.0
+如果你觉得传统 ORM 框架笨笨的，恭喜你找到答案。
+在 NodeBatis 里，SQL 作为一等公民对待，直接写 SQL 是最灵活的方式。
 
+# 使用样例
 
-### 支持的数据库
-- 目前仅支持postgresql 
+## 定义 SQL 语句
 
+test.yml
 
-### TODO
+```
+namespace: 'test'
 
-- 完善文档
-- 完善测试用例
+findByAge:
+    - select name, age from test where
+    - if:
+        test: :age > 19
+        sql: and name = 'name1'
+```
+
+model.js
+
+```
+import NodeBatis from 'nodebatis'
+
+const nodebatis = new NodeBatis(path.resolve(__dirname, '../yaml'), {
+    debug: true,
+    dialect: 'mysql',
+    host: '127.0.0.1',
+    port: 3306,
+    database: 'test',
+    user: 'root',
+    password: 'root'
+})
+
+let findByAge = async () => {
+    let result = await nodebatis.query('test.findByAge', {
+        age: 20
+    })
+    return result
+}
+
+findbyAge() // return [{name: 'name1', age: 18}, {name: 'name2', age: 20}]
+
+```
+# GET START
+
+...
+
+coming soon ...
