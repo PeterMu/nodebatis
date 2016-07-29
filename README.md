@@ -48,7 +48,7 @@ let findByAge = async () => {
     return result
 }
 
-findbyAge() // return [{name: 'name1', age: 18}, {name: 'name2', age: 20}]
+findbyAge() // return [{name: 'name1', age: 20}]
 
 ```
 # GET START
