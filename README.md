@@ -5,7 +5,7 @@ nodebatis
 
 # 适用场景
 
-如果你觉得传统 ORM 框架笨笨的，恭喜你找到答案。
+如果你觉得传统 ORM 框架笨笨的，恭喜你找到了答案。
 在 NodeBatis 里，SQL 作为一等公民对待，直接写 SQL 是最灵活的方式。
 
 # 使用样例
@@ -23,6 +23,8 @@ findByAge:
         test: :age > 19
         sql: and name = 'name1'
 ```
+
+## 定义 Model
 
 model.js
 
