@@ -65,6 +65,8 @@ findbyAge() //return [{name: 'name1', age: 20}]
 
 # API
 
+约定 `NodeBatis` 是类，`nodebatis` 是 `NodeBatis` 实例化的一个对象。
+
 ## NodeBatis(ymlDir, config)
 使用 NodeBatis 时，要做的第一件事就是实例化 NodeBatis 对象
 
@@ -79,13 +81,13 @@ findbyAge() //return [{name: 'name1', age: 20}]
 ## nodebatis.query(key, data) 
 执行 SQL 语句
 
-## nodebatis.define(key, model) 
-定义数据模型，用户校验对象属性的数据类型
-
 ## nodebatis.beginTransation() 
 ## nodebatis.commit(connection)
 ## nodebatis.rollback(connection)
 ## nodebatis.releaseConn(connection)
 ## NodeBatis.Types
+## nodebatis.define(key, model) 
+定义数据模型，用于校验对象属性的数据类型
+
 
 coming soon ...
