@@ -7,7 +7,8 @@ export default class {
             user     : config.user,
             password : config.password,
             database : config.database,
-            connectionLimit: config.maxPoolSize
+            charset  : config.charset,
+            connectionLimit: config.pool.acquireIncrement
         })
     }
 

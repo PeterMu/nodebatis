@@ -29,8 +29,12 @@ var _class = function () {
             database: null,
             user: null,
             password: null,
-            minPoolSize: 2,
-            maxPoolSize: 20
+            charset: 'utf8',
+            pool: {
+                minSize: 5,
+                maxSize: 20,
+                acquireIncrement: 5
+            }
         }, config);
         this.models = models;
         if (this.config.dialect == 'mysql') {
