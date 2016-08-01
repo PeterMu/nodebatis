@@ -78,12 +78,13 @@ SQL yaml 文档的约定的规则很简单。
     * `::ddl`, `ddl` 为 DDL 语句，不会对参数进行过滤。 
     * `{{namespace.key}}`, SQL 语句继承，会获取到 `namespace.key` 的 SQL 语句填充到此处。
 4. 条件判断。
-    ```
-    if:
-        test: expression
-        sql: statements
-    ```
-    当 expression 为 true 是，对应的 sql 会添加到 sql 语句中。 expression 就是一个 JS 语句, 可以通过 `:paramName` 传递参数。
+
+```
+if:
+    test: expression
+    sql: statements
+```
+当 expression 为 true 是，对应的 sql 会添加到 sql 语句中。 expression 就是一个 JS 语句, 可以通过 `:paramName` 传递参数。
 
 Demo:
 
