@@ -1,4 +1,4 @@
-import NodeBatis from '../../dist/nodebatis'
+import NodeBatis from '../../src/nodebatis'
 import util from 'util'
 import path from 'path'
 
@@ -11,10 +11,15 @@ const nodebatis = new NodeBatis(path.resolve(__dirname, '../yaml'), {
     port: 3306,
     database: 'test',
     user: 'root',
-    password: 'root'
+    password: 'root',
+    pool: {
+        minSize: 5,
+        maxSize: 20,
+        acquireIncrement: 5
+    }
 })
 
-nodebatis.define('test.findAll', {
+nodebatis.define(/^test.findAll$/, {
     name: /^\d+/,
     age: Types.INT
 })

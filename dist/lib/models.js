@@ -26,12 +26,47 @@ var _class = function () {
     _createClass(_class, [{
         key: 'set',
         value: function set(key, model) {
+            if (key instanceof RegExp) {
+                key = '__reg__' + key.toString();
+            }
             this.map.set(key, model);
         }
     }, {
         key: 'get',
         value: function get(key) {
-            return this.map.get(key);
+            var realKey = key;
+            var keys = this.map.keys();
+            var _iteratorNormalCompletion = true;
+            var _didIteratorError = false;
+            var _iteratorError = undefined;
+
+            try {
+                for (var _iterator = keys[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                    var value = _step.value;
+
+                    if (value.indexOf('__reg__') != -1) {
+                        if (new RegExp(value.replace('__reg__', '')).test(key)) {
+                            realKey = value;
+                            break;
+                        }
+                    }
+                }
+            } catch (err) {
+                _didIteratorError = true;
+                _iteratorError = err;
+            } finally {
+                try {
+                    if (!_iteratorNormalCompletion && _iterator.return) {
+                        _iterator.return();
+                    }
+                } finally {
+                    if (_didIteratorError) {
+                        throw _iteratorError;
+                    }
+                }
+            }
+
+            return this.map.get(realKey);
         }
     }, {
         key: 'validate',

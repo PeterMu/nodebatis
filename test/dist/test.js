@@ -25,10 +25,15 @@ var nodebatis = new _nodebatis2.default(_path2.default.resolve(__dirname, '../ya
     port: 3306,
     database: 'test',
     user: 'root',
-    password: 'root'
+    password: 'root',
+    pool: {
+        minSize: 5,
+        maxSize: 20,
+        acquireIncrement: 5
+    }
 });
 
-nodebatis.define('test.findAll', {
+nodebatis.define(/^test.findAll$/, {
     name: /^\d+/,
     age: Types.INT
 });

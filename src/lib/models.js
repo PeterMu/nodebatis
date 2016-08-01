@@ -6,11 +6,24 @@ export default class {
     }
 
     set(key, model) {
+        if (key instanceof RegExp) {
+            key = '__reg__' + key.toString()
+        }
         this.map.set(key, model)
     }
 
     get(key) {
-        return this.map.get(key)
+        let realKey = key
+        let keys = this.map.keys()
+        for (let value of keys) {
+            if (value.indexOf('__reg__') != -1) {
+                if (new RegExp(value.replace('__reg__', '').slice(1, -1)).test(key)) {
+                    realKey = value
+                    break
+                }
+            }
+        }
+        return this.map.get(realKey)
     }
 
     validate(key, data) {
