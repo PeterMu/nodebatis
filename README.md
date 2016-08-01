@@ -63,6 +63,65 @@ findbyAge() //return [{name: 'name1', age: 20}]
 
 ```
 
+# 如何编写 SQL 语句定义文件
+
+定义 SQL 语句采用 yaml 语法。一个 SQL 语句定义文件就是一个 yaml 文档。
+
+如果你还不熟悉 yaml，可以参考这篇教程：[YAML 语言教程](http://www.ruanyifeng.com/blog/2016/07/yaml.html)
+
+SQL yaml 文档的约定的规则很简单。
+
+1. 开头需要写 `namespace: xxx`, `xxx` 为自己定义的命名空间。
+2. 定义 SQL 语句 `key: sql` , `namespace.key` 就是定义的 SQL 语句的唯一索引。
+3. SQL 语句中的参数。
+    * `:paramName`, `paramName` 为执行 SQL 语句时传递的参数名。 
+    * `::ddl`, `ddl` 为 DDL 语句，不会对参数进行过滤。 
+    * `{{namespace.key}}`, SQL 语句继承，会获取到 `namespace.key` 的 SQL 语句填充到此处。
+4. 条件判断。
+    ```
+    if:
+        test: expression
+        sql: statements
+    ```
+    当 expression 为 true 是，对应的 sql 会添加到 sql 语句中。 expression 就是一个 JS 语句, 可以通过 `:paramName` 传递参数。
+
+Demo:
+
+demo.yml
+
+```
+//namespace: xxx
+namespace: 'demo'
+
+//key: sql
+test: 'select * from demo'
+
+// param
+paramDemo:
+    - select * from demo
+    - where name = :paramName
+    - and age > 18
+
+// ddl param
+ddlDemo: create table {{tableName}} (id int primary key, name vachar(32))
+
+//expression
+expressionDemo:
+    - select * from demo where
+    - if:
+        test: :paramName == 'nodebatis' && :age > 18
+        sql: and sex = 'man'
+
+//当传入的参数 paramName 为 nodebatis 并且 age 大于 18 时，生成的 SQL 语句为: select * from demo where sex = 'man'
+
+// extends
+
+attrs: id, name, age
+
+extendsDemo: select {{ demo.attrs }} from demo // select id ,name, age from demo
+
+```
+
 # API
 
 约定 `NodeBatis` 是类，`nodebatis` 是 `NodeBatis` 实例化的一个对象。
