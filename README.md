@@ -136,18 +136,100 @@ extendsDemo: select {{ demo.attrs }} from demo // select id ,name, age from demo
 ### config { Object }
 配置信息
 
+#### config.debug { Boolean }
+默认为 false，当为 true 时，会打印执行的 sql 语句
+
 #### config.dialect { String }
+支持的数据库方言，目前支持的配置有：mysql
+
+#### config.host { String }
+数据库地址
+
+#### config.port { Int }
+数据库端口地址
+
+#### config.database { String }
+要连接的数据库名称
+
+#### config.user { String }
+连接数据库的用户名
+
+#### config.password { String }
+连接数据库的用户密码
+
+#### config.charset { String }
+默认为：utf8，数据库连接的字符编码
+
+#### pool
+连接池配置, 连接池的配置支持情况取决于数据库连接驱动的支持情况。
+
+#### pool.minSize { Int }
+连接池的最小连接数, 默认为 5
+
+#### pool.maxSize { Int }
+连接池的最大连接数, 默认为 20 
+
+#### pool.acquireIncrement { Int }
+连接数不够时，一次创建连接的数量，默认为 5
 
 ## nodebatis.query(key, data) 
 执行 SQL 语句
 
+* key 为要执行的 sql 语句的 key，即：namespace.xxx
+* data 为传递的数据
+* 返回对应数据库驱动执行 sql 语句后的结果集
+
+
 ## nodebatis.beginTransation() 
+获取一个支持事务的数据库连接
+
+* 返回一个数据库连接
+
 ## nodebatis.commit(connection)
+提交事务
+
+* connection 为要操作的数据库连接
+
 ## nodebatis.rollback(connection)
+回滚事务
+
+* connection 为要操作的数据库连接
+
 ## nodebatis.releaseConn(connection)
+释放数据库连接
+
+* connection 为要操作的数据库连接
+
 ## NodeBatis.Types
+支持的数据类型，用户验证返回的结果集是否符合定义的数据模型。
+
+```
+STRING
+NUMBER
+INT
+FLOAT
+DECIMAL
+BOOLEAN
+DATE
+UUID
+URL
+IP
+EMAIL
+MONGOID
+JSON
+MATCHES //正则匹配，default is /\.*/
+```
+
 ## nodebatis.define(key, model) 
 定义数据模型，用于校验对象属性的数据类型
 
+* key 为对应的 sql 语句的 key，支持正则匹配
+* model 为要定义的数据模型
 
-coming soon ...
+```
+nodebatis.define('namespace.xxx', {
+    name: NodeBatis.Types.STRING,
+    age: NodeBatis.Types.INT
+})
+```
+
