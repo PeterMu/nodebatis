@@ -33,10 +33,11 @@ var _class = function () {
         value: function getConn() {
             var _this = this;
 
+            var that = this;
             return new Promise(function (resolve, reject) {
                 _this.pool.getConnection(function (err, connection) {
                     if (!err) {
-                        resolve(connection);
+                        resolve(that._parseConn(connection));
                     } else {
                         reject(err);
                     }
@@ -44,16 +45,23 @@ var _class = function () {
             });
         }
     }, {
+        key: '_parseConn',
+        value: function _parseConn(connection) {
+            connection._query = connection.query;
+            return connection;
+        }
+    }, {
         key: 'getTransationConn',
         value: function getTransationConn() {
             var _this2 = this;
 
+            var that = this;
             return new Promise(function (resolve, reject) {
                 _this2.pool.getConnection(function (err, connection) {
                     if (!err) {
                         connection.beginTransaction(function (err) {
                             if (!err) {
-                                resolve(connection);
+                                resolve(that._parseConn(connection));
                             } else {
                                 reject(err);
                             }

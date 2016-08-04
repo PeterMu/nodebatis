@@ -31,14 +31,14 @@ export default class {
         conn.release()
     }
 
-    async query(key, sql, params) {
-        var that = this
+    async query(key, sql, params, transationConn) {
+        let that = this
         try {
             params = params || []
-            let conn = await this.getConn()
+            let conn = transationConn || await this.getConn()
             let that = this
             return new Promise((resolve, reject) => {
-                conn.query(sql, params, (err, results) => {
+                conn._query(sql, params, (err, results) => {
                     if (!err) {
                         let errors = that.models.validate(key, results)
                         if (errors) {
@@ -49,7 +49,9 @@ export default class {
                     } else {
                         reject(err)
                     }
-                    that.releaseConn(conn)
+                    if (!transationConn) {
+                        that.releaseConn(conn)
+                    }
                 })
             })
         } catch(e) {

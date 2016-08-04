@@ -5,7 +5,8 @@
   "main": "dist/nodebatis.js",
   "scripts": {
     "test": "node test/dist/test.js",
-    "test-dev": "node -r 'babel-register' test/src/test.js"
+    "test-dev": "node -r 'babel-register' test/src/test.js",
+    "test-transation": "node -r 'babel-register' test/src/transationTest.js"
   },
   "keywords": [
     "orm",

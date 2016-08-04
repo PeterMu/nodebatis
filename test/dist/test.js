@@ -1,6 +1,6 @@
 'use strict';
 
-var _nodebatis = require('../../dist/nodebatis');
+var _nodebatis = require('../../src/nodebatis');
 
 var _nodebatis2 = _interopRequireDefault(_nodebatis);
 

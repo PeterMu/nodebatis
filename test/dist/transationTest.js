@@ -1,29 +1,95 @@
 'use strict';
 
-var factory, session;
+var _nodebatis = require('../../src/nodebatis');
 
-factory = require('./sessionFactory').sessionFactory;
+var _nodebatis2 = _interopRequireDefault(_nodebatis);
 
-//process.on('uncaughtException', function(err) {
-//  return console.log(err);
-//});
+var _util = require('util');
 
-factory.getSession(function (err, session) {
-    session.beginTransaction(function (err) {
-        if (err) return;
-        session.insert('test.addTestName', {
-            name: 'test1'
-        }, function (err, rows) {
-            console.log(session.sql);
-            console.log(rows);
-        });
-        session.insert('test.addTestName', {
-            name: 'test2'
-        }, function (err, rows) {
-            console.log(session.sql);
-            console.log(rows);
-        });
-        //session.commit()
-        session.rollback();
-    });
+var _util2 = _interopRequireDefault(_util);
+
+var _path = require('path');
+
+var _path2 = _interopRequireDefault(_path);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { return step("next", value); }, function (err) { return step("throw", err); }); } } return step("next"); }); }; }
+
+var Types = _nodebatis2.default.Types;
+
+var nodebatis = new _nodebatis2.default(_path2.default.resolve(__dirname, '../yaml'), {
+    debug: true,
+    dialect: 'mysql',
+    host: '127.0.0.1',
+    port: 3306,
+    database: 'test',
+    user: 'root',
+    password: 'root',
+    pool: {
+        minSize: 5,
+        maxSize: 20,
+        acquireIncrement: 5
+    }
 });
+
+var transationTest = function () {
+    var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+        var conn, result;
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+            while (1) {
+                switch (_context.prev = _context.next) {
+                    case 0:
+                        conn = null;
+                        _context.prev = 1;
+                        _context.next = 4;
+                        return nodebatis.beginTransation();
+
+                    case 4:
+                        conn = _context.sent;
+
+                        console.log('begin insert...');
+                        _context.next = 8;
+                        return conn.query('test.insertOne', {
+                            name: 'name3',
+                            age: 19
+                        });
+
+                    case 8:
+                        console.log('end insert');
+                        console.log('begin find ...');
+                        _context.next = 12;
+                        return conn.query('test.findAll');
+
+                    case 12:
+                        result = _context.sent;
+
+                        console.log(result);
+                        return _context.abrupt('return', result);
+
+                    case 17:
+                        _context.prev = 17;
+                        _context.t0 = _context['catch'](1);
+
+                        console.log(_context.t0);
+
+                    case 20:
+                        _context.prev = 20;
+
+                        conn && nodebatis.releaseConn(conn);
+                        return _context.finish(20);
+
+                    case 23:
+                    case 'end':
+                        return _context.stop();
+                }
+            }
+        }, _callee, undefined, [[1, 17, 20, 23]]);
+    }));
+
+    return function transationTest() {
+        return _ref.apply(this, arguments);
+    };
+}();
+
+transationTest();

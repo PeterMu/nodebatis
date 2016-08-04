@@ -21,18 +21,8 @@ findByAge:
         sql: and name = 'name1'
 
 insertOne: 
-    - insert into users(user_code, user_name)
-      values('test', 'test')
-
-updateByName: 
-    - update users set user_name='test1' where user_name = :name 
-
-deleteByName:
-    - delete from users where user_name = :name
-
-addTestName: 
-    - insert into test values(:name)
-
+    - insert into test(name, _age)
+      values(:name, :age)
 
 
 

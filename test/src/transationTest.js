@@ -1,28 +1,43 @@
-var factory, session;
+import NodeBatis from '../../src/nodebatis'
+import util from 'util'
+import path from 'path'
 
-factory = require('./sessionFactory').sessionFactory;
+const Types = NodeBatis.Types
 
-//process.on('uncaughtException', function(err) {
-//  return console.log(err);
-//});
-
-factory.getSession(function(err, session) {
-  session.beginTransaction(function(err){
-    if(err) return
-    session.insert('test.addTestName',{
-        name: 'test1'
-    },function(err, rows){
-        console.log(session.sql)
-        console.log(rows)
-    })
-    session.insert('test.addTestName',{
-        name: 'test2'
-    },function(err, rows){
-        console.log(session.sql)
-        console.log(rows)
-    })
-    //session.commit()
-    session.rollback()
-  })
+const nodebatis = new NodeBatis(path.resolve(__dirname, '../yaml'), {
+    debug: true,
+    dialect: 'mysql',
+    host: '127.0.0.1',
+    port: 3306,
+    database: 'test',
+    user: 'root',
+    password: 'root',
+    pool: {
+        minSize: 5,
+        maxSize: 20,
+        acquireIncrement: 5
+    }
 })
 
+let transationTest = async () => {
+    let conn = null
+    try {
+        conn = await nodebatis.beginTransation()
+        console.log('begin insert...')
+        await conn.query('test.insertOne', {
+            name: 'name3',
+            age: 19
+        })
+        console.log('end insert')
+        console.log('begin find ...')
+        let result = await conn.query('test.findAll')
+        console.log(result)
+        return result
+    } catch (e) {
+        console.log(e)
+    } finally {
+        conn && nodebatis.releaseConn(conn)
+    }
+}
+
+transationTest()

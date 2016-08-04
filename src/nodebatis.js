@@ -20,17 +20,19 @@ class NodeBatis {
         this.sqlContainer = new SqlContainer(dir)
     }
 
-    async query(key, data) {
+    async query(key, data, transationConn) {
         let sqlObj = this.sqlContainer.get(key, data)
         if (this.debug) {
-            console.info(key, sqlObj.sql)
+            console.info(key, sqlObj.sql, sqlObj.params || '')
         }
-        let result = await this.pool.query(key, sqlObj.sql, sqlObj.params)
+        let result = await this.pool.query(key, sqlObj.sql, sqlObj.params, transationConn)
         return result
     }
 
     async beginTransation() {
-        return await this.pool.getTransationConn()
+        let conn = await this.pool.beginTransation()
+        conn.query = this.query.bind(this)
+        return conn
     }
 
     async commit(conn) {

@@ -13,10 +13,11 @@ export default class {
     }
 
     getConn() {
+        let that = this
         return new Promise((resolve, reject) => {
             this.pool.getConnection((err, connection) => {
                 if (!err) {
-                    resolve(connection)
+                    resolve(that._parseConn(connection))
                 } else {
                     reject(err)
                 }
@@ -24,13 +25,19 @@ export default class {
         })
     }
 
+    _parseConn(connection) {
+        connection._query = connection.query
+        return connection
+    }
+
     getTransationConn() {
+        let that = this
         return new Promise((resolve, reject) => {
             this.pool.getConnection((err, connection) => {
                 if (!err) {
                     connection.beginTransaction(err => {
                         if (!err) {
-                            resolve(connection)
+                            resolve(that._parseConn(connection))
                         } else {
                             reject(err)
                         }

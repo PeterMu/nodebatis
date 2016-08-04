@@ -45,7 +45,7 @@ var _class = function () {
                     var value = _step.value;
 
                     if (value.indexOf('__reg__') != -1) {
-                        if (new RegExp(value.replace('__reg__', '')).test(key)) {
+                        if (new RegExp(value.replace('__reg__', '').slice(1, -1)).test(key)) {
                             realKey = value;
                             break;
                         }

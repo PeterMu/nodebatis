@@ -99,7 +99,7 @@ var _class = function () {
     }, {
         key: 'query',
         value: function () {
-            var _ref3 = _asyncToGenerator(regeneratorRuntime.mark(function _callee4(key, sql, params) {
+            var _ref3 = _asyncToGenerator(regeneratorRuntime.mark(function _callee4(key, sql, params, transationConn) {
                 var _this = this;
 
                 var that, _ret;
@@ -117,15 +117,25 @@ var _class = function () {
                                             switch (_context3.prev = _context3.next) {
                                                 case 0:
                                                     params = params || [];
-                                                    _context3.next = 3;
+                                                    _context3.t0 = transationConn;
+
+                                                    if (_context3.t0) {
+                                                        _context3.next = 6;
+                                                        break;
+                                                    }
+
+                                                    _context3.next = 5;
                                                     return _this.getConn();
 
-                                                case 3:
-                                                    conn = _context3.sent;
+                                                case 5:
+                                                    _context3.t0 = _context3.sent;
+
+                                                case 6:
+                                                    conn = _context3.t0;
                                                     that = _this;
                                                     return _context3.abrupt('return', {
                                                         v: new Promise(function (resolve, reject) {
-                                                            conn.query(sql, params, function (err, results) {
+                                                            conn._query(sql, params, function (err, results) {
                                                                 if (!err) {
                                                                     var errors = that.models.validate(key, results);
                                                                     if (errors) {
@@ -136,12 +146,14 @@ var _class = function () {
                                                                 } else {
                                                                     reject(err);
                                                                 }
-                                                                that.releaseConn(conn);
+                                                                if (!transationConn) {
+                                                                    that.releaseConn(conn);
+                                                                }
                                                             });
                                                         })
                                                     });
 
-                                                case 6:
+                                                case 9:
                                                 case 'end':
                                                     return _context3.stop();
                                             }
@@ -178,7 +190,7 @@ var _class = function () {
                 }, _callee4, this, [[1, 8]]);
             }));
 
-            function query(_x2, _x3, _x4) {
+            function query(_x2, _x3, _x4, _x5) {
                 return _ref3.apply(this, arguments);
             }
 
@@ -236,7 +248,7 @@ var _class = function () {
                 }, _callee6, this);
             }));
 
-            function commit(_x5) {
+            function commit(_x6) {
                 return _ref5.apply(this, arguments);
             }
 
@@ -261,7 +273,7 @@ var _class = function () {
                 }, _callee7, this);
             }));
 
-            function rollback(_x6) {
+            function rollback(_x7) {
                 return _ref6.apply(this, arguments);
             }
 

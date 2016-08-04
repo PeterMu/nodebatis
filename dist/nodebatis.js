@@ -50,7 +50,7 @@ var NodeBatis = function () {
     _createClass(NodeBatis, [{
         key: 'query',
         value: function () {
-            var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(key, data) {
+            var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(key, data, transationConn) {
                 var sqlObj, result;
                 return regeneratorRuntime.wrap(function _callee$(_context) {
                     while (1) {
@@ -59,10 +59,10 @@ var NodeBatis = function () {
                                 sqlObj = this.sqlContainer.get(key, data);
 
                                 if (this.debug) {
-                                    console.info(key, sqlObj.sql);
+                                    console.info(key, sqlObj.sql, sqlObj.params || '');
                                 }
                                 _context.next = 4;
-                                return this.pool.query(key, sqlObj.sql, sqlObj.params);
+                                return this.pool.query(key, sqlObj.sql, sqlObj.params, transationConn);
 
                             case 4:
                                 result = _context.sent;
@@ -76,7 +76,7 @@ var NodeBatis = function () {
                 }, _callee, this);
             }));
 
-            function query(_x, _x2) {
+            function query(_x, _x2, _x3) {
                 return _ref.apply(this, arguments);
             }
 
@@ -86,17 +86,21 @@ var NodeBatis = function () {
         key: 'beginTransation',
         value: function () {
             var _ref2 = _asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
+                var conn;
                 return regeneratorRuntime.wrap(function _callee2$(_context2) {
                     while (1) {
                         switch (_context2.prev = _context2.next) {
                             case 0:
                                 _context2.next = 2;
-                                return this.pool.getTransationConn();
+                                return this.pool.beginTransation();
 
                             case 2:
-                                return _context2.abrupt('return', _context2.sent);
+                                conn = _context2.sent;
 
-                            case 3:
+                                conn.query = this.query.bind(this);
+                                return _context2.abrupt('return', conn);
+
+                            case 5:
                             case 'end':
                                 return _context2.stop();
                         }
@@ -132,7 +136,7 @@ var NodeBatis = function () {
                 }, _callee3, this);
             }));
 
-            function commit(_x3) {
+            function commit(_x4) {
                 return _ref3.apply(this, arguments);
             }
 
@@ -157,7 +161,7 @@ var NodeBatis = function () {
                 }, _callee4, this);
             }));
 
-            function rollback(_x4) {
+            function rollback(_x5) {
                 return _ref4.apply(this, arguments);
             }
 
@@ -185,7 +189,7 @@ var NodeBatis = function () {
                 }, _callee5, this);
             }));
 
-            function releaseConn(_x5) {
+            function releaseConn(_x6) {
                 return _ref5.apply(this, arguments);
             }
 
