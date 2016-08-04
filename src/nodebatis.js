@@ -30,8 +30,11 @@ class NodeBatis {
     }
 
     async beginTransation() {
+        let that = this
         let conn = await this.pool.beginTransation()
-        conn.query = this.query.bind(this)
+        conn.query = async (key, data) => {
+            return await that.query.apply(that, [key, data, conn])
+        }
         return conn
     }
 

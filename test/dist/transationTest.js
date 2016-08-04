@@ -59,32 +59,34 @@ var transationTest = function () {
                         console.log('end insert');
                         console.log('begin find ...');
                         _context.next = 12;
-                        return conn.query('test.findAll');
+                        return conn.query('test.findTest');
 
                     case 12:
                         result = _context.sent;
 
                         console.log(result);
+                        nodebatis.commit(conn);
                         return _context.abrupt('return', result);
 
-                    case 17:
-                        _context.prev = 17;
+                    case 18:
+                        _context.prev = 18;
                         _context.t0 = _context['catch'](1);
 
                         console.log(_context.t0);
+                        nodebatis.rollback(conn);
 
-                    case 20:
-                        _context.prev = 20;
+                    case 22:
+                        _context.prev = 22;
 
                         conn && nodebatis.releaseConn(conn);
-                        return _context.finish(20);
+                        return _context.finish(22);
 
-                    case 23:
+                    case 25:
                     case 'end':
                         return _context.stop();
                 }
             }
-        }, _callee, undefined, [[1, 17, 20, 23]]);
+        }, _callee, undefined, [[1, 18, 22, 25]]);
     }));
 
     return function transationTest() {

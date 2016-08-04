@@ -21,8 +21,11 @@ findByAge:
         sql: and name = 'name1'
 
 insertOne: 
-    - insert into test(name, _age)
-      values(:name, :age)
+    - insert into test(name, age)
+    - values(:name, :age)
+
+findTest:
+    - select * from test where _age = 123
 
 
 

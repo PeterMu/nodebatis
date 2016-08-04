@@ -85,27 +85,53 @@ var NodeBatis = function () {
     }, {
         key: 'beginTransation',
         value: function () {
-            var _ref2 = _asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
-                var conn;
-                return regeneratorRuntime.wrap(function _callee2$(_context2) {
+            var _ref2 = _asyncToGenerator(regeneratorRuntime.mark(function _callee3() {
+                var _this = this;
+
+                var that, conn;
+                return regeneratorRuntime.wrap(function _callee3$(_context3) {
                     while (1) {
-                        switch (_context2.prev = _context2.next) {
+                        switch (_context3.prev = _context3.next) {
                             case 0:
-                                _context2.next = 2;
+                                that = this;
+                                _context3.next = 3;
                                 return this.pool.beginTransation();
 
-                            case 2:
-                                conn = _context2.sent;
+                            case 3:
+                                conn = _context3.sent;
 
-                                conn.query = this.query.bind(this);
-                                return _context2.abrupt('return', conn);
+                                conn.query = function () {
+                                    var _ref3 = _asyncToGenerator(regeneratorRuntime.mark(function _callee2(key, data) {
+                                        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+                                            while (1) {
+                                                switch (_context2.prev = _context2.next) {
+                                                    case 0:
+                                                        _context2.next = 2;
+                                                        return that.query.apply(that, [key, data, conn]);
 
-                            case 5:
+                                                    case 2:
+                                                        return _context2.abrupt('return', _context2.sent);
+
+                                                    case 3:
+                                                    case 'end':
+                                                        return _context2.stop();
+                                                }
+                                            }
+                                        }, _callee2, _this);
+                                    }));
+
+                                    return function (_x4, _x5) {
+                                        return _ref3.apply(this, arguments);
+                                    };
+                                }();
+                                return _context3.abrupt('return', conn);
+
+                            case 6:
                             case 'end':
-                                return _context2.stop();
+                                return _context3.stop();
                         }
                     }
-                }, _callee2, this);
+                }, _callee3, this);
             }));
 
             function beginTransation() {
@@ -117,43 +143,18 @@ var NodeBatis = function () {
     }, {
         key: 'commit',
         value: function () {
-            var _ref3 = _asyncToGenerator(regeneratorRuntime.mark(function _callee3(conn) {
-                return regeneratorRuntime.wrap(function _callee3$(_context3) {
-                    while (1) {
-                        switch (_context3.prev = _context3.next) {
-                            case 0:
-                                _context3.next = 2;
-                                return this.pool.commit(conn);
-
-                            case 2:
-                                return _context3.abrupt('return', _context3.sent);
-
-                            case 3:
-                            case 'end':
-                                return _context3.stop();
-                        }
-                    }
-                }, _callee3, this);
-            }));
-
-            function commit(_x4) {
-                return _ref3.apply(this, arguments);
-            }
-
-            return commit;
-        }()
-    }, {
-        key: 'rollback',
-        value: function () {
             var _ref4 = _asyncToGenerator(regeneratorRuntime.mark(function _callee4(conn) {
                 return regeneratorRuntime.wrap(function _callee4$(_context4) {
                     while (1) {
                         switch (_context4.prev = _context4.next) {
                             case 0:
                                 _context4.next = 2;
-                                return this.pool.rollback(conn);
+                                return this.pool.commit(conn);
 
                             case 2:
+                                return _context4.abrupt('return', _context4.sent);
+
+                            case 3:
                             case 'end':
                                 return _context4.stop();
                         }
@@ -161,27 +162,24 @@ var NodeBatis = function () {
                 }, _callee4, this);
             }));
 
-            function rollback(_x5) {
+            function commit(_x6) {
                 return _ref4.apply(this, arguments);
             }
 
-            return rollback;
+            return commit;
         }()
     }, {
-        key: 'releaseConn',
+        key: 'rollback',
         value: function () {
-            var _ref5 = _asyncToGenerator(regeneratorRuntime.mark(function _callee5(connection) {
+            var _ref5 = _asyncToGenerator(regeneratorRuntime.mark(function _callee5(conn) {
                 return regeneratorRuntime.wrap(function _callee5$(_context5) {
                     while (1) {
                         switch (_context5.prev = _context5.next) {
                             case 0:
                                 _context5.next = 2;
-                                return this.pool.releaseConn(connection);
+                                return this.pool.rollback(conn);
 
                             case 2:
-                                return _context5.abrupt('return', _context5.sent);
-
-                            case 3:
                             case 'end':
                                 return _context5.stop();
                         }
@@ -189,8 +187,36 @@ var NodeBatis = function () {
                 }, _callee5, this);
             }));
 
-            function releaseConn(_x6) {
+            function rollback(_x7) {
                 return _ref5.apply(this, arguments);
+            }
+
+            return rollback;
+        }()
+    }, {
+        key: 'releaseConn',
+        value: function () {
+            var _ref6 = _asyncToGenerator(regeneratorRuntime.mark(function _callee6(connection) {
+                return regeneratorRuntime.wrap(function _callee6$(_context6) {
+                    while (1) {
+                        switch (_context6.prev = _context6.next) {
+                            case 0:
+                                _context6.next = 2;
+                                return this.pool.releaseConn(connection);
+
+                            case 2:
+                                return _context6.abrupt('return', _context6.sent);
+
+                            case 3:
+                            case 'end':
+                                return _context6.stop();
+                        }
+                    }
+                }, _callee6, this);
+            }));
+
+            function releaseConn(_x8) {
+                return _ref6.apply(this, arguments);
             }
 
             return releaseConn;

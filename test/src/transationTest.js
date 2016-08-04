@@ -30,11 +30,13 @@ let transationTest = async () => {
         })
         console.log('end insert')
         console.log('begin find ...')
-        let result = await conn.query('test.findAll')
+        let result = await conn.query('test.findTest')
         console.log(result)
+        nodebatis.commit(conn)
         return result
     } catch (e) {
         console.log(e)
+        nodebatis.rollback(conn)
     } finally {
         conn && nodebatis.releaseConn(conn)
     }
