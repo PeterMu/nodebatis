@@ -280,6 +280,11 @@ var _class = function () {
             return rollback;
         }()
     }, {
+        key: 'getPool',
+        value: function getPool() {
+            return this.config.pool;
+        }
+    }, {
         key: 'dialect',
         get: function get() {
             return this.config.dialect;
@@ -315,16 +320,6 @@ var _class = function () {
             } else {
                 throw new Error('the password is null, please set password');
             }
-        }
-    }, {
-        key: 'minPoolSize',
-        get: function get() {
-            return this.config.minPoolSize;
-        }
-    }, {
-        key: 'maxPoolSize',
-        get: function get() {
-            return this.config.maxPoolSize;
         }
     }]);
 

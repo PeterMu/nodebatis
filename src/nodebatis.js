@@ -20,7 +20,7 @@ class NodeBatis {
         this.sqlContainer = new SqlContainer(dir)
     }
 
-    async query(key, data, transationConn) {
+    async execute(key, data, transationConn) {
         let sqlObj = this.sqlContainer.get(key, data)
         if (this.debug) {
             console.info(key, sqlObj.sql, sqlObj.params || '')
@@ -32,8 +32,8 @@ class NodeBatis {
     async beginTransation() {
         let that = this
         let conn = await this.pool.beginTransation()
-        conn.query = async (key, data) => {
-            return await that.query.apply(that, [key, data, conn])
+        conn.execute = async (key, data) => {
+            return await that.execute.apply(that, [key, data, conn])
         }
         return conn
     }
@@ -46,8 +46,8 @@ class NodeBatis {
         await this.pool.rollback(conn)
     }
 
-    async releaseConn(connection) {
-        return await this.pool.releaseConn(connection)
+    releaseConn(connection) {
+        return this.pool.releaseConn(connection)
     }
 
     define(key, model) {

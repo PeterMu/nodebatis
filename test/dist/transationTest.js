@@ -50,7 +50,7 @@ var transationTest = function () {
 
                         console.log('begin insert...');
                         _context.next = 8;
-                        return conn.query('test.insertOne', {
+                        return conn.execute('test.insertOne', {
                             name: 'name3',
                             age: 19
                         });
@@ -59,7 +59,7 @@ var transationTest = function () {
                         console.log('end insert');
                         console.log('begin find ...');
                         _context.next = 12;
-                        return conn.query('test.findTest');
+                        return conn.execute('test.findTest');
 
                     case 12:
                         result = _context.sent;

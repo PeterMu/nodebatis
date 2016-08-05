@@ -48,7 +48,7 @@ var NodeBatis = function () {
     }
 
     _createClass(NodeBatis, [{
-        key: 'query',
+        key: 'execute',
         value: function () {
             var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(key, data, transationConn) {
                 var sqlObj, result;
@@ -76,11 +76,11 @@ var NodeBatis = function () {
                 }, _callee, this);
             }));
 
-            function query(_x, _x2, _x3) {
+            function execute(_x, _x2, _x3) {
                 return _ref.apply(this, arguments);
             }
 
-            return query;
+            return execute;
         }()
     }, {
         key: 'beginTransation',
@@ -100,14 +100,14 @@ var NodeBatis = function () {
                             case 3:
                                 conn = _context3.sent;
 
-                                conn.query = function () {
+                                conn.execute = function () {
                                     var _ref3 = _asyncToGenerator(regeneratorRuntime.mark(function _callee2(key, data) {
                                         return regeneratorRuntime.wrap(function _callee2$(_context2) {
                                             while (1) {
                                                 switch (_context2.prev = _context2.next) {
                                                     case 0:
                                                         _context2.next = 2;
-                                                        return that.query.apply(that, [key, data, conn]);
+                                                        return that.execute.apply(that, [key, data, conn]);
 
                                                     case 2:
                                                         return _context2.abrupt('return', _context2.sent);
@@ -195,32 +195,9 @@ var NodeBatis = function () {
         }()
     }, {
         key: 'releaseConn',
-        value: function () {
-            var _ref6 = _asyncToGenerator(regeneratorRuntime.mark(function _callee6(connection) {
-                return regeneratorRuntime.wrap(function _callee6$(_context6) {
-                    while (1) {
-                        switch (_context6.prev = _context6.next) {
-                            case 0:
-                                _context6.next = 2;
-                                return this.pool.releaseConn(connection);
-
-                            case 2:
-                                return _context6.abrupt('return', _context6.sent);
-
-                            case 3:
-                            case 'end':
-                                return _context6.stop();
-                        }
-                    }
-                }, _callee6, this);
-            }));
-
-            function releaseConn(_x8) {
-                return _ref6.apply(this, arguments);
-            }
-
-            return releaseConn;
-        }()
+        value: function releaseConn(connection) {
+            return this.pool.releaseConn(connection);
+        }
     }, {
         key: 'define',
         value: function define(key, model) {

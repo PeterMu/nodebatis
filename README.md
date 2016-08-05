@@ -53,7 +53,7 @@ model.js
 
 ```
 let findByAge = async () => {
-    let result = await nodebatis.query('test.findByAge', {
+    let result = await nodebatis.execute('test.findByAge', {
         age: 18 
     })
     return result
@@ -172,7 +172,7 @@ extendsDemo: select {{ demo.attrs }} from demo // select id ,name, age from demo
 #### pool.acquireIncrement { Int }
 连接数不够时，一次创建连接的数量，默认为 5
 
-## nodebatis.query(key, data) 
+## nodebatis.execute(key, data) 
 执行 SQL 语句
 
 * key 为要执行的 sql 语句的 key，即：namespace.xxx

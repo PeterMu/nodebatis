@@ -47,7 +47,7 @@ var findAll = function () {
                     case 0:
                         _context.prev = 0;
                         _context.next = 3;
-                        return nodebatis.query('test.findAll');
+                        return nodebatis.execute('test.findAll');
 
                     case 3:
                         result = _context.sent;
@@ -85,7 +85,7 @@ var findByAge = function () {
                 switch (_context2.prev = _context2.next) {
                     case 0:
                         _context2.next = 2;
-                        return nodebatis.query('test.findByAge', {
+                        return nodebatis.execute('test.findByAge', {
                             age: 20
                         });
 

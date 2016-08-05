@@ -105,12 +105,8 @@ export default class {
         }
     }
 
-    get minPoolSize() {
-        return this.config.minPoolSize
-    }
-
-    get maxPoolSize() {
-        return this.config.maxPoolSize
+    getPool() {
+        return this.config.pool
     }
 }
 

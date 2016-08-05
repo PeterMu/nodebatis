@@ -24,13 +24,13 @@ let transationTest = async () => {
     try {
         conn = await nodebatis.beginTransation()
         console.log('begin insert...')
-        await conn.query('test.insertOne', {
+        await conn.execute('test.insertOne', {
             name: 'name3',
             age: 19
         })
         console.log('end insert')
         console.log('begin find ...')
-        let result = await conn.query('test.findTest')
+        let result = await conn.execute('test.findTest')
         console.log(result)
         nodebatis.commit(conn)
         return result

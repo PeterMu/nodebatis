@@ -80,7 +80,7 @@ var _class = function () {
                     if (!err) {
                         resolve(true);
                     } else {
-                        resolve(false);
+                        reject(err);
                     }
                 });
             });

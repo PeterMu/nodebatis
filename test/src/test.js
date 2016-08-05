@@ -26,7 +26,7 @@ nodebatis.define(/^test.findAll$/, {
 
 let findAll = async () => {
     try {
-        let result = await nodebatis.query('test.findAll')
+        let result = await nodebatis.execute('test.findAll')
         console.log('result', JSON.stringify(result))
     } catch (e) {
         console.log(e)
@@ -36,7 +36,7 @@ let findAll = async () => {
 findAll()
 
 let findByAge = async () => {
-    let result = await nodebatis.query('test.findByAge', {
+    let result = await nodebatis.execute('test.findByAge', {
         age: 20
     })
     console.log('result', JSON.stringify(result))
