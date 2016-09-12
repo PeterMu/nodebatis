@@ -27,6 +27,7 @@ export default class {
                     sqls.push(s.replace(/\n/g, '').trim())
                 } else {
                     for (let key in s) {
+                        cond = {}
                         cond.name = key
                         switch (key) {
                             case 'if':
