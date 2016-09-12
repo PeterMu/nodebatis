@@ -57,6 +57,7 @@ var _class = function () {
                             sqls.push(s.replace(/\n/g, '').trim());
                         } else {
                             for (var key in s) {
+                                cond = {};
                                 cond.name = key;
                                 switch (key) {
                                     case 'if':
