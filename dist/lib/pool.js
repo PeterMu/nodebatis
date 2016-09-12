@@ -30,6 +30,7 @@ var _class = function () {
             user: null,
             password: null,
             charset: 'utf8',
+            camelCase: false,
             pool: {
                 minSize: 5,
                 maxSize: 20,
@@ -137,6 +138,9 @@ var _class = function () {
                                                         v: new Promise(function (resolve, reject) {
                                                             conn._query(sql, params, function (err, results) {
                                                                 if (!err) {
+                                                                    if (that.config.camelCase) {
+                                                                        results = that.parseCamelCase(results);
+                                                                    }
                                                                     var errors = that.models.validate(key, results);
                                                                     if (errors) {
                                                                         reject(errors);
@@ -279,6 +283,53 @@ var _class = function () {
 
             return rollback;
         }()
+    }, {
+        key: 'parseCamelCase',
+        value: function parseCamelCase(results) {
+            var array = [],
+                obj = {};
+            if (results && results.length > 0) {
+                var _iteratorNormalCompletion = true;
+                var _didIteratorError = false;
+                var _iteratorError = undefined;
+
+                try {
+                    for (var _iterator = results[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                        var ret = _step.value;
+
+                        obj = {};
+                        for (var key in ret) {
+                            obj[this.getCamelCaseKey(key)] = ret[key];
+                        }
+                        array.push(obj);
+                    }
+                } catch (err) {
+                    _didIteratorError = true;
+                    _iteratorError = err;
+                } finally {
+                    try {
+                        if (!_iteratorNormalCompletion && _iterator.return) {
+                            _iterator.return();
+                        }
+                    } finally {
+                        if (_didIteratorError) {
+                            throw _iteratorError;
+                        }
+                    }
+                }
+
+                return array;
+            } else {
+                return results;
+            }
+        }
+    }, {
+        key: 'getCamelCaseKey',
+        value: function getCamelCaseKey(key) {
+            return key.replace(/(_\w)/g, function (match, s) {
+                return s.substring(1).toUpperCase();
+            });
+        }
     }, {
         key: 'getPool',
         value: function getPool() {
