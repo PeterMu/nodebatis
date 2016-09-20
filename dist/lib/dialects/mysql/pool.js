@@ -20,6 +20,7 @@ var _class = function () {
 
         this.pool = _mysql2.default.createPool({
             host: config.host,
+            port: config.port,
             user: config.user,
             password: config.password,
             database: config.database,

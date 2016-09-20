@@ -4,6 +4,7 @@ export default class {
     constructor(config) {
         this.pool = mysql.createPool({
             host     : config.host,
+            port     : config.port,
             user     : config.user,
             password : config.password,
             database : config.database,
