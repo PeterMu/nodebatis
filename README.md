@@ -1,5 +1,4 @@
-nodebatis
-=========
+# nodebatis [![npm](https://img.shields.io/npm/v/nodebatis.svg)](https://www.npmjs.com/package/nodebatis)  [![npm](https://img.shields.io/npm/dt/nodebatis.svg)](https://www.npmjs.com/package/nodebatis)
 
 支持原生 SQL 的轻量化 ORM 框架。
 
@@ -159,6 +158,9 @@ extendsDemo: select {{ demo.attrs }} from demo // select id ,name, age from demo
 
 #### config.charset { String }
 默认为：utf8，数据库连接的字符编码
+
+#### config.camelCase { Boolean }
+默认为：false ，为 true 时将结果集中下划线分割的属性名(比如：user_name)，映射为小驼峰的形式(userName)
 
 #### pool
 连接池配置, 连接池的配置支持情况取决于数据库连接驱动的支持情况。
