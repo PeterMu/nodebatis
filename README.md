@@ -104,7 +104,7 @@ paramDemo:
     - and age > 18
 
 // ddl param
-ddlDemo: create table {{tableName}} (id int primary key, name vachar(32))
+ddlDemo: create table ::tableName (id int primary key, name vachar(32))
 
 //expression
 expressionDemo:
