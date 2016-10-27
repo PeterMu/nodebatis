@@ -147,6 +147,7 @@ var _class = function () {
             if (node.name.toLowerCase() === 'if') {
                 if (node.test && typeof node.test == 'string') {
                     statements = node.test.replace(keyReg, function (match, key) {
+                        data[key] = data[key] || null;
                         return key;
                     });
                     var isTrue = false;

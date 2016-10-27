@@ -69,6 +69,7 @@ export default class {
         if (node.name.toLowerCase() === 'if') {
             if (node.test && typeof node.test == 'string') {
                 statements = node.test.replace(keyReg, (match, key) => {
+                    data[key] = data[key] || null
                     return key
                 })
                 let isTrue = false
