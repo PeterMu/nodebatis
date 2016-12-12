@@ -154,7 +154,7 @@ var _class = function () {
                     try {
                         isTrue = new _vm2.default.Script(statements).runInContext(context);
                     } catch (e) {
-                        console.error(e);
+                        isTrue = false;
                     }
                     if (isTrue) {
                         sql = node.sql;

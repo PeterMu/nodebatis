@@ -76,7 +76,7 @@ export default class {
                 try {
                     isTrue = new vm.Script(statements).runInContext(context)
                 } catch (e) {
-                    console.error(e)
+                    isTrue = false
                 }
                 if (isTrue) {
                     sql = node.sql
