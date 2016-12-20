@@ -3,6 +3,7 @@ import Pool from './lib/pool'
 import SqlContainer from './lib/sqlContainer'
 import Models from './lib/models'
 import Types from './types'
+import * as builder from './lib/sqlBuilder'
 
 class NodeBatis {
 
@@ -27,6 +28,30 @@ class NodeBatis {
         }
         let result = await this.pool.query(key, sqlObj.sql, sqlObj.params, transationConn)
         return result
+    }
+
+    async query(key, data, transationConn) {
+        return await this.execute(key, data, transationConn)
+    }
+
+    async insert(tableName, data, transationConn) {
+        if (tableName && data) {
+            let sqlObj = builder.getInsertSql(tableName, data)
+            let key = `_auto_builder_insert_${tableName}`
+            return await this.pool.query(key, sqlObj.sql, sqlObj.params, transationConn)
+        } else {
+            console.error('insert need tableName and data')
+        }
+    }
+
+    async update(tableName, data, id, idKey, transationConn) {
+        if (tableName && data) {
+            let sqlObj = builder.getUpdateSql(tableName, data, id, idKey)
+            let key = `_auto_builder_update_${tableName}`
+            return await this.pool.query(key, sqlObj.sql, sqlObj.params, transationConn)
+        } else {
+            console.error('update need tableName and data')
+        }
     }
 
     async beginTransation() {
