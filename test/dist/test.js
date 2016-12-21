@@ -1,6 +1,6 @@
 'use strict';
 
-var _nodebatis = require('../../src/nodebatis');
+var _nodebatis = require('../../dist/nodebatis');
 
 var _nodebatis2 = _interopRequireDefault(_nodebatis);
 
@@ -75,8 +75,6 @@ var findAll = function () {
     };
 }();
 
-findAll();
-
 var findByAge = function () {
     var _ref2 = _asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
         var result;
@@ -107,4 +105,95 @@ var findByAge = function () {
     };
 }();
 
-findByAge();
+var insertTest = function () {
+    var _ref3 = _asyncToGenerator(regeneratorRuntime.mark(function _callee3() {
+        var ret;
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+            while (1) {
+                switch (_context3.prev = _context3.next) {
+                    case 0:
+                        _context3.next = 2;
+                        return nodebatis.insert('test', {
+                            age: 18,
+                            name: 'haha'
+                        });
+
+                    case 2:
+                        ret = _context3.sent;
+
+                        console.log(ret);
+
+                    case 4:
+                    case 'end':
+                        return _context3.stop();
+                }
+            }
+        }, _callee3, undefined);
+    }));
+
+    return function insertTest() {
+        return _ref3.apply(this, arguments);
+    };
+}();
+
+var updateTest = function () {
+    var _ref4 = _asyncToGenerator(regeneratorRuntime.mark(function _callee4() {
+        var ret;
+        return regeneratorRuntime.wrap(function _callee4$(_context4) {
+            while (1) {
+                switch (_context4.prev = _context4.next) {
+                    case 0:
+                        _context4.next = 2;
+                        return nodebatis.update('test', {
+                            id: 3,
+                            age: 19,
+                            name: 'haha'
+                        });
+
+                    case 2:
+                        ret = _context4.sent;
+
+                        console.log(ret);
+
+                    case 4:
+                    case 'end':
+                        return _context4.stop();
+                }
+            }
+        }, _callee4, undefined);
+    }));
+
+    return function updateTest() {
+        return _ref4.apply(this, arguments);
+    };
+}();
+
+var deleteTest = function () {
+    var _ref5 = _asyncToGenerator(regeneratorRuntime.mark(function _callee5() {
+        var ret;
+        return regeneratorRuntime.wrap(function _callee5$(_context5) {
+            while (1) {
+                switch (_context5.prev = _context5.next) {
+                    case 0:
+                        _context5.next = 2;
+                        return nodebatis.del('test', 5);
+
+                    case 2:
+                        ret = _context5.sent;
+
+                        console.log(ret);
+
+                    case 4:
+                    case 'end':
+                        return _context5.stop();
+                }
+            }
+        }, _callee5, undefined);
+    }));
+
+    return function deleteTest() {
+        return _ref5.apply(this, arguments);
+    };
+}();
+
+deleteTest();

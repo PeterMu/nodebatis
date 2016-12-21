@@ -1,4 +1,4 @@
-import NodeBatis from '../../src/nodebatis'
+import NodeBatis from '../../dist/nodebatis'
 import util from 'util'
 import path from 'path'
 
@@ -33,8 +33,6 @@ let findAll = async () => {
     }
 }
 
-findAll()
-
 let findByAge = async () => {
     let result = await nodebatis.execute('test.findByAge', {
         age: 20
@@ -42,4 +40,27 @@ let findByAge = async () => {
     console.log('result', JSON.stringify(result))
 }
 
-findByAge()
+let insertTest = async () => {
+    let ret = await nodebatis.insert('test', {
+        age: 18,
+        name: 'haha'
+    })
+    console.log(ret)
+}
+
+let updateTest = async () => {
+    let ret = await nodebatis.update('test', {
+        id: 3,
+        age: 19,
+        name: 'haha'
+    })
+    console.log(ret)
+}
+
+let deleteTest = async () => {
+    let ret = await nodebatis.del('test', 5)
+    console.log(ret)
+}
+
+deleteTest()
+

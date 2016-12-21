@@ -1,10 +1,10 @@
 {
   "name": "nodebatis",
-  "version": "2.0.3",
+  "version": "2.1.0",
   "description": "a sql style orm for nodejs",
   "main": "dist/nodebatis.js",
   "scripts": {
-    "test": "node test/dist/test.js",
+    "test": "gulp && node test/dist/test.js",
     "test-dev": "node -r 'babel-register' test/src/test.js",
     "test-transation": "node -r 'babel-register' test/src/transationTest.js"
   },

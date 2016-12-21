@@ -38,19 +38,38 @@ class NodeBatis {
         if (tableName && data) {
             let sqlObj = builder.getInsertSql(tableName, data)
             let key = `_auto_builder_insert_${tableName}`
+            if (this.debug) {
+                console.info(key, sqlObj.sql, sqlObj.params || '')
+            }
             return await this.pool.query(key, sqlObj.sql, sqlObj.params, transationConn)
         } else {
             console.error('insert need tableName and data')
         }
     }
 
-    async update(tableName, data, id, idKey, transationConn) {
+    async update(tableName, data, idKey, transationConn) {
         if (tableName && data) {
-            let sqlObj = builder.getUpdateSql(tableName, data, id, idKey)
+            let sqlObj = builder.getUpdateSql(tableName, data, idKey)
             let key = `_auto_builder_update_${tableName}`
+            if (this.debug) {
+                console.info(key, sqlObj.sql, sqlObj.params || '')
+            }
             return await this.pool.query(key, sqlObj.sql, sqlObj.params, transationConn)
         } else {
             console.error('update need tableName and data')
+        }
+    }
+
+    async del(tableName, id, idKey, transationConn) {
+        if (tableName && id) {
+            let sqlObj = builder.getDelSql(tableName, id, idKey)
+            let key = `_auto_builder_del_${tableName}`
+            if (this.debug) {
+                console.info(key, sqlObj.sql, sqlObj.params || '')
+            }
+            return await this.pool.query(key, sqlObj.sql, sqlObj.params, transationConn)
+        } else {
+            console.error('del need tableName and id')
         }
     }
 

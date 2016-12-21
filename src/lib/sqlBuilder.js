@@ -15,18 +15,28 @@ export const getInsertSql = (tableName, data) => {
     return { sql, params }
 }
 
-export const getUpdateSql = (tableName, data, id = null, idKey = 'id') => {
+export const getUpdateSql = (tableName, data, idKey = 'id') => {
     let sql = '', params = [], holders = []
     let where = '' 
     for (let key in data) {
-        holders.push(`${key} = ?`)
-        params.push(data[key])
+        if (key != idKey) {
+            holders.push(`${key} = ?`)
+            params.push(data[key])
+        }
     }
     holders = holders.join(',')
-    if (id) {
-        where = `where ${idKey} = ${id}`
+    if (data[idKey]) {
+        where = `where ${idKey} = ${data[idKey]}`
     }
     sql = `update ${tableName} set ${holders} ${where}`
     return { sql, params }
+}
+
+export const getDelSql = (tableName, id, idKey = 'id') => {
+    let sql = `delete from ${tableName} where ${idKey} = ?`
+    return {
+        sql: sql,
+        params: [id]
+    }
 }
 

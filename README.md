@@ -174,13 +174,35 @@ extendsDemo: select {{ demo.attrs }} from demo // select id ,name, age from demo
 #### pool.acquireIncrement { Int }
 连接数不够时，一次创建连接的数量，默认为 5
 
-## nodebatis.execute(key, data) 
+## nodebatis.query(key, data) 
 执行 SQL 语句
 
 * key 为要执行的 sql 语句的 key，即：namespace.xxx
 * data 为传递的数据
 * 返回对应数据库驱动执行 sql 语句后的结果集
 
+## nodebatis.execute(key, data)
+执行 SQL 语句
+建议使用更语义化的 query 方法
+
+## nodebatis.insert(tableName, data)
+执行插入数据
+
+* tablename 为要操作的表名 
+* data 为传递的数据对象，data 的 key 为对应表的字段，值为要插入的值
+
+## nodebatis.update(tableName, data, idKey = "id")
+更新数据
+
+* tablename 为要操作的表名 
+* data 为传递的数据对象，data 的 key 为对应表的字段，值为要插入的值
+
+## nodebatis.del(tableName, id, idKey = "id")
+更新数据
+
+* tablename 为要操作的表名 
+* id 为要删除的主键值
+* idKey 为主键名称
 
 ## nodebatis.beginTransation() 
 获取一个支持事务的数据库连接
