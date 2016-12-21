@@ -198,7 +198,7 @@ extendsDemo: select {{ demo.attrs }} from demo // select id ,name, age from demo
 * data 为传递的数据对象，data 的 key 为对应表的字段，值为要插入的值
 
 ## nodebatis.del(tableName, id, idKey = "id")
-更新数据
+删除数据
 
 * tablename 为要操作的表名 
 * id 为要删除的主键值
