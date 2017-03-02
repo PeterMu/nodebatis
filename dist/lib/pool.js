@@ -4,8 +4,6 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
-
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _pool = require('./dialects/mysql/pool');
@@ -14,7 +12,7 @@ var _pool2 = _interopRequireDefault(_pool);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { return step("next", value); }, function (err) { return step("throw", err); }); } } return step("next"); }); }; }
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -100,98 +98,67 @@ var _class = function () {
     }, {
         key: 'query',
         value: function () {
-            var _ref3 = _asyncToGenerator(regeneratorRuntime.mark(function _callee4(key, sql, params, transationConn) {
-                var _this = this;
+            var _ref3 = _asyncToGenerator(regeneratorRuntime.mark(function _callee3(key, sql, params, transationConn) {
+                var that, conn, _that;
 
-                var that, _ret;
-
-                return regeneratorRuntime.wrap(function _callee4$(_context4) {
+                return regeneratorRuntime.wrap(function _callee3$(_context3) {
                     while (1) {
-                        switch (_context4.prev = _context4.next) {
+                        switch (_context3.prev = _context3.next) {
                             case 0:
                                 that = this;
-                                _context4.prev = 1;
-                                return _context4.delegateYield(regeneratorRuntime.mark(function _callee3() {
-                                    var conn, that;
-                                    return regeneratorRuntime.wrap(function _callee3$(_context3) {
-                                        while (1) {
-                                            switch (_context3.prev = _context3.next) {
-                                                case 0:
-                                                    params = params || [];
-                                                    _context3.t0 = transationConn;
+                                _context3.prev = 1;
 
-                                                    if (_context3.t0) {
-                                                        _context3.next = 6;
-                                                        break;
-                                                    }
+                                params = params || [];
+                                _context3.t0 = transationConn;
 
-                                                    _context3.next = 5;
-                                                    return _this.getConn();
-
-                                                case 5:
-                                                    _context3.t0 = _context3.sent;
-
-                                                case 6:
-                                                    conn = _context3.t0;
-                                                    that = _this;
-                                                    return _context3.abrupt('return', {
-                                                        v: new Promise(function (resolve, reject) {
-                                                            conn._query(sql, params, function (err, results) {
-                                                                if (!err) {
-                                                                    if (that.config.camelCase) {
-                                                                        results = that.parseCamelCase(results);
-                                                                    }
-                                                                    var errors = that.models.validate(key, results);
-                                                                    if (errors) {
-                                                                        reject(errors);
-                                                                    } else {
-                                                                        resolve(results);
-                                                                    }
-                                                                } else {
-                                                                    reject(err);
-                                                                }
-                                                                if (!transationConn) {
-                                                                    that.releaseConn(conn);
-                                                                }
-                                                            });
-                                                        })
-                                                    });
-
-                                                case 9:
-                                                case 'end':
-                                                    return _context3.stop();
-                                            }
-                                        }
-                                    }, _callee3, _this);
-                                })(), 't0', 3);
-
-                            case 3:
-                                _ret = _context4.t0;
-
-                                if (!((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object")) {
-                                    _context4.next = 6;
+                                if (_context3.t0) {
+                                    _context3.next = 8;
                                     break;
                                 }
 
-                                return _context4.abrupt('return', _ret.v);
+                                _context3.next = 7;
+                                return this.getConn();
 
-                            case 6:
-                                _context4.next = 12;
-                                break;
+                            case 7:
+                                _context3.t0 = _context3.sent;
 
                             case 8:
-                                _context4.prev = 8;
-                                _context4.t1 = _context4['catch'](1);
+                                conn = _context3.t0;
+                                _that = this;
+                                return _context3.abrupt('return', new Promise(function (resolve, reject) {
+                                    conn._query(sql, params, function (err, results) {
+                                        if (!err) {
+                                            if (_that.config.camelCase) {
+                                                results = _that.parseCamelCase(results);
+                                            }
+                                            var errors = _that.models.validate(key, results);
+                                            if (errors) {
+                                                reject(errors);
+                                            } else {
+                                                resolve(results);
+                                            }
+                                        } else {
+                                            reject(err);
+                                        }
+                                        if (!transationConn) {
+                                            _that.releaseConn(conn);
+                                        }
+                                    });
+                                }));
 
-                                console.error(_context4.t1);
-                                throw new Error(_context4.t1);
+                            case 13:
+                                _context3.prev = 13;
+                                _context3.t1 = _context3['catch'](1);
 
-                            case 12:
+                                console.error(_context3.t1);
+                                throw new Error(_context3.t1);
+
+                            case 17:
                             case 'end':
-                                return _context4.stop();
+                                return _context3.stop();
                         }
                     }
-                }, _callee4, this, [[1, 8]]);
+                }, _callee3, this, [[1, 13]]);
             }));
 
             function query(_x2, _x3, _x4, _x5) {
@@ -203,25 +170,25 @@ var _class = function () {
     }, {
         key: 'beginTransation',
         value: function () {
-            var _ref4 = _asyncToGenerator(regeneratorRuntime.mark(function _callee5() {
+            var _ref4 = _asyncToGenerator(regeneratorRuntime.mark(function _callee4() {
                 var conn;
-                return regeneratorRuntime.wrap(function _callee5$(_context5) {
+                return regeneratorRuntime.wrap(function _callee4$(_context4) {
                     while (1) {
-                        switch (_context5.prev = _context5.next) {
+                        switch (_context4.prev = _context4.next) {
                             case 0:
-                                _context5.next = 2;
+                                _context4.next = 2;
                                 return this._pool.getTransationConn();
 
                             case 2:
-                                conn = _context5.sent;
-                                return _context5.abrupt('return', conn);
+                                conn = _context4.sent;
+                                return _context4.abrupt('return', conn);
 
                             case 4:
                             case 'end':
-                                return _context5.stop();
+                                return _context4.stop();
                         }
                     }
-                }, _callee5, this);
+                }, _callee4, this);
             }));
 
             function beginTransation() {
@@ -233,23 +200,23 @@ var _class = function () {
     }, {
         key: 'commit',
         value: function () {
-            var _ref5 = _asyncToGenerator(regeneratorRuntime.mark(function _callee6(conn) {
-                return regeneratorRuntime.wrap(function _callee6$(_context6) {
+            var _ref5 = _asyncToGenerator(regeneratorRuntime.mark(function _callee5(conn) {
+                return regeneratorRuntime.wrap(function _callee5$(_context5) {
                     while (1) {
-                        switch (_context6.prev = _context6.next) {
+                        switch (_context5.prev = _context5.next) {
                             case 0:
-                                _context6.next = 2;
+                                _context5.next = 2;
                                 return this._pool.commit(conn);
 
                             case 2:
-                                return _context6.abrupt('return', _context6.sent);
+                                return _context5.abrupt('return', _context5.sent);
 
                             case 3:
                             case 'end':
-                                return _context6.stop();
+                                return _context5.stop();
                         }
                     }
-                }, _callee6, this);
+                }, _callee5, this);
             }));
 
             function commit(_x6) {
@@ -261,20 +228,20 @@ var _class = function () {
     }, {
         key: 'rollback',
         value: function () {
-            var _ref6 = _asyncToGenerator(regeneratorRuntime.mark(function _callee7(conn) {
-                return regeneratorRuntime.wrap(function _callee7$(_context7) {
+            var _ref6 = _asyncToGenerator(regeneratorRuntime.mark(function _callee6(conn) {
+                return regeneratorRuntime.wrap(function _callee6$(_context6) {
                     while (1) {
-                        switch (_context7.prev = _context7.next) {
+                        switch (_context6.prev = _context6.next) {
                             case 0:
-                                _context7.next = 2;
+                                _context6.next = 2;
                                 return this._pool.rollback(conn);
 
                             case 2:
                             case 'end':
-                                return _context7.stop();
+                                return _context6.stop();
                         }
                     }
-                }, _callee7, this);
+                }, _callee6, this);
             }));
 
             function rollback(_x7) {
@@ -378,3 +345,4 @@ var _class = function () {
 }();
 
 exports.default = _class;
+module.exports = exports['default'];

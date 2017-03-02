@@ -34,3 +34,4 @@ exports.default = {
     JSON: JSON,
     MATCHES: MATCHES
 };
+module.exports = exports['default'];

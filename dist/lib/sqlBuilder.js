@@ -24,7 +24,7 @@ var getInsertSql = exports.getInsertSql = function getInsertSql(tableName, data)
 };
 
 var getUpdateSql = exports.getUpdateSql = function getUpdateSql(tableName, data) {
-    var idKey = arguments.length <= 2 || arguments[2] === undefined ? 'id' : arguments[2];
+    var idKey = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'id';
 
     var sql = '',
         params = [],
@@ -45,7 +45,7 @@ var getUpdateSql = exports.getUpdateSql = function getUpdateSql(tableName, data)
 };
 
 var getDelSql = exports.getDelSql = function getDelSql(tableName, id) {
-    var idKey = arguments.length <= 2 || arguments[2] === undefined ? 'id' : arguments[2];
+    var idKey = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'id';
 
     var sql = 'delete from ' + tableName + ' where ' + idKey + ' = ?';
     return {
