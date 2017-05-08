@@ -1,31 +1,13 @@
 namespace: 'test'
 
-attrs: name, age 
+attrs: name, age
 
-findById:
-    - select {{ test.attrs }} from test where
-    - if: 
-        test: :name > 10
-        sql: and name = :name
-    - and haha = :haha 
-    - and test = 1
-    - ::order
-
-findAll:
-    - select * from test 
-
-findByAge:
-    - select {{ test.attrs }} from test where
+query:
+    - select {{ test.attrs }} from test
+    - where 1 = 1
     - if:
-        test: :age > 19
-        sql: and name = 'name1'
-
-insertOne: 
-    - insert into test(name, age)
-    - values(:name, :age)
-
-findTest:
-    - select * from test where _age = 123
-
-
-
+        test: :age > 18
+        sql: and age = :age
+    - if:
+        test: :name
+        sql: and name = :name

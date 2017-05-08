@@ -9,9 +9,9 @@
 如果你觉得传统 ORM 框架笨笨的，恭喜你找到了答案。
 在 NodeBatis 里，SQL 作为一等公民对待，直接写 SQL 是最灵活的方式。
 
-# Getting Started 
+# Getting Started
 
-## Installation 
+## Installation
 
 ```
 npm install nodebatis --save
@@ -46,14 +46,14 @@ findByAge:
     - age > :age
 ```
 
-## 执行 SQL 语句 
+## 执行 SQL 语句
 
 model.js
 
 ```
 let findByAge = async () => {
     let result = await nodebatis.execute('test.findByAge', {
-        age: 18 
+        age: 18
     })
     return result
 }
@@ -73,8 +73,8 @@ SQL yaml 文档的约定的规则很简单。
 1. 开头需要写 `namespace: xxx`, `xxx` 为自己定义的命名空间。
 2. 定义 SQL 语句 `key: sql` , `namespace.key` 就是定义的 SQL 语句的唯一索引。
 3. SQL 语句中的参数。
-    * `:paramName`, `paramName` 为执行 SQL 语句时传递的参数名。 
-    * `::ddl`, `ddl` 为 DDL 语句，不会对参数进行过滤。 
+    * `:paramName`, `paramName` 为执行 SQL 语句时传递的参数名。
+    * `::ddl`, `ddl` 为 DDL 语句，不会对参数进行过滤。
     * `{{namespace.key}}`, SQL 语句继承，会获取到 `namespace.key` 的 SQL 语句填充到此处。
 4. 条件判断。
 
@@ -169,42 +169,12 @@ extendsDemo: select {{ demo.attrs }} from demo // select id ,name, age from demo
 连接池的最小连接数, 默认为 5
 
 #### pool.maxSize { Int }
-连接池的最大连接数, 默认为 20 
+连接池的最大连接数, 默认为 20
 
 #### pool.acquireIncrement { Int }
 连接数不够时，一次创建连接的数量，默认为 5
 
-## nodebatis.query(key, data) 
-执行 SQL 语句
-
-* key 为要执行的 sql 语句的 key，即：namespace.xxx
-* data 为传递的数据
-* 返回对应数据库驱动执行 sql 语句后的结果集
-
-## nodebatis.execute(key, data)
-执行 SQL 语句
-建议使用更语义化的 query 方法
-
-## nodebatis.insert(tableName, data)
-执行插入数据
-
-* tablename 为要操作的表名 
-* data 为传递的数据对象，data 的 key 为对应表的字段，值为要插入的值
-
-## nodebatis.update(tableName, data, idKey = "id")
-更新数据
-
-* tablename 为要操作的表名 
-* data 为传递的数据对象，data 的 key 为对应表的字段，值为要插入的值
-
-## nodebatis.del(tableName, id, idKey = "id")
-删除数据
-
-* tablename 为要操作的表名 
-* id 为要删除的主键值
-* idKey 为主键名称
-
-## nodebatis.beginTransation() 
+## nodebatis.beginTransation()
 获取一个支持事务的数据库连接
 
 * 返回一个数据库连接
@@ -223,6 +193,39 @@ extendsDemo: select {{ demo.attrs }} from demo // select id ,name, age from demo
 释放数据库连接
 
 * connection 为要操作的数据库连接
+
+## nodebatis.query(key, data[, connection])
+执行 SQL 语句
+
+* key 为要执行的 sql 语句的 key，即：namespace.xxx
+* data 为传递的数据
+* connection 为开启事务时，获取的支持事务的链接
+* 返回对应数据库驱动执行 sql 语句后的结果集
+
+## nodebatis.insert(tableName, data[, connection])
+执行插入数据
+
+* tablename 为要操作的表名
+* data 为传递的数据对象，data 的 key 为对应表的字段，值为要插入的值
+* connection 为开启事务时，获取的支持事务的链接
+
+
+## nodebatis.update(tableName, data, idKey = "id"[, connection])
+更新数据
+
+* tablename 为要操作的表名
+* data 为传递的数据对象，data 的 key 为对应表的字段，值为要插入的值
+* idKey 为主键名称
+* connection 为开启事务时，获取的支持事务的链接
+
+
+## nodebatis.del(tableName, id, idKey = "id"[, connection])
+删除数据
+
+* tablename 为要操作的表名
+* id 为要删除的主键值
+* idKey 为主键名称
+* connection 为开启事务时，获取的支持事务的链接
 
 ## NodeBatis.Types
 支持的数据类型，用户验证返回的结果集是否符合定义的数据模型。
@@ -244,7 +247,7 @@ JSON
 MATCHES //正则匹配，default is /\.*/
 ```
 
-## nodebatis.define(key, model) 
+## nodebatis.define(key, model)
 定义数据模型，用于校验对象属性的数据类型
 
 * key 为对应的 sql 语句的 key，支持正则匹配
@@ -256,4 +259,3 @@ nodebatis.define('namespace.xxx', {
     age: NodeBatis.Types.INT
 })
 ```
-
