@@ -202,6 +202,9 @@ extendsDemo: select {{ demo.attrs }} from demo // select id ,name, age from demo
 * connection 为开启事务时，获取的支持事务的链接
 * 返回对应数据库驱动执行 sql 语句后的结果集
 
+## nodebatis.execute(key, data)
+执行 SQL 语句 建议使用更语义化的 query 方法
+
 ## nodebatis.insert(tableName, data[, connection])
 执行插入数据
 

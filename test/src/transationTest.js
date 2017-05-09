@@ -10,7 +10,7 @@ const nodebatis = new NodeBatis(path.resolve(__dirname, '../yaml'), {
 	port: 3306,
 	database: 'test',
 	user: 'root',
-	password: 'ldj150705',
+	password: 'root',
 	pool: {
 		minSize: 5,
 		maxSize: 20,
