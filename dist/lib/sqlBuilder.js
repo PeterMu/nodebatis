@@ -38,7 +38,8 @@ var getUpdateSql = exports.getUpdateSql = function getUpdateSql(tableName, data)
     }
     holders = holders.join(',');
     if (data[idKey]) {
-        where = 'where ' + idKey + ' = ' + data[idKey];
+        where = 'where ' + idKey + ' = ?';
+        params.push(data[idKey]);
     }
     sql = 'update ' + tableName + ' set ' + holders + ' ' + where;
     return { sql: sql, params: params };
