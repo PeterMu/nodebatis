@@ -245,60 +245,307 @@ var NodeBatis = function () {
 
             return del;
         }()
+
+        //use transastion
+
     }, {
-        key: 'beginTransation',
+        key: 'getTransation',
         value: function () {
-            var _ref6 = _asyncToGenerator(regeneratorRuntime.mark(function _callee7() {
+            var _ref6 = _asyncToGenerator(regeneratorRuntime.mark(function _callee13() {
                 var _this = this;
 
-                var that, conn;
-                return regeneratorRuntime.wrap(function _callee7$(_context7) {
+                var that, conn, nodebatis;
+                return regeneratorRuntime.wrap(function _callee13$(_context13) {
                     while (1) {
-                        switch (_context7.prev = _context7.next) {
+                        switch (_context13.prev = _context13.next) {
                             case 0:
                                 that = this;
-                                _context7.next = 3;
-                                return this.pool.beginTransation();
+                                _context13.next = 3;
+                                return this.beginTransation();
 
                             case 3:
-                                conn = _context7.sent;
+                                conn = _context13.sent;
+                                nodebatis = {
+                                    conn: conn,
+                                    execute: function () {
+                                        var _ref7 = _asyncToGenerator(regeneratorRuntime.mark(function _callee6(key, data) {
+                                            return regeneratorRuntime.wrap(function _callee6$(_context6) {
+                                                while (1) {
+                                                    switch (_context6.prev = _context6.next) {
+                                                        case 0:
+                                                            _context6.next = 2;
+                                                            return that.execute(key, data, conn);
 
-                                conn.execute = function () {
-                                    var _ref7 = _asyncToGenerator(regeneratorRuntime.mark(function _callee6(key, data) {
-                                        return regeneratorRuntime.wrap(function _callee6$(_context6) {
-                                            while (1) {
-                                                switch (_context6.prev = _context6.next) {
-                                                    case 0:
-                                                        _context6.next = 2;
-                                                        return that.execute.apply(that, [key, data, conn]);
+                                                        case 2:
+                                                            return _context6.abrupt('return', _context6.sent);
 
-                                                    case 2:
-                                                        return _context6.abrupt('return', _context6.sent);
-
-                                                    case 3:
-                                                    case 'end':
-                                                        return _context6.stop();
+                                                        case 3:
+                                                        case 'end':
+                                                            return _context6.stop();
+                                                    }
                                                 }
-                                            }
-                                        }, _callee6, _this);
-                                    }));
+                                            }, _callee6, _this);
+                                        }));
 
-                                    return function (_x18, _x19) {
-                                        return _ref7.apply(this, arguments);
-                                    };
-                                }();
-                                return _context7.abrupt('return', conn);
+                                        return function execute(_x18, _x19) {
+                                            return _ref7.apply(this, arguments);
+                                        };
+                                    }(),
+                                    query: function () {
+                                        var _ref8 = _asyncToGenerator(regeneratorRuntime.mark(function _callee7(key, data) {
+                                            return regeneratorRuntime.wrap(function _callee7$(_context7) {
+                                                while (1) {
+                                                    switch (_context7.prev = _context7.next) {
+                                                        case 0:
+                                                            _context7.next = 2;
+                                                            return that.query(key, data, conn);
+
+                                                        case 2:
+                                                            return _context7.abrupt('return', _context7.sent);
+
+                                                        case 3:
+                                                        case 'end':
+                                                            return _context7.stop();
+                                                    }
+                                                }
+                                            }, _callee7, _this);
+                                        }));
+
+                                        return function query(_x20, _x21) {
+                                            return _ref8.apply(this, arguments);
+                                        };
+                                    }(),
+                                    insert: function () {
+                                        var _ref9 = _asyncToGenerator(regeneratorRuntime.mark(function _callee8(tableName, data) {
+                                            return regeneratorRuntime.wrap(function _callee8$(_context8) {
+                                                while (1) {
+                                                    switch (_context8.prev = _context8.next) {
+                                                        case 0:
+                                                            _context8.next = 2;
+                                                            return that.insert(tableName, data, conn);
+
+                                                        case 2:
+                                                            return _context8.abrupt('return', _context8.sent);
+
+                                                        case 3:
+                                                        case 'end':
+                                                            return _context8.stop();
+                                                    }
+                                                }
+                                            }, _callee8, _this);
+                                        }));
+
+                                        return function insert(_x22, _x23) {
+                                            return _ref9.apply(this, arguments);
+                                        };
+                                    }(),
+                                    update: function () {
+                                        var _ref10 = _asyncToGenerator(regeneratorRuntime.mark(function _callee9(tableName, data, idKey) {
+                                            return regeneratorRuntime.wrap(function _callee9$(_context9) {
+                                                while (1) {
+                                                    switch (_context9.prev = _context9.next) {
+                                                        case 0:
+                                                            _context9.next = 2;
+                                                            return that.update(tableName, data, idKey, conn);
+
+                                                        case 2:
+                                                            return _context9.abrupt('return', _context9.sent);
+
+                                                        case 3:
+                                                        case 'end':
+                                                            return _context9.stop();
+                                                    }
+                                                }
+                                            }, _callee9, _this);
+                                        }));
+
+                                        return function update(_x24, _x25, _x26) {
+                                            return _ref10.apply(this, arguments);
+                                        };
+                                    }(),
+                                    del: function () {
+                                        var _ref11 = _asyncToGenerator(regeneratorRuntime.mark(function _callee10(tableName, id, idKey) {
+                                            return regeneratorRuntime.wrap(function _callee10$(_context10) {
+                                                while (1) {
+                                                    switch (_context10.prev = _context10.next) {
+                                                        case 0:
+                                                            _context10.next = 2;
+                                                            return that.del(tableName, id, idKey, conn);
+
+                                                        case 2:
+                                                            return _context10.abrupt('return', _context10.sent);
+
+                                                        case 3:
+                                                        case 'end':
+                                                            return _context10.stop();
+                                                    }
+                                                }
+                                            }, _callee10, _this);
+                                        }));
+
+                                        return function del(_x27, _x28, _x29) {
+                                            return _ref11.apply(this, arguments);
+                                        };
+                                    }(),
+                                    commit: function () {
+                                        var _ref12 = _asyncToGenerator(regeneratorRuntime.mark(function _callee11() {
+                                            var ret;
+                                            return regeneratorRuntime.wrap(function _callee11$(_context11) {
+                                                while (1) {
+                                                    switch (_context11.prev = _context11.next) {
+                                                        case 0:
+                                                            ret = null;
+                                                            _context11.prev = 1;
+                                                            _context11.next = 4;
+                                                            return that.commit(conn);
+
+                                                        case 4:
+                                                            ret = _context11.sent;
+                                                            _context11.next = 10;
+                                                            break;
+
+                                                        case 7:
+                                                            _context11.prev = 7;
+                                                            _context11.t0 = _context11['catch'](1);
+
+                                                            console.error('commit error:', _context11.t0.stack);
+
+                                                        case 10:
+                                                            _context11.prev = 10;
+
+                                                            that.releaseConn(conn);
+                                                            return _context11.finish(10);
+
+                                                        case 13:
+                                                            return _context11.abrupt('return', ret);
+
+                                                        case 14:
+                                                        case 'end':
+                                                            return _context11.stop();
+                                                    }
+                                                }
+                                            }, _callee11, _this, [[1, 7, 10, 13]]);
+                                        }));
+
+                                        return function commit() {
+                                            return _ref12.apply(this, arguments);
+                                        };
+                                    }(),
+                                    rollback: function () {
+                                        var _ref13 = _asyncToGenerator(regeneratorRuntime.mark(function _callee12() {
+                                            var ret;
+                                            return regeneratorRuntime.wrap(function _callee12$(_context12) {
+                                                while (1) {
+                                                    switch (_context12.prev = _context12.next) {
+                                                        case 0:
+                                                            ret = null;
+                                                            _context12.prev = 1;
+                                                            _context12.next = 4;
+                                                            return that.rollback(conn);
+
+                                                        case 4:
+                                                            ret = _context12.sent;
+                                                            _context12.next = 10;
+                                                            break;
+
+                                                        case 7:
+                                                            _context12.prev = 7;
+                                                            _context12.t0 = _context12['catch'](1);
+
+                                                            console.error('rollback error:', _context12.t0.stack);
+
+                                                        case 10:
+                                                            _context12.prev = 10;
+
+                                                            that.releaseConn(conn);
+                                                            return _context12.finish(10);
+
+                                                        case 13:
+                                                            return _context12.abrupt('return', ret);
+
+                                                        case 14:
+                                                        case 'end':
+                                                            return _context12.stop();
+                                                    }
+                                                }
+                                            }, _callee12, _this, [[1, 7, 10, 13]]);
+                                        }));
+
+                                        return function rollback() {
+                                            return _ref13.apply(this, arguments);
+                                        };
+                                    }()
+                                };
+                                return _context13.abrupt('return', nodebatis);
 
                             case 6:
                             case 'end':
-                                return _context7.stop();
+                                return _context13.stop();
                         }
                     }
-                }, _callee7, this);
+                }, _callee13, this);
+            }));
+
+            function getTransation() {
+                return _ref6.apply(this, arguments);
+            }
+
+            return getTransation;
+        }()
+    }, {
+        key: 'beginTransation',
+        value: function () {
+            var _ref14 = _asyncToGenerator(regeneratorRuntime.mark(function _callee15() {
+                var _this2 = this;
+
+                var that, conn;
+                return regeneratorRuntime.wrap(function _callee15$(_context15) {
+                    while (1) {
+                        switch (_context15.prev = _context15.next) {
+                            case 0:
+                                that = this;
+                                _context15.next = 3;
+                                return this.pool.beginTransation();
+
+                            case 3:
+                                conn = _context15.sent;
+
+                                conn.execute = function () {
+                                    var _ref15 = _asyncToGenerator(regeneratorRuntime.mark(function _callee14(key, data) {
+                                        return regeneratorRuntime.wrap(function _callee14$(_context14) {
+                                            while (1) {
+                                                switch (_context14.prev = _context14.next) {
+                                                    case 0:
+                                                        _context14.next = 2;
+                                                        return that.execute.apply(that, [key, data, conn]);
+
+                                                    case 2:
+                                                        return _context14.abrupt('return', _context14.sent);
+
+                                                    case 3:
+                                                    case 'end':
+                                                        return _context14.stop();
+                                                }
+                                            }
+                                        }, _callee14, _this2);
+                                    }));
+
+                                    return function (_x30, _x31) {
+                                        return _ref15.apply(this, arguments);
+                                    };
+                                }();
+                                return _context15.abrupt('return', conn);
+
+                            case 6:
+                            case 'end':
+                                return _context15.stop();
+                        }
+                    }
+                }, _callee15, this);
             }));
 
             function beginTransation() {
-                return _ref6.apply(this, arguments);
+                return _ref14.apply(this, arguments);
             }
 
             return beginTransation;
@@ -306,27 +553,27 @@ var NodeBatis = function () {
     }, {
         key: 'commit',
         value: function () {
-            var _ref8 = _asyncToGenerator(regeneratorRuntime.mark(function _callee8(conn) {
-                return regeneratorRuntime.wrap(function _callee8$(_context8) {
+            var _ref16 = _asyncToGenerator(regeneratorRuntime.mark(function _callee16(conn) {
+                return regeneratorRuntime.wrap(function _callee16$(_context16) {
                     while (1) {
-                        switch (_context8.prev = _context8.next) {
+                        switch (_context16.prev = _context16.next) {
                             case 0:
-                                _context8.next = 2;
+                                _context16.next = 2;
                                 return this.pool.commit(conn);
 
                             case 2:
-                                return _context8.abrupt('return', _context8.sent);
+                                return _context16.abrupt('return', _context16.sent);
 
                             case 3:
                             case 'end':
-                                return _context8.stop();
+                                return _context16.stop();
                         }
                     }
-                }, _callee8, this);
+                }, _callee16, this);
             }));
 
-            function commit(_x20) {
-                return _ref8.apply(this, arguments);
+            function commit(_x32) {
+                return _ref16.apply(this, arguments);
             }
 
             return commit;
@@ -334,24 +581,24 @@ var NodeBatis = function () {
     }, {
         key: 'rollback',
         value: function () {
-            var _ref9 = _asyncToGenerator(regeneratorRuntime.mark(function _callee9(conn) {
-                return regeneratorRuntime.wrap(function _callee9$(_context9) {
+            var _ref17 = _asyncToGenerator(regeneratorRuntime.mark(function _callee17(conn) {
+                return regeneratorRuntime.wrap(function _callee17$(_context17) {
                     while (1) {
-                        switch (_context9.prev = _context9.next) {
+                        switch (_context17.prev = _context17.next) {
                             case 0:
-                                _context9.next = 2;
+                                _context17.next = 2;
                                 return this.pool.rollback(conn);
 
                             case 2:
                             case 'end':
-                                return _context9.stop();
+                                return _context17.stop();
                         }
                     }
-                }, _callee9, this);
+                }, _callee17, this);
             }));
 
-            function rollback(_x21) {
-                return _ref9.apply(this, arguments);
+            function rollback(_x33) {
+                return _ref17.apply(this, arguments);
             }
 
             return rollback;

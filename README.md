@@ -175,7 +175,10 @@ extendsDemo: select {{ demo.attrs }} from demo // select id ,name, age from demo
 连接数不够时，一次创建连接的数量，默认为 5
 
 ## nodebatis.beginTransation()
-获取一个支持事务的数据库连接
+获取一个支持事务的链接
+
+## nodebatis.getTransation()
+获取一个支持事务的 nodebatis 实例，其实就是一系列的语法糖。使用方法相见 test 目录。
 
 * 返回一个数据库连接
 

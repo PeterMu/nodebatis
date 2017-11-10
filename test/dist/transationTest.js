@@ -8,109 +8,100 @@ var path = require('path');
 var Types = NodeBatis.Types;
 
 var nodebatis = new NodeBatis(path.resolve(__dirname, '../yaml'), {
-	debug: true,
-	dialect: 'mysql',
-	host: '127.0.0.1',
-	port: 3306,
-	database: 'test',
-	user: 'root',
-	password: 'root',
-	pool: {
-		minSize: 5,
-		maxSize: 20,
-		acquireIncrement: 5
-	}
+    debug: true,
+    dialect: 'mysql',
+    host: '127.0.0.1',
+    port: 3306,
+    database: 'test',
+    user: 'root',
+    password: 'root',
+    pool: {
+        minSize: 5,
+        maxSize: 20,
+        acquireIncrement: 5
+    }
 });
 
 var transationTest = function () {
-	var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-		var conn, result1, result2, result3, result4;
-		return regeneratorRuntime.wrap(function _callee$(_context) {
-			while (1) {
-				switch (_context.prev = _context.next) {
-					case 0:
-						conn = null;
-						_context.prev = 1;
-						_context.next = 4;
-						return nodebatis.beginTransation();
+    var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+        var tdao, result3, result1, result2;
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+            while (1) {
+                switch (_context.prev = _context.next) {
+                    case 0:
+                        _context.next = 2;
+                        return nodebatis.getTransation();
 
-					case 4:
-						conn = _context.sent;
-						_context.next = 7;
-						return nodebatis.insert('test', { name: 'bezos', age: 22 }, conn);
+                    case 2:
+                        tdao = _context.sent;
+                        _context.prev = 3;
+                        _context.next = 6;
+                        return tdao.update('test', { id: 2, name: 'peter', age: 18 });
 
-					case 7:
-						result1 = _context.sent;
-						_context.next = 10;
-						return nodebatis.query('test.query', { name: 'bezos', age: 19 }, conn);
+                    case 6:
+                        result3 = _context.sent;
+                        _context.next = 9;
+                        return tdao.insert('test', { name123: 'peter', age: 28 });
 
-					case 10:
-						result2 = _context.sent;
-						_context.next = 13;
-						return nodebatis.update('test', { id: 1, name: 'Air', age: 25 }, 'id', conn);
+                    case 9:
+                        result1 = _context.sent;
+                        _context.next = 12;
+                        return tdao.query('test.query', { name: 'peter' });
 
-					case 13:
-						result3 = _context.sent;
-						_context.next = 16;
-						return nodebatis.del('test', 1, 'id', conn);
+                    case 12:
+                        result2 = _context.sent;
+                        _context.next = 15;
+                        return tdao.commit();
 
-					case 16:
-						result4 = _context.sent;
+                    case 15:
+                        return _context.abrupt('return', result2);
 
-						nodebatis.commit(conn);
-						return _context.abrupt('return', result2);
+                    case 18:
+                        _context.prev = 18;
+                        _context.t0 = _context['catch'](3);
 
-					case 21:
-						_context.prev = 21;
-						_context.t0 = _context['catch'](1);
+                        console.log(_context.t0);
+                        _context.next = 23;
+                        return tdao.rollback();
 
-						console.log(_context.t0);
-						nodebatis.rollback(conn);
+                    case 23:
+                    case 'end':
+                        return _context.stop();
+                }
+            }
+        }, _callee, undefined, [[3, 18]]);
+    }));
 
-					case 25:
-						_context.prev = 25;
-
-						conn && nodebatis.releaseConn(conn);
-						return _context.finish(25);
-
-					case 28:
-					case 'end':
-						return _context.stop();
-				}
-			}
-		}, _callee, undefined, [[1, 21, 25, 28]]);
-	}));
-
-	return function transationTest() {
-		return _ref.apply(this, arguments);
-	};
+    return function transationTest() {
+        return _ref.apply(this, arguments);
+    };
 }();_asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
-	var result;
-	return regeneratorRuntime.wrap(function _callee2$(_context2) {
-		while (1) {
-			switch (_context2.prev = _context2.next) {
-				case 0:
-					_context2.prev = 0;
-					_context2.next = 3;
-					return transationTest();
+    var result;
+    return regeneratorRuntime.wrap(function _callee2$(_context2) {
+        while (1) {
+            switch (_context2.prev = _context2.next) {
+                case 0:
+                    _context2.prev = 0;
+                    _context2.next = 3;
+                    return transationTest();
 
-				case 3:
-					result = _context2.sent;
+                case 3:
+                    result = _context2.sent;
 
-					console.log(result);
-					_context2.next = 10;
-					break;
+                    console.log(result);
+                    _context2.next = 10;
+                    break;
 
-				case 7:
-					_context2.prev = 7;
-					_context2.t0 = _context2['catch'](0);
+                case 7:
+                    _context2.prev = 7;
+                    _context2.t0 = _context2['catch'](0);
 
-					console.log(_context2.t0);
+                    console.log(_context2.t0);
 
-				case 10:
-				case 'end':
-					return _context2.stop();
-			}
-		}
-	}, _callee2, this, [[0, 7]]);
+                case 10:
+                case 'end':
+                    return _context2.stop();
+            }
+        }
+    }, _callee2, this, [[0, 7]]);
 }))();

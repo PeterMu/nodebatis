@@ -73,6 +73,53 @@ class NodeBatis {
         }
     }
 
+    //use transastion
+    async getTransation() {
+        const that = this
+        let conn = await this.beginTransation()
+        let nodebatis = {
+            conn,
+            execute: async (key, data) => {
+                return await that.execute(key, data, conn)
+            },
+            query: async (key, data) => {
+                return await that.query(key, data, conn)
+            },
+            insert: async (tableName, data) => {
+                return await that.insert(tableName, data, conn)
+            },
+            update: async (tableName, data, idKey) => {
+                return await that.update(tableName, data, idKey, conn)
+            },
+            del: async (tableName, id, idKey) => {
+                return await that.del(tableName, id, idKey, conn)
+            },
+            commit: async () => {
+                let ret = null
+                try {
+                    ret = await that.commit(conn)
+                } catch (e) {
+                    console.error('commit error:', e.stack)
+                } finally {
+                    that.releaseConn(conn)
+                }
+                return ret
+            },
+            rollback: async () => {
+                let ret = null
+                try {
+                    ret = await that.rollback(conn)
+                } catch (e) {
+                    console.error('rollback error:', e.stack)
+                } finally {
+                    that.releaseConn(conn)
+                }
+                return ret
+            }
+        }
+        return nodebatis
+    }
+
     async beginTransation() {
         let that = this
         let conn = await this.pool.beginTransation()

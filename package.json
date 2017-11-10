@@ -1,6 +1,6 @@
 {
   "name": "nodebatis",
-  "version": "2.1.2",
+  "version": "2.1.3",
   "description": "a sql style orm for nodejs",
   "main": "dist/nodebatis.js",
   "scripts": {
