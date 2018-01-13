@@ -23,7 +23,7 @@ var nodebatis = new NodeBatis(path.resolve(__dirname, '../yaml'), {
 });
 
 var queryTest = function () {
-	var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(name, age) {
+	var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(name, age) {
 		var ret;
 		return regeneratorRuntime.wrap(function _callee$(_context) {
 			while (1) {
@@ -60,7 +60,7 @@ var queryTest = function () {
 }();
 
 var insertTest = function () {
-	var _ref2 = _asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
+	var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
 		var ret;
 		return regeneratorRuntime.wrap(function _callee2$(_context2) {
 			while (1) {
@@ -88,7 +88,7 @@ var insertTest = function () {
 }();
 
 var updateTest = function () {
-	var _ref3 = _asyncToGenerator(regeneratorRuntime.mark(function _callee3() {
+	var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
 		var ret;
 		return regeneratorRuntime.wrap(function _callee3$(_context3) {
 			while (1) {
@@ -116,7 +116,7 @@ var updateTest = function () {
 }();
 
 var deleteTest = function () {
-	var _ref4 = _asyncToGenerator(regeneratorRuntime.mark(function _callee4() {
+	var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
 		var ret;
 		return regeneratorRuntime.wrap(function _callee4$(_context4) {
 			while (1) {
@@ -143,4 +143,7 @@ var deleteTest = function () {
 	};
 }();
 
+insertTest();
+updateTest();
+deleteTest();
 queryTest();

@@ -42,4 +42,7 @@ let deleteTest = async () => {
 	console.log(ret)
 }
 
+insertTest()
+updateTest()
+deleteTest()
 queryTest()

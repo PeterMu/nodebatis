@@ -44,7 +44,7 @@ var _class = function () {
     _createClass(_class, [{
         key: 'getConn',
         value: function () {
-            var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+            var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
                 var conn;
                 return regeneratorRuntime.wrap(function _callee$(_context) {
                     while (1) {
@@ -74,7 +74,7 @@ var _class = function () {
     }, {
         key: 'releaseConn',
         value: function () {
-            var _ref2 = _asyncToGenerator(regeneratorRuntime.mark(function _callee2(conn) {
+            var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(conn) {
                 return regeneratorRuntime.wrap(function _callee2$(_context2) {
                     while (1) {
                         switch (_context2.prev = _context2.next) {
@@ -98,7 +98,7 @@ var _class = function () {
     }, {
         key: 'query',
         value: function () {
-            var _ref3 = _asyncToGenerator(regeneratorRuntime.mark(function _callee3(key, sql, params, transationConn) {
+            var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(key, sql, params, transationConn) {
                 var that, conn, _that;
 
                 return regeneratorRuntime.wrap(function _callee3$(_context3) {
@@ -170,7 +170,7 @@ var _class = function () {
     }, {
         key: 'beginTransation',
         value: function () {
-            var _ref4 = _asyncToGenerator(regeneratorRuntime.mark(function _callee4() {
+            var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
                 var conn;
                 return regeneratorRuntime.wrap(function _callee4$(_context4) {
                     while (1) {
@@ -200,7 +200,7 @@ var _class = function () {
     }, {
         key: 'commit',
         value: function () {
-            var _ref5 = _asyncToGenerator(regeneratorRuntime.mark(function _callee5(conn) {
+            var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(conn) {
                 return regeneratorRuntime.wrap(function _callee5$(_context5) {
                     while (1) {
                         switch (_context5.prev = _context5.next) {
@@ -228,7 +228,7 @@ var _class = function () {
     }, {
         key: 'rollback',
         value: function () {
-            var _ref6 = _asyncToGenerator(regeneratorRuntime.mark(function _callee6(conn) {
+            var _ref6 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6(conn) {
                 return regeneratorRuntime.wrap(function _callee6$(_context6) {
                     while (1) {
                         switch (_context6.prev = _context6.next) {

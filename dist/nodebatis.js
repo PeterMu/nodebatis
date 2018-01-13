@@ -56,7 +56,7 @@ var NodeBatis = function () {
     _createClass(NodeBatis, [{
         key: 'execute',
         value: function () {
-            var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(key, data, transationConn) {
+            var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(key, data, transationConn) {
                 var sqlObj, result;
                 return regeneratorRuntime.wrap(function _callee$(_context) {
                     while (1) {
@@ -91,7 +91,7 @@ var NodeBatis = function () {
     }, {
         key: 'query',
         value: function () {
-            var _ref2 = _asyncToGenerator(regeneratorRuntime.mark(function _callee2(key, data, transationConn) {
+            var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(key, data, transationConn) {
                 return regeneratorRuntime.wrap(function _callee2$(_context2) {
                     while (1) {
                         switch (_context2.prev = _context2.next) {
@@ -119,7 +119,7 @@ var NodeBatis = function () {
     }, {
         key: 'insert',
         value: function () {
-            var _ref3 = _asyncToGenerator(regeneratorRuntime.mark(function _callee3(tableName, data, transationConn) {
+            var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(tableName, data, transationConn) {
                 var sqlObj, key;
                 return regeneratorRuntime.wrap(function _callee3$(_context3) {
                     while (1) {
@@ -162,7 +162,7 @@ var NodeBatis = function () {
     }, {
         key: 'update',
         value: function () {
-            var _ref4 = _asyncToGenerator(regeneratorRuntime.mark(function _callee4(tableName, data, idKey, transationConn) {
+            var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(tableName, data, idKey, transationConn) {
                 var sqlObj, key;
                 return regeneratorRuntime.wrap(function _callee4$(_context4) {
                     while (1) {
@@ -205,7 +205,7 @@ var NodeBatis = function () {
     }, {
         key: 'del',
         value: function () {
-            var _ref5 = _asyncToGenerator(regeneratorRuntime.mark(function _callee5(tableName, id, idKey, transationConn) {
+            var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(tableName, id, idKey, transationConn) {
                 var sqlObj, key;
                 return regeneratorRuntime.wrap(function _callee5$(_context5) {
                     while (1) {
@@ -251,7 +251,7 @@ var NodeBatis = function () {
     }, {
         key: 'getTransation',
         value: function () {
-            var _ref6 = _asyncToGenerator(regeneratorRuntime.mark(function _callee13() {
+            var _ref6 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee13() {
                 var _this = this;
 
                 var that, conn, nodebatis;
@@ -268,7 +268,7 @@ var NodeBatis = function () {
                                 nodebatis = {
                                     conn: conn,
                                     execute: function () {
-                                        var _ref7 = _asyncToGenerator(regeneratorRuntime.mark(function _callee6(key, data) {
+                                        var _ref7 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6(key, data) {
                                             return regeneratorRuntime.wrap(function _callee6$(_context6) {
                                                 while (1) {
                                                     switch (_context6.prev = _context6.next) {
@@ -292,7 +292,7 @@ var NodeBatis = function () {
                                         };
                                     }(),
                                     query: function () {
-                                        var _ref8 = _asyncToGenerator(regeneratorRuntime.mark(function _callee7(key, data) {
+                                        var _ref8 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7(key, data) {
                                             return regeneratorRuntime.wrap(function _callee7$(_context7) {
                                                 while (1) {
                                                     switch (_context7.prev = _context7.next) {
@@ -316,7 +316,7 @@ var NodeBatis = function () {
                                         };
                                     }(),
                                     insert: function () {
-                                        var _ref9 = _asyncToGenerator(regeneratorRuntime.mark(function _callee8(tableName, data) {
+                                        var _ref9 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8(tableName, data) {
                                             return regeneratorRuntime.wrap(function _callee8$(_context8) {
                                                 while (1) {
                                                     switch (_context8.prev = _context8.next) {
@@ -340,7 +340,7 @@ var NodeBatis = function () {
                                         };
                                     }(),
                                     update: function () {
-                                        var _ref10 = _asyncToGenerator(regeneratorRuntime.mark(function _callee9(tableName, data, idKey) {
+                                        var _ref10 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9(tableName, data, idKey) {
                                             return regeneratorRuntime.wrap(function _callee9$(_context9) {
                                                 while (1) {
                                                     switch (_context9.prev = _context9.next) {
@@ -364,7 +364,7 @@ var NodeBatis = function () {
                                         };
                                     }(),
                                     del: function () {
-                                        var _ref11 = _asyncToGenerator(regeneratorRuntime.mark(function _callee10(tableName, id, idKey) {
+                                        var _ref11 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee10(tableName, id, idKey) {
                                             return regeneratorRuntime.wrap(function _callee10$(_context10) {
                                                 while (1) {
                                                     switch (_context10.prev = _context10.next) {
@@ -388,7 +388,7 @@ var NodeBatis = function () {
                                         };
                                     }(),
                                     commit: function () {
-                                        var _ref12 = _asyncToGenerator(regeneratorRuntime.mark(function _callee11() {
+                                        var _ref12 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee11() {
                                             var ret;
                                             return regeneratorRuntime.wrap(function _callee11$(_context11) {
                                                 while (1) {
@@ -432,7 +432,7 @@ var NodeBatis = function () {
                                         };
                                     }(),
                                     rollback: function () {
-                                        var _ref13 = _asyncToGenerator(regeneratorRuntime.mark(function _callee12() {
+                                        var _ref13 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee12() {
                                             var ret;
                                             return regeneratorRuntime.wrap(function _callee12$(_context12) {
                                                 while (1) {
@@ -495,7 +495,7 @@ var NodeBatis = function () {
     }, {
         key: 'beginTransation',
         value: function () {
-            var _ref14 = _asyncToGenerator(regeneratorRuntime.mark(function _callee15() {
+            var _ref14 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee15() {
                 var _this2 = this;
 
                 var that, conn;
@@ -511,7 +511,7 @@ var NodeBatis = function () {
                                 conn = _context15.sent;
 
                                 conn.execute = function () {
-                                    var _ref15 = _asyncToGenerator(regeneratorRuntime.mark(function _callee14(key, data) {
+                                    var _ref15 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee14(key, data) {
                                         return regeneratorRuntime.wrap(function _callee14$(_context14) {
                                             while (1) {
                                                 switch (_context14.prev = _context14.next) {
@@ -553,7 +553,7 @@ var NodeBatis = function () {
     }, {
         key: 'commit',
         value: function () {
-            var _ref16 = _asyncToGenerator(regeneratorRuntime.mark(function _callee16(conn) {
+            var _ref16 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee16(conn) {
                 return regeneratorRuntime.wrap(function _callee16$(_context16) {
                     while (1) {
                         switch (_context16.prev = _context16.next) {
@@ -581,7 +581,7 @@ var NodeBatis = function () {
     }, {
         key: 'rollback',
         value: function () {
-            var _ref17 = _asyncToGenerator(regeneratorRuntime.mark(function _callee17(conn) {
+            var _ref17 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee17(conn) {
                 return regeneratorRuntime.wrap(function _callee17$(_context17) {
                     while (1) {
                         switch (_context17.prev = _context17.next) {

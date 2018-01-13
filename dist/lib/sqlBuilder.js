@@ -3,17 +3,18 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-/**
- * sql 构造
- */
+exports.getDelSql = exports.getUpdateSql = exports.getInsertSql = undefined;
+
+var _sqlstring = require('sqlstring');
 
 var getInsertSql = exports.getInsertSql = function getInsertSql(tableName, data) {
     var columns = [],
         params = [],
         holders = [],
         sql = '';
+    tableName = (0, _sqlstring.escapeId)(tableName);
     for (var key in data) {
-        columns.push(key);
+        columns.push((0, _sqlstring.escapeId)(key));
         holders.push('?');
         params.push(data[key]);
     }
@@ -21,7 +22,9 @@ var getInsertSql = exports.getInsertSql = function getInsertSql(tableName, data)
     holders = holders.join(',');
     sql = 'insert into ' + tableName + ' (' + columns + ') values (' + holders + ')';
     return { sql: sql, params: params };
-};
+}; /**
+    * sql 构造
+    */
 
 var getUpdateSql = exports.getUpdateSql = function getUpdateSql(tableName, data) {
     var idKey = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'id';
@@ -30,8 +33,11 @@ var getUpdateSql = exports.getUpdateSql = function getUpdateSql(tableName, data)
         params = [],
         holders = [];
     var where = '';
+    tableName = (0, _sqlstring.escapeId)(tableName);
+    idKey = (0, _sqlstring.escapeId)(idKey);
     for (var key in data) {
         if (key != idKey) {
+            key = (0, _sqlstring.escapeId)(key);
             holders.push(key + ' = ?');
             params.push(data[key]);
         }
@@ -49,6 +55,8 @@ var getDelSql = exports.getDelSql = function getDelSql(tableName, id) {
     var idKey = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'id';
 
     var sql = 'delete from ' + tableName + ' where ' + idKey + ' = ?';
+    tableName = (0, _sqlstring.escapeId)(tableName);
+    idKey = (0, _sqlstring.escapeId)(idKey);
     return {
         sql: sql,
         params: [id]

@@ -23,7 +23,7 @@ var nodebatis = new NodeBatis(path.resolve(__dirname, '../yaml'), {
 });
 
 var transationTest = function () {
-    var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+    var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
         var tdao, result3, result1, result2;
         return regeneratorRuntime.wrap(function _callee$(_context) {
             while (1) {
@@ -75,7 +75,7 @@ var transationTest = function () {
     return function transationTest() {
         return _ref.apply(this, arguments);
     };
-}();_asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
+}();_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
     var result;
     return regeneratorRuntime.wrap(function _callee2$(_context2) {
         while (1) {
