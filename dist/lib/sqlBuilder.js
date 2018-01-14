@@ -34,17 +34,15 @@ var getUpdateSql = exports.getUpdateSql = function getUpdateSql(tableName, data)
         holders = [];
     var where = '';
     tableName = (0, _sqlstring.escapeId)(tableName);
-    idKey = (0, _sqlstring.escapeId)(idKey);
     for (var key in data) {
         if (key != idKey) {
-            key = (0, _sqlstring.escapeId)(key);
-            holders.push(key + ' = ?');
+            holders.push((0, _sqlstring.escapeId)(key) + ' = ?');
             params.push(data[key]);
         }
     }
     holders = holders.join(',');
     if (data[idKey]) {
-        where = 'where ' + idKey + ' = ?';
+        where = 'where ' + (0, _sqlstring.escapeId)(idKey) + ' = ?';
         params.push(data[idKey]);
     }
     sql = 'update ' + tableName + ' set ' + holders + ' ' + where;
@@ -54,9 +52,9 @@ var getUpdateSql = exports.getUpdateSql = function getUpdateSql(tableName, data)
 var getDelSql = exports.getDelSql = function getDelSql(tableName, id) {
     var idKey = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'id';
 
-    var sql = 'delete from ' + tableName + ' where ' + idKey + ' = ?';
     tableName = (0, _sqlstring.escapeId)(tableName);
     idKey = (0, _sqlstring.escapeId)(idKey);
+    var sql = 'delete from ' + tableName + ' where ' + idKey + ' = ?';
     return {
         sql: sql,
         params: [id]

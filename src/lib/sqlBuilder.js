@@ -22,17 +22,15 @@ export const getUpdateSql = (tableName, data, idKey = 'id') => {
     let sql = '', params = [], holders = []
     let where = '' 
     tableName = escapeId(tableName)
-    idKey = escapeId(idKey)
     for (let key in data) {
         if (key != idKey) {
-            key = escapeId(key)
-            holders.push(`${key} = ?`)
+            holders.push(`${escapeId(key)} = ?`)
             params.push(data[key])
         }
     }
     holders = holders.join(',')
     if (data[idKey]) {
-        where = `where ${idKey} = ?`
+        where = `where ${escapeId(idKey)} = ?`
         params.push(data[idKey])
     }
     sql = `update ${tableName} set ${holders} ${where}`
@@ -40,9 +38,9 @@ export const getUpdateSql = (tableName, data, idKey = 'id') => {
 }
 
 export const getDelSql = (tableName, id, idKey = 'id') => {
-    let sql = `delete from ${tableName} where ${idKey} = ?`
     tableName = escapeId(tableName)
     idKey = escapeId(idKey)
+    let sql = `delete from ${tableName} where ${idKey} = ?`
     return {
         sql: sql,
         params: [id]
