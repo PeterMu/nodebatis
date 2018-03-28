@@ -57,7 +57,7 @@ class SqlContainer {
                 }
             }
         }
-        result = sqls.join(' ').toLowerCase()
+        result = sqls.join(' ')
         let lastWhereReg = /\s+where$/i
         let whereAndReg = /\s+where\s+and\s+/ig
         let whereOtherReg = /\s+where\s+(union\s+|order\s+|group\s+|limit\s+)/gi
