@@ -4,7 +4,7 @@ A sql style orm lib for nodejs(similar to mybatis on java)
 
 Only support mysql, others are under development.
 
-* Only support node > v7.6.0. If you use node(< v7.6.0), you can use nodebatis(<= v2.2.1)(NOT RECOMMENDED). *
+### Only support node > v7.6.0. If you use node(< v7.6.0), you can use nodebatis(<= v2.2.1)(NOT RECOMMENDED).
 
 # 适用场景
 
