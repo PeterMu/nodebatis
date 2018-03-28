@@ -36,6 +36,7 @@ class Pool {
         let that = this
         try {
             params = params || []
+            //TODO 处理缓存策略
             let conn = transationConn || await this.getConn()
             let that = this
             return new Promise((resolve, reject) => {
@@ -57,7 +58,6 @@ class Pool {
             })
         } catch(e) {
             console.error(e.stack)
-            throw new Error(e)
         }
     }
 

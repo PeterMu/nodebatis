@@ -16,6 +16,21 @@ const nodebatis = new NodeBatis(path.resolve(__dirname, '../yaml'), {
 		maxSize: 20,
 		acquireIncrement: 5,
 	},
+    cache: {
+        store: {
+            type: 'memory'
+        },
+        cacheList: [{
+            name: 'test.find',
+            refresh: [{
+                type: 'table',
+                action: ['insert', 'update', 'delete']
+            }, {
+                type: 'sql',
+                action: 'test.update'
+            }]
+        }]
+    }
 })
 
 let queryTest = async (name, age) => {
