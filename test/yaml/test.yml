@@ -10,3 +10,16 @@ query:
     - if:
         test: :name
         sql: and name = :name
+    - order by name
+
+whereUnionTest:
+    - select * from test where
+    - if:
+        test: age
+        sql: and age > :age
+    - union all
+    - select * from test where
+    - if:
+        test: :name
+        sql: and name = :name
+    - limit 1

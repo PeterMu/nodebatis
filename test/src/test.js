@@ -21,7 +21,7 @@ const nodebatis = new NodeBatis(path.resolve(__dirname, '../yaml'), {
 let queryTest = async (name, age) => {
 	try {
 		let ret = await nodebatis.query('test.query', { name, age })
-		console.log('result', JSON.stringify(ret))
+		console.log('queryTest:', JSON.stringify(ret))
 	} catch (e) {
 		console.log(e)
 	}
@@ -29,20 +29,26 @@ let queryTest = async (name, age) => {
 
 let insertTest = async () => {
 	let ret = await nodebatis.insert('test', { age: 29, name: 'peter' })
-	console.log(ret)
+	console.log('insertTest:', ret)
 }
 
 let updateTest = async () => {
 	let ret = await nodebatis.update('test', { id: 1, age: 21, name: 'bezos' }, 'id')
-	console.log(ret)
+	console.log('updateTest', ret)
 }
 
 let deleteTest = async () => {
 	let ret = await nodebatis.del('test', 1, 'id')
-	console.log(ret)
+	console.log('deleteTest', ret)
+}
+
+let whereUnionTest = async () => {
+	let ret = await nodebatis.query('test.whereUnionTest', {})
+	console.log('whereUnionTest:', ret)
 }
 
 insertTest()
 updateTest()
 deleteTest()
 queryTest()
+whereUnionTest()

@@ -58,12 +58,14 @@ class SqlContainer {
             }
         }
         result = sqls.join(' ').toLowerCase()
-        if (result.indexOf('where and') !== -1) {
-            result = result.replace('where and', 'where')
-        }
-        if (result.indexOf(' where') === result.length - ' where'.length) {
-            result = result.replace(' where', '')
-        }
+        let lastWhereReg = /\s+where$/i
+        let whereAndReg = /\s+where\s+and\s+/ig
+        let whereOtherReg = /\s+where\s+(union\s+|order\s+|group\s+|limit\s+)/gi
+        result = result.replace(lastWhereReg, '')
+        result = result.replace(whereAndReg, ' where ')
+        result = result.replace(whereOtherReg, (match) => {
+            return match.replace(/\s+where\s+/i, ' ')
+        })
         return result
     }
 
