@@ -199,5 +199,5 @@ class NodeBatis {
 
 NodeBatis.Types = Types
 
-export default NodeBatis
+module.exports = NodeBatis
 

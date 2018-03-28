@@ -1,4 +1,4 @@
-const NodeBatis = require('../../dist/nodebatis')
+const NodeBatis = require('../../src/nodebatis')
 const path = require('path')
 
 const Types = NodeBatis.Types

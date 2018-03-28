@@ -58,8 +58,11 @@ class SqlContainer {
             }
         }
         result = sqls.join(' ').toLowerCase()
-        if (result.indexOf('where and') != -1) {
+        if (result.indexOf('where and') !== -1) {
             result = result.replace('where and', 'where')
+        }
+        if (result.indexOf(' where') === result.length - ' where'.length) {
+            result = result.replace(' where', '')
         }
         return result
     }

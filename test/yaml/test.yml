@@ -3,8 +3,7 @@ namespace: 'test'
 attrs: name, age
 
 query:
-    - select {{ test.attrs }} from test
-    - where 1 = 1
+    - select {{ test.attrs }} from test where
     - if:
         test: :age > 18
         sql: and age = :age

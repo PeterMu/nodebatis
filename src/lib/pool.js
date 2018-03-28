@@ -1,6 +1,6 @@
 const MysqlPool = require('./dialects/mysql/pool')
 
-class MysqlPool {
+class Pool {
     constructor (config, models) {
         this.config = Object.assign({
             dialect: 'mysql',
@@ -111,5 +111,5 @@ class MysqlPool {
     }
 }
 
-module.exports = MysqlPool
+module.exports = Pool
 
