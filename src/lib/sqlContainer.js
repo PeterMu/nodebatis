@@ -1,15 +1,15 @@
-import Rule from './rule'
-import path from 'path'
-import vm from 'vm'
-import fs from 'fs'
+const Rule = require('./rule')
+const path = require('path')
+const vm = require('vm')
+const fs = require('fs')
 
 const keyReg = /\:([\w\._]+)/g
 const ddlKeyReg = /\::([\w\._]+)/g
 const childKeyReg = /\{{\s*([\w\._]+)\s*}}/g
 
-export default class {
+class SqlContainer {
     constructor(dir) {
-        this.container = new Map() 
+        this.container = new Map()
         let files = fs.readdirSync(dir), rule = null
         for (var file of files) {
             if(file.indexOf('.swp') == -1) {
@@ -26,7 +26,7 @@ export default class {
     }
 
     getRaw(key) {
-        let keys = key.split('.'), sql = null 
+        let keys = key.split('.'), sql = null
         if (keys.length < 2) {
             console.error('wrong key, the right key is xxx.xxx')
             return
@@ -57,15 +57,17 @@ export default class {
                 }
             }
         }
-        result = sqls.join(' ')
-        result = result.replace('where and', 'where')
+        result = sqls.join(' ').toLowerCase()
+        if (result.indexOf('where and') != -1) {
+            result = result.replace('where and', 'where')
+        }
         return result
     }
 
     _parseCond(node, data) {
         let sql = '', statements = ''
         data = data || {}
-        const context = new vm.createContext(data) 
+        const context = new vm.createContext(data)
         if (node.name.toLowerCase() === 'if') {
             if (node.test && typeof node.test == 'string') {
                 statements = node.test.replace(keyReg, (match, key) => {
@@ -100,11 +102,13 @@ export default class {
         //fill {{key}}
         sql = sql.replace(childKeyReg, (match, key) => {
             return that.get(key).sql
-        }) 
+        })
         return {
             sql: sql,
             params: params.length > 0 ? params : null
-        } 
+        }
     }
 }
+
+module.exports = SqlContainer
 

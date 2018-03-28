@@ -1,11 +1,11 @@
 /**
- * sql 构造
+ *  sql builder
  */
 
-import { escapeId } from 'sqlstring'
+const { escapeId } = require('sqlstring')
 
-export const getInsertSql = (tableName, data) => {
-    let columns = [], params = [], holders = [], sql = '' 
+exports.getInsertSql = (tableName, data) => {
+    let columns = [], params = [], holders = [], sql = ''
     tableName = escapeId(tableName)
     for (let key in data) {
         columns.push(escapeId(key))
@@ -18,9 +18,9 @@ export const getInsertSql = (tableName, data) => {
     return { sql, params }
 }
 
-export const getUpdateSql = (tableName, data, idKey = 'id') => {
+exports.getUpdateSql = (tableName, data, idKey = 'id') => {
     let sql = '', params = [], holders = []
-    let where = '' 
+    let where = ''
     tableName = escapeId(tableName)
     for (let key in data) {
         if (key != idKey) {
@@ -37,7 +37,7 @@ export const getUpdateSql = (tableName, data, idKey = 'id') => {
     return { sql, params }
 }
 
-export const getDelSql = (tableName, id, idKey = 'id') => {
+exports.getDelSql = (tableName, id, idKey = 'id') => {
     tableName = escapeId(tableName)
     idKey = escapeId(idKey)
     let sql = `delete from ${tableName} where ${idKey} = ?`

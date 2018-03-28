@@ -1,11 +1,11 @@
-import yaml from 'js-yaml'
-import fs from 'fs'
+const yaml = require('js-yaml')
+const fs = require('fs')
 
-export default class {
+class Rule {
     constructor(file) {
         this.doc = yaml.safeLoad(fs.readFileSync(file, 'utf8'))
         this.namespace = this.doc.namespace
-        this.rawSql = new Map() 
+        this.rawSql = new Map()
         this.getAllSql()
     }
 
@@ -42,4 +42,6 @@ export default class {
         this.rawSql.set(name, sqls)
     }
 }
+
+module.exports = Rule
 

@@ -13,7 +13,7 @@ const MONGOID = 'isMongoId'
 const JSON = 'isJSON'
 const MATCHES = /\.*/
 
-export default {
+module.exports = {
     STRING: STRING,
     NUMBER: NUMBER,
     INT: INT,

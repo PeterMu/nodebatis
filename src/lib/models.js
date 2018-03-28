@@ -1,6 +1,6 @@
-import validator from 'validator'
+const validator = require('validator')
 
-export default class {
+class Models {
     constructor() {
         this.map = new Map()
     }
@@ -27,7 +27,7 @@ export default class {
     }
 
     validate(key, data) {
-        let errors = [] 
+        let errors = []
         let model = this.get(key)
         if (typeof data == 'object') {
             if (Object.prototype.toString.call(data) == '[object Array]') {
@@ -55,4 +55,6 @@ export default class {
         }
     }
 }
+
+module.exports = Models
 

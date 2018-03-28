@@ -1,6 +1,6 @@
-import mysql from 'mysql'
+const mysql = require('mysql')
 
-export default class {
+class Pool {
     constructor(config) {
         this.pool = mysql.createPool({
             host     : config.host,
@@ -75,3 +75,4 @@ export default class {
     }
 }
 
+module.exports = Pool

@@ -1,6 +1,6 @@
-import MysqlPool from './dialects/mysql/pool'
+const MysqlPool = require('./dialects/mysql/pool')
 
-export default class {
+class MysqlPool {
     constructor (config, models) {
         this.config = Object.assign({
             dialect: 'mysql',
@@ -8,7 +8,7 @@ export default class {
             port: null,
             database: null,
             user: null,
-            password: null, 
+            password: null,
             charset: 'utf8',
             camelCase: false,
             pool: {
@@ -41,9 +41,6 @@ export default class {
             return new Promise((resolve, reject) => {
                 conn._query(sql, params, (err, results) => {
                     if (!err) {
-                        if (that.config.camelCase) {
-                            results = that.parseCamelCase(results)
-                        }
                         let errors = that.models.validate(key, results)
                         if (errors) {
                             reject(errors)
@@ -59,7 +56,7 @@ export default class {
                 })
             })
         } catch(e) {
-            console.error(e)
+            console.error(e.stack)
             throw new Error(e)
         }
     }
@@ -75,28 +72,6 @@ export default class {
 
     async rollback(conn) {
         await this._pool.rollback(conn)
-    }
-
-    parseCamelCase(results) {
-        let array = [], obj = {}
-        if (results && results.length > 0) {
-            for (let ret of results) {
-                obj = {}
-                for (let key in ret) {
-                    obj[this.getCamelCaseKey(key)] = ret[key]
-                }
-                array.push(obj)
-            }
-            return array
-        } else {
-            return results
-        }
-    }
-
-    getCamelCaseKey(key) {
-        return key.replace(/(_\w)/g, (match, s) => {
-            return s.substring(1).toUpperCase()
-        })
     }
 
     get dialect() {
@@ -135,4 +110,6 @@ export default class {
         return this.config.pool
     }
 }
+
+module.exports = MysqlPool
 

@@ -1,9 +1,9 @@
-import 'babel-polyfill'
-import Pool from './lib/pool'
-import SqlContainer from './lib/sqlContainer'
-import Models from './lib/models'
-import Types from './types'
-import * as builder from './lib/sqlBuilder'
+const _ = require('lodash')
+const Pool = require('./lib/pool')
+const SqlContainer = require('./lib/sqlContainer')
+const Models = require('./lib/models')
+const Types = require('./types')
+const builder = require('./lib/sqlBuilder')
 
 class NodeBatis {
 
@@ -16,6 +16,7 @@ class NodeBatis {
         }
         this.dir = dir
         this.debug = config.debug || false
+        this.config = config
         this.models = new Models()
         this.pool = new Pool(config, this.models)
         this.sqlContainer = new SqlContainer(dir)
@@ -27,6 +28,9 @@ class NodeBatis {
             console.info(key, sqlObj.sql, sqlObj.params || '')
         }
         let result = await this.pool.query(key, sqlObj.sql, sqlObj.params, transationConn)
+        if (this.config.camelCase === true) {
+            result = this._camelCase(result)
+        }
         return result
     }
 
@@ -36,6 +40,9 @@ class NodeBatis {
 
     async insert(tableName, data, transationConn) {
         if (tableName && data) {
+            if (this.config.camelCase === true) {
+                data = this._snakeCase(data)
+            }
             let sqlObj = builder.getInsertSql(tableName, data)
             let key = `_auto_builder_insert_${tableName}`
             if (this.debug) {
@@ -49,6 +56,10 @@ class NodeBatis {
 
     async update(tableName, data, idKey, transationConn) {
         if (tableName && data) {
+            if (this.config.camelCase === true) {
+                data = this._snakeCase(data)
+                idKey = _.snakeCase(idKey)
+            }
             let sqlObj = builder.getUpdateSql(tableName, data, idKey)
             let key = `_auto_builder_update_${tableName}`
             if (this.debug) {
@@ -143,6 +154,46 @@ class NodeBatis {
 
     define(key, model) {
         this.models.set(key, model)
+    }
+
+    _camelCase(data) {
+        if (_.isArray(data)) {
+            let array = []
+            for (let item of data) {
+                let parsedItem = {}
+                for (let key in item) {
+                    parsedItem[_.camelCase(key)] = item[key]
+                }
+                array.push(parsedItem)
+            }
+            return array
+        } else {
+            let parsedData = {}
+            for (let key in data) {
+                parsedData[_.camelCase(key)] = data[key]
+            }
+            return parsedData
+        }
+    }
+
+    _snakeCase(data) {
+        if (_.isArray(data)) {
+            let array = []
+            for (let item of data) {
+                let parsedItem = {}
+                for (let key in item) {
+                    parsedItem[_.snakeCase(key)] = item[key]
+                }
+                array.push(parsedItem)
+            }
+            return array
+        } else {
+            let parsedData = {}
+            for (let key in data) {
+                parsedData[_.snakeCase(key)] = data[key]
+            }
+            return parsedData
+        }
     }
 }
 
