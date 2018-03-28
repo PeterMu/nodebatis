@@ -1,8 +1,10 @@
 # nodebatis [![npm](https://img.shields.io/npm/v/nodebatis.svg)](https://www.npmjs.com/package/nodebatis)  [![npm](https://img.shields.io/npm/dt/nodebatis.svg)](https://www.npmjs.com/package/nodebatis)
 
-支持原生 SQL 的轻量化 ORM 框架。
+A sql style orm lib for nodejs(similar to mybatis on java)
 
-目前只支持 Mysql，其它数据库的支持正在开发中...
+Only support mysql, others are under development.
+
+* Only support node > v7.6.0. If you use node(< v7.6.0), you can use nodebatis(<= v2.2.1)(NOT RECOMMENDED). *
 
 # 适用场景
 
