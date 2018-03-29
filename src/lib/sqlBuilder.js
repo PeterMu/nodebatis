@@ -23,7 +23,7 @@ exports.getUpdateSql = (tableName, data, idKey = 'id') => {
     let where = ''
     tableName = escapeId(tableName)
     for (let key in data) {
-        if (key != idKey) {
+        if (key !== idKey) {
             holders.push(`${escapeId(key)} = ?`)
             params.push(data[key])
         }

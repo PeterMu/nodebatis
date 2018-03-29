@@ -54,7 +54,7 @@ class NodeBatis {
         }
     }
 
-    async update(tableName, data, idKey, transationConn) {
+    async update(tableName, data, idKey = 'id', transationConn) {
         if (tableName && data) {
             if (this.config.camelCase === true) {
                 data = this._snakeCase(data)
