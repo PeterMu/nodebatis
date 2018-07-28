@@ -27,13 +27,20 @@ class Rule {
                     sqls.push(s.replace(/\n/g, '').trim())
                 } else {
                     for (let key in s) {
+                        key = key.trim()
                         cond = {}
                         cond.name = key
                         switch (key) {
                             case 'if':
                                 cond.test = s['if'].test
+                                cond.sql = s['if'].sql
+                                break
+                            case 'for':
+                                cond.array = s['for'].array || []
+                                cond.sql = s['for'].sql || ''
+                                cond.seperator = s['for'].seperator || ','
+                                break
                         }
-                        cond.sql = s['if'].sql
                     }
                     sqls.push(cond)
                 }

@@ -47,8 +47,26 @@ let whereUnionTest = async () => {
 	console.log('whereUnionTest:', ret)
 }
 
+let forTest = async () => {
+	try {
+        let ids = [{
+            id: 1
+        },{
+            id: 2
+        },{
+            id: 3
+        }]
+		let ret = await nodebatis.query('test.forTest', { ids })
+		console.log('forTest:', JSON.stringify(ret))
+	} catch (e) {
+		console.log(e)
+	}
+}
+
 insertTest()
-updateTest()
-deleteTest()
+//updateTest()
+//deleteTest()
 queryTest()
-whereUnionTest()
+//whereUnionTest()
+forTest()
+

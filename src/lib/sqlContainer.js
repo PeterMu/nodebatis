@@ -21,8 +21,7 @@ class SqlContainer {
 
     get(key, data) {
         let sqlArray = this.getRaw(key)
-        let sql = this._parseRawSql(sqlArray, data)
-        return this._fillParams(sql, data)
+        return this._parseRawSql(sqlArray, data)
     }
 
     getRaw(key) {
@@ -47,17 +46,25 @@ class SqlContainer {
 
     _parseRawSql(sqlArray, data) {
         let sqls = [], result = '', condSql = ''
+        let rawSql = [], params = []
         for (let sql of sqlArray) {
             if (typeof sql == 'string') {
-                sqls.push(sql)
+                sqls.push(this._fillParams(sql, data))
             } else {
                 condSql = this._parseCond(sql, data)
-                if (condSql != '') {
+                if (condSql) {
                     sqls.push(condSql)
                 }
             }
         }
-        result = sqls.join(' ')
+        //combine sql and params
+        for (let item of sqls) {
+            rawSql.push(item.sql)
+            if (item.params) {
+                params = params.concat(item.params)
+            }
+        }
+        result = rawSql.join(' ')
         let lastWhereReg = /\s+where$/i
         let whereAndReg = /\s+where\s+and\s+/ig
         let whereOtherReg = /\s+where\s+(union\s+|order\s+|group\s+|limit\s+)/gi
@@ -66,11 +73,14 @@ class SqlContainer {
         result = result.replace(whereOtherReg, (match) => {
             return match.replace(/\s+where\s+/i, ' ')
         })
-        return result
+        return {
+            sql: result,
+            params
+        }
     }
 
     _parseCond(node, data) {
-        let sql = '', statements = ''
+        let sql = null, statements = ''
         data = data || {}
         const context = new vm.createContext(data)
         if (node.name.toLowerCase() === 'if') {
@@ -86,11 +96,32 @@ class SqlContainer {
                     isTrue = false
                 }
                 if (isTrue) {
-                    sql = node.sql
+                    sql = {
+                        sql: node.sql,
+                        params: []
+                    }
                 }
             }
         }
-        return sql.trim()
+        if (node.name.toLowerCase() === 'for') {
+            if (node.array) {
+                let sqlArray = [], rawSql = [], params = []
+                if (node.array) {
+                    for (let item of data[node.array]) {
+                        sqlArray.push(this._fillParams(node.sql, item))
+                    }
+                }
+                for (let item of sqlArray) {
+                    rawSql.push(item.sql)
+                    params = params.concat(item.params)
+                }
+                sql = {
+                    sql: rawSql.join(node.seperator),
+                    params
+                }
+            }
+        }
+        return sql
     }
 
     _fillParams(sql, data) {

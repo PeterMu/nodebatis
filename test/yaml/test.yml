@@ -23,3 +23,13 @@ whereUnionTest:
         test: :name
         sql: and name = :name
     - limit 1
+
+forTest:
+    - select * from test where
+    - id in (
+    - for:
+        array: ids
+        sql: :id
+        seperator: ','
+    - )
+
