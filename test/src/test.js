@@ -32,13 +32,29 @@ let insertTest = async () => {
 	console.log('insertTest:', ret)
 }
 
+let batchInsertTest = async () => {
+	let ret = await nodebatis.query('test.batchInsert', {
+        data: [{
+            name: 'batch-' + parseInt(Math.random() * 10),
+            age: 18
+        },{
+            name: 'batch-' + parseInt(Math.random() * 10),
+            age: 18
+        },{
+            name: 'batch-' + parseInt(Math.random() * 10),
+            age: 18
+        }]
+    })
+	console.log('bathInsertTest:', ret)
+}
+
 let updateTest = async () => {
 	let ret = await nodebatis.update('test', { id: 1, age: 21, name: 'bezos' }, 'id')
 	console.log('updateTest', ret)
 }
 
 let deleteTest = async () => {
-	let ret = await nodebatis.del('test', 1, 'id')
+	let ret = await nodebatis.del('test', 36, 'id')
 	console.log('deleteTest', ret)
 }
 
@@ -64,9 +80,13 @@ let forTest = async () => {
 }
 
 insertTest()
-//updateTest()
-//deleteTest()
+batchInsertTest().then(() => {
+    queryTest()
+})
+updateTest()
+deleteTest()
+queryTest('batch-2')
 queryTest()
-//whereUnionTest()
+whereUnionTest()
 forTest()
 

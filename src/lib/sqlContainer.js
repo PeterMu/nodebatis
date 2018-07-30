@@ -96,10 +96,7 @@ class SqlContainer {
                     isTrue = false
                 }
                 if (isTrue) {
-                    sql = {
-                        sql: node.sql,
-                        params: []
-                    }
+                    sql = this._fillParams(node.sql, data)
                 }
             }
         }

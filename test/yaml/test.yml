@@ -1,6 +1,6 @@
 namespace: 'test'
 
-attrs: name, age
+attrs: id, name, age
 
 query:
     - select {{ test.attrs }} from test where
@@ -33,3 +33,9 @@ forTest:
         seperator: ','
     - )
 
+batchInsert:
+    - insert into test(name, age) values
+    - for:
+        array: data
+        sql: (:name, :age)
+        seperator: ','
