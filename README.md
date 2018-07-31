@@ -87,6 +87,18 @@ if:
 ```
 当 expression 为 true 是，对应的 sql 会添加到 sql 语句中。 expression 就是一个 JS 语句, 可以通过 `:paramName` 传递参数。
 
+5. for 循环
+
+```
+for:
+    array: array,
+    sql: statements
+    seperator: ','
+```
+    * `array`, 要遍历的数组，数组内的数据必须是对象。
+    * `sql`, 每次遍历要填充的 sql，使用 :key 的形式引用 array 中的对象的数据。
+    * `seperator`, 每次遍历填充的 sql 之间的分隔符。
+
 Demo:
 
 demo.yml
@@ -122,6 +134,13 @@ attrs: id, name, age
 
 extendsDemo: select {{ demo.attrs }} from demo // select id ,name, age from demo
 
+// for
+batchInsert:
+    - insert into test(name, age) values
+    - for:
+        array: data
+        sql: (:name, :age)
+        seperator: ','
 ```
 
 # API
