@@ -11,8 +11,9 @@ class SqlContainer {
     constructor(dir) {
         this.container = new Map()
         let files = fs.readdirSync(dir), rule = null
-        for (var file of files) {
-            if(file.indexOf('.swp') == -1) {
+        for (let file of files) {
+            let temp = file.toLowerCase()
+            if(temp.indexOf('.yml') !== -1 || temp.indexOf('.yaml') !== -1) {
                 rule = new Rule(path.join(dir, file))
                 this.container.set(rule.namespace, rule.rawSql)
             }
