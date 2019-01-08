@@ -10,6 +10,7 @@
     "node": ">=7.6.0"
   },
   "keywords": [
+   "nodebatis",
     "orm",
     "sql",
     "mybatis"
