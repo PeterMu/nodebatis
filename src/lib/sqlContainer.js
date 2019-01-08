@@ -2,6 +2,7 @@ const Rule = require('./rule')
 const path = require('path')
 const vm = require('vm')
 const fs = require('fs')
+const _ = require('lodash')
 
 const keyReg = /\:([\w\._]+)/g
 const ddlKeyReg = /\::([\w\._]+)/g
@@ -21,11 +22,11 @@ class SqlContainer {
     }
 
     get(key, data) {
-        let sqlArray = this.getRaw(key)
+        let sqlArray = this.getRaw(key, data)
         return this._parseRawSql(sqlArray, data)
     }
 
-    getRaw(key) {
+    getRaw(key, data) {
         let keys = key.split('.'), sql = null
         if (keys.length < 2) {
             console.error('wrong key, the right key is xxx.xxx')
@@ -38,11 +39,35 @@ class SqlContainer {
             sql = sqlMap.get(sqlKey)
             if (!sql) {
                 console.error('The sql:', key, 'not exists!')
+            } else {
+                //fill {{key}}
+                for (let i=0; i<sql.length; i++) {
+                    let tempSql = new Map()
+                    if (typeof sql[i] == 'string') {
+                        sql[i] = sql[i].replace(childKeyReg, (match, key) => {
+                            let index = `___${tempSql.size}`
+                            tempSql.set(key, this.getRaw(key))
+                            return match
+                        })
+                    }
+                    if (tempSql.size > 0) {
+                        let tempArray = sql[i].split(childKeyReg)
+                        for (let [key, value] of tempSql) {
+                            for (let s=0; s < tempArray.length; s++) {
+                                if (key === tempArray[s]) {
+                                    tempArray[s] = value
+                                }
+                            }
+                        }
+                        sql[i] = tempArray
+                    }
+                }
             }
         } else {
             console.error('The namespace:', namespace, 'not exists!')
         }
-        return sql
+        // 格式化 sql 数组
+        return _.flattenDeep(sql)
     }
 
     _parseRawSql(sqlArray, data) {
@@ -52,6 +77,7 @@ class SqlContainer {
             if (typeof sql == 'string') {
                 sqls.push(this._fillParams(sql, data))
             } else {
+                // 只判断 test ，验证通过后拼接 sql，但是参数填充统一在后面处理
                 condSql = this._parseCond(sql, data)
                 if (condSql) {
                     sqls.push(condSql)
@@ -132,10 +158,6 @@ class SqlContainer {
         sql = sql.replace(keyReg, (match, key) => {
             params.push(data[key])
             return '?'
-        })
-        //fill {{key}}
-        sql = sql.replace(childKeyReg, (match, key) => {
-            return that.get(key).sql
         })
         return {
             sql: sql,

@@ -2,21 +2,24 @@ namespace: 'test'
 
 attrs: id, name, age
 
-query:
-    - select {{ test.attrs }} from test where
+conds:
     - if:
         test: :age > 18
         sql: and age = :age
+    - if:
+        test: :age > 18
+        sql: and age = :age
+
+query:
+    - select {{ test.attrs }} from test where
+    - '{{test.conds}}'
     - if:
         test: :name
         sql: and name = :name
     - order by name
 
 whereUnionTest:
-    - select * from test where
-    - if:
-        test: age
-        sql: and age > :age
+    - select * from test where {{test.conds}}
     - union all
     - select * from test where
     - if:

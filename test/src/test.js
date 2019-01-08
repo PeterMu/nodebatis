@@ -79,14 +79,15 @@ let forTest = async () => {
 	}
 }
 
-insertTest()
-batchInsertTest().then(() => {
-    queryTest()
-})
-updateTest()
-deleteTest()
-queryTest('batch-2')
-queryTest()
-whereUnionTest()
-forTest()
+//insertTest()
+//batchInsertTest().then(() => {
+//    queryTest()
+//})
+//updateTest()
+//deleteTest()
+//queryTest('batch-2')
+//queryTest()
+queryTest('peter', 29)
+//whereUnionTest()
+//forTest()
 
