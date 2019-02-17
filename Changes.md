@@ -2,6 +2,11 @@
 
 This file is a manually maintained list of changes for each release.
 
+## v2.3.5
+* fix bug of syntax '{{xxx}}'
+
+* fix bug of no default value of update method
+
 ## v2.3.2
 
 * fix bug of no default value of update method
