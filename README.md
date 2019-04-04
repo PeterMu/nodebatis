@@ -195,11 +195,11 @@ batchInsert:
 #### pool.acquireIncrement { Int }
 连接数不够时，一次创建连接的数量，默认为 5
 
-## nodebatis.beginTransation()
+## nodebatis.beginTransaction()
 获取一个支持事务的链接
 
-## nodebatis.getTransation()
-获取一个支持事务的 nodebatis 实例，其实就是一系列的语法糖。使用方法相见 test 目录。
+## nodebatis.getTransaction()
+获取一个支持事务的 nodebatis 实例，其实就是一系列的语法糖。使用方法详见 test 目录。
 
 * 返回一个数据库连接
 

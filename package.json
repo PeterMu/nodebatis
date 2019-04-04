@@ -1,6 +1,6 @@
 {
   "name": "nodebatis",
-  "version": "2.3.6",
+  "version": "2.3.7",
   "description": "a sql style orm for nodejs",
   "main": "src/nodebatis.js",
   "scripts": {
@@ -10,7 +10,7 @@
     "node": ">=7.6.0"
   },
   "keywords": [
-   "nodebatis",
+    "nodebatis",
     "orm",
     "sql",
     "mybatis"
@@ -19,7 +19,7 @@
   "license": "ISC",
   "dependencies": {
     "js-yaml": "^3.6.1",
-    "lodash": "^4.17.5",
+    "lodash": "^4.17.11",
     "mysql": "^2.11.1",
     "sqlstring": "^2.3.0",
     "validator": "^5.5.0"
