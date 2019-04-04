@@ -22,23 +22,23 @@ class NodeBatis {
         this.sqlContainer = new SqlContainer(dir)
     }
 
-    async execute(key, data, transationConn) {
+    async execute(key, data, transactionConn) {
         let sqlObj = this.sqlContainer.get(key, data)
         if (this.debug) {
             console.info(key, sqlObj.sql, sqlObj.params || '')
         }
-        let result = await this.pool.query(key, sqlObj.sql, sqlObj.params, transationConn)
+        let result = await this.pool.query(key, sqlObj.sql, sqlObj.params, transactionConn)
         if (this.config.camelCase === true) {
             result = this._camelCase(result)
         }
         return result
     }
 
-    async query(key, data, transationConn) {
-        return await this.execute(key, data, transationConn)
+    async query(key, data, transactionConn) {
+        return await this.execute(key, data, transactionConn)
     }
 
-    async insert(tableName, data, transationConn) {
+    async insert(tableName, data, transactionConn) {
         if (tableName && data) {
             if (this.config.camelCase === true) {
                 data = this._snakeCase(data)
@@ -48,13 +48,13 @@ class NodeBatis {
             if (this.debug) {
                 console.info(key, sqlObj.sql, sqlObj.params || '')
             }
-            return await this.pool.query(key, sqlObj.sql, sqlObj.params, transationConn)
+            return await this.pool.query(key, sqlObj.sql, sqlObj.params, transactionConn)
         } else {
             console.error('insert need tableName and data')
         }
     }
 
-    async update(tableName, data, idKey = 'id', transationConn) {
+    async update(tableName, data, idKey = 'id', transactionConn) {
         if (tableName && data) {
             if (this.config.camelCase === true) {
                 data = this._snakeCase(data)
@@ -65,29 +65,29 @@ class NodeBatis {
             if (this.debug) {
                 console.info(key, sqlObj.sql, sqlObj.params || '')
             }
-            return await this.pool.query(key, sqlObj.sql, sqlObj.params, transationConn)
+            return await this.pool.query(key, sqlObj.sql, sqlObj.params, transactionConn)
         } else {
             console.error('update need tableName and data')
         }
     }
 
-    async del(tableName, id, idKey, transationConn) {
+    async del(tableName, id, idKey, transactionConn) {
         if (tableName && id) {
             let sqlObj = builder.getDelSql(tableName, id, idKey)
             let key = `_auto_builder_del_${tableName}`
             if (this.debug) {
                 console.info(key, sqlObj.sql, sqlObj.params || '')
             }
-            return await this.pool.query(key, sqlObj.sql, sqlObj.params, transationConn)
+            return await this.pool.query(key, sqlObj.sql, sqlObj.params, transactionConn)
         } else {
             console.error('del need tableName and id')
         }
     }
 
     //use transastion
-    async getTransation() {
+    async getTransaction() {
         const that = this
-        let conn = await this.beginTransation()
+        let conn = await this.beginTransaction()
         let nodebatis = {
             conn,
             execute: async (key, data) => {
@@ -131,9 +131,9 @@ class NodeBatis {
         return nodebatis
     }
 
-    async beginTransation() {
+    async beginTransaction() {
         let that = this
-        let conn = await this.pool.beginTransation()
+        let conn = await this.pool.beginTransaction()
         conn.execute = async (key, data) => {
             return await that.execute.apply(that, [key, data, conn])
         }

@@ -18,8 +18,8 @@ const nodebatis = new NodeBatis(path.resolve(__dirname, '../yaml'), {
     },
 })
 
-let transationTest = async () => {
-    let tdao = await nodebatis.getTransation()
+let transactionTest = async () => {
+    let tdao = await nodebatis.getTransaction()
     try {
         let result3 = await tdao.update('test', { id: 2, name: 'peter', age: 18 })
         let result1 = await tdao.insert('test', { name123: 'peter', age: 28 })
@@ -33,7 +33,7 @@ let transationTest = async () => {
 }
 ;(async function() {
     try {
-        let result = await transationTest()
+        let result = await transactionTest()
         console.log(result)
     } catch (err) {
         console.log(err)

@@ -32,11 +32,11 @@ class Pool {
         conn.release()
     }
 
-    async query(key, sql, params, transationConn) {
+    async query(key, sql, params, transactionConn) {
         let that = this
         try {
             params = params || []
-            let conn = transationConn || await this.getConn()
+            let conn = transactionConn || await this.getConn()
             let that = this
             return new Promise((resolve, reject) => {
                 conn._query(sql, params, (err, results) => {
@@ -50,7 +50,7 @@ class Pool {
                     } else {
                         reject(err)
                     }
-                    if (!transationConn) {
+                    if (!transactionConn) {
                         that.releaseConn(conn)
                     }
                 })
@@ -61,8 +61,8 @@ class Pool {
         }
     }
 
-    async beginTransation() {
-        let conn = await this._pool.getTransationConn()
+    async beginTransaction() {
+        let conn = await this._pool.getTransactionConn()
         return conn
     }
 

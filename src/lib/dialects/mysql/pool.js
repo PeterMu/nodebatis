@@ -31,7 +31,7 @@ class Pool {
         return connection
     }
 
-    getTransationConn() {
+    getTransactionConn() {
         let that = this
         return new Promise((resolve, reject) => {
             this.pool.getConnection((err, connection) => {
