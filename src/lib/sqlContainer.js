@@ -92,7 +92,7 @@ class SqlContainer {
             }
         }
         result = rawSql.join(' ')
-        let lastWhereReg = /\s+where$/i
+        let lastWhereReg = /\s+where\s*$/i
         let whereAndReg = /\s+where\s+and\s+/ig
         let whereOtherReg = /\s+where\s+(union\s+|order\s+|group\s+|limit\s+)/gi
         result = result.replace(lastWhereReg, '')
