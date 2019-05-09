@@ -7,16 +7,12 @@ conds:
         test: :age > 18
         sql: and age = :age
     - if:
-        test: :age > 18
-        sql: and age = :age
+        test: name
+        sql: and name = :name
 
 query:
-    - select {{ test.attrs }} from test where
-    - '{{test.conds}}'
-    - if:
-        test: :name
-        sql: and name = :name
-    - order by name
+    - select {{ test.attrs }} from test
+    - where {{test.conds}}
 
 whereUnionTest:
     - select * from test where {{test.conds}}

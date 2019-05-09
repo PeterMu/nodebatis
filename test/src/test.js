@@ -86,8 +86,8 @@ let forTest = async () => {
 //updateTest()
 //deleteTest()
 //queryTest('batch-2')
-//queryTest()
-queryTest('peter', 29)
+queryTest()
+//queryTest('peter', 29)
 //whereUnionTest()
 //forTest()
 
