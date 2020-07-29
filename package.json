@@ -18,8 +18,8 @@
   "author": "petermu",
   "license": "ISC",
   "dependencies": {
-    "js-yaml": "^3.6.1",
-    "lodash": "^4.17.11",
+    "js-yaml": "^3.14.0",
+    "lodash": "^4.17.19",
     "mysql": "^2.11.1",
     "sqlstring": "^2.3.0",
     "validator": "^5.5.0"
