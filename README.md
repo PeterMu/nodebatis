@@ -254,6 +254,25 @@ batchInsert:
 * idKey 为主键名称
 * connection 为开启事务时，获取的支持事务的链接
 
+## nodebatis.select(tableName, queryData [, connection])
+根据 queryData 生成查询语句，只支持单表查询
+
+* tablename 为要操作的表名
+* queryData 为查询条件对象，支持如下形式: `{ name: 'test' }, { name: { $eq: 'test' } }`, `$eq 为 =`, 还支持如下判断条件：`$eq, $neq, $lt, $lte, $gt, $gte, $like, $in` 
+* connection 为开启事务时，获取的支持事务的链接
+
+## nodebatis.selectByPage(tableName, queryData, start = 0, limit = 10, orderBy, sort [, connection])
+根据 queryData 生成分页查询语句，只支持单表查询
+
+* tablename 为要操作的表名
+* queryData 为查询条件对象
+
+## nodebatis.count(tableName, queryData [, connection])
+根据 queryData 生成 count 语句，只支持单表
+
+* tablename 为要操作的表名
+* queryData 为查询条件对象
+
 ## NodeBatis.Types
 支持的数据类型，用户验证返回的结果集是否符合定义的数据模型。
 

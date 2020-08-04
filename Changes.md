@@ -2,6 +2,10 @@
 
 This file is a manually maintained list of changes for each release.
 
+## v2.3.9
+- add unit test
+- add simple api: select, selectByPage, count
+
 ## v2.3.5
 * fix bug of syntax '{{xxx}}'
 
