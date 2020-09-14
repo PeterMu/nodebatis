@@ -1,6 +1,6 @@
 {
   "name": "nodebatis",
-  "version": "2.3.9",
+  "version": "2.4.0",
   "description": "a sql style orm for nodejs",
   "main": "src/nodebatis.js",
   "scripts": {
@@ -17,7 +17,7 @@
     "mybatis"
   ],
   "author": "petermu",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "js-yaml": "^3.14.0",
     "lodash": "^4.17.19",
@@ -28,5 +28,10 @@
   "devDependencies": {
     "jest": "^26.1.0",
     "rewire": "^5.0.0"
+  },
+  "homepage": "https://github.com/PeterMu/nodebatis",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/PeterMu/nodebatis.git"
   }
 }

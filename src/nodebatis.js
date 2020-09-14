@@ -48,7 +48,11 @@ class NodeBatis {
       if (this.debug) {
         console.info(key, sqlObj.sql, sqlObj.params || '')
       }
-      return await this.pool.query(key, sqlObj.sql, sqlObj.params, transactionConn)
+      let result = await this.pool.query(key, sqlObj.sql, sqlObj.params, transactionConn)
+      if (this.config.camelCase === true) {
+        result = this._camelCase(result)
+      }
+      return result
     } else {
       console.error('select need tableName')
     }
@@ -64,7 +68,11 @@ class NodeBatis {
       if (this.debug) {
         console.info(key, sqlObj.sql, sqlObj.params || '')
       }
-      return await this.pool.query(key, sqlObj.sql, sqlObj.params, transactionConn)
+      let result = await this.pool.query(key, sqlObj.sql, sqlObj.params, transactionConn)
+      if (this.config.camelCase === true) {
+        result = this._camelCase(result)
+      }
+      return result
     } else {
       console.error('selectByPage need tableName')
     }
