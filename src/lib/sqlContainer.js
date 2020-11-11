@@ -130,12 +130,11 @@ class SqlContainer {
       }
     }
     if (node.name.toLowerCase() === 'for') {
-      if (node.array) {
+      let arrayKey = node.array.replace(':', '')
+      if (node.array && data[arrayKey] && data[arrayKey].length > 0) {
         let sqlArray = [], rawSql = [], params = []
-        if (node.array) {
-          for (let item of data[node.array.replace(':', '')]) {
-            sqlArray.push(this._fillParams(node.sql, item))
-          }
+        for (let item of data[arrayKey]) {
+          sqlArray.push(this._fillParams(node.sql, item))
         }
         for (let item of sqlArray) {
           rawSql.push(item.sql)
@@ -158,7 +157,11 @@ class SqlContainer {
     })
     //fill :key
     sql = sql.replace(keyReg, (match, key) => {
-      params.push(data[key])
+      if (key === '_') {
+        params.push(data)
+      } else {
+        params.push(data[key])
+      }
       return '?'
     })
     return {

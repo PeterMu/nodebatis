@@ -32,26 +32,22 @@ exports.getInsertSql = (tableName, data) => {
   return { sql, params }
 }
 
-exports.getUpdateSql = (tableName, data, idKey = 'id') => {
+exports.getUpdateSql = (tableName, data, query) => {
   if (!tableName || !data) {
     throw new Error('tableName or data is null')
-  }
-  if (idKey && data[idKey] === undefined) {
-    throw new Error('The idKey: ${idKey} is undefined')
   }
   let sql = '', params = [], holders = []
   let where = ''
   tableName = escapeId(tableName)
   for (let key in data) {
-    if (key !== idKey) {
-      holders.push(`${escapeId(key)} = ?`)
-      params.push(data[key])
-    }
+    holders.push(`${escapeId(key)} = ?`)
+    params.push(data[key])
   }
   holders = holders.join(',')
-  if (data[idKey]) {
-    where = `where ${escapeId(idKey)} = ?`
-    params.push(data[idKey])
+  if (query) {
+    let dataSql = getSqlFromObject(query)
+    where = `where ${dataSql.sql.join(' and ')}`
+    params = params.concat(dataSql.params)
   }
   sql = `update ${tableName} set ${holders} ${where}`
   return { sql, params }

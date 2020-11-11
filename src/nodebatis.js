@@ -54,7 +54,7 @@ class NodeBatis {
       }
       return result
     } else {
-      console.error('select need tableName')
+      throw new Error('select need tableName')
     }
   }
 
@@ -74,7 +74,7 @@ class NodeBatis {
       }
       return result
     } else {
-      console.error('selectByPage need tableName')
+      throw new Error('selectByPage need tableName')
     }
   }
 
@@ -95,7 +95,7 @@ class NodeBatis {
         return 0
       }
     } else {
-      console.error('count need tableName')
+      throw new Error('count need tableName')
     }
   }
 
@@ -111,24 +111,38 @@ class NodeBatis {
       }
       return await this.pool.query(key, sqlObj.sql, sqlObj.params, transactionConn)
     } else {
-      console.error('insert need tableName and data')
+      throw new Error('insert need tableName and data')
     }
   }
 
-  async update(tableName, data, idKey = 'id', transactionConn) {
+  /**
+   * query: idKey | query object
+   */
+  async update(tableName, data, query = 'id', transactionConn) {
+    let parsedQuery = {}
+    if (typeof query === 'string') {
+      if (data[query] === undefined) {
+        throw new Error('The idKey: ${query} is undefined')
+      }
+      parsedQuery[query] = data[query]
+      delete data[query]
+    } else {
+      parsedQuery = query
+    }
+
     if (tableName && data) {
       if (this.config.camelCase === true) {
         data = this._snakeCase(data)
-        idKey = _.snakeCase(idKey)
+        parsedQuery = this._snakeCase(parsedQuery)
       }
-      let sqlObj = builder.getUpdateSql(tableName, data, idKey)
+      let sqlObj = builder.getUpdateSql(tableName, data, parsedQuery)
       let key = `_auto_builder_update_${tableName}`
       if (this.debug) {
         console.info(key, sqlObj.sql, sqlObj.params || '')
       }
       return await this.pool.query(key, sqlObj.sql, sqlObj.params, transactionConn)
     } else {
-      console.error('update need tableName and data')
+      throw new Error('update need tableName and data')
     }
   }
 
@@ -141,7 +155,7 @@ class NodeBatis {
       }
       return await this.pool.query(key, sqlObj.sql, sqlObj.params, transactionConn)
     } else {
-      console.error('del need tableName and id')
+      throw new Error('del need tableName and id')
     }
   }
 
@@ -171,7 +185,7 @@ class NodeBatis {
         try {
           ret = await that.commit(conn)
         } catch (e) {
-          console.error('commit error:', e.stack)
+          throw new Error('commit error:', e.stack)
         } finally {
           that.releaseConn(conn)
         }
@@ -182,7 +196,7 @@ class NodeBatis {
         try {
           ret = await that.rollback(conn)
         } catch (e) {
-          console.error('rollback error:', e.stack)
+          throw new Error('rollback error:', e.stack)
         } finally {
           that.releaseConn(conn)
         }

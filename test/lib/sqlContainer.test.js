@@ -68,6 +68,15 @@ describe('_fillParams', () => {
       params: [1]
     })
   })
+
+  test('fill :_', () => {
+    let sql = 'select * from test wehre id = :_'
+    let ret = sqlContainer._fillParams(sql, 1)
+    expect(ret).toEqual({
+      sql: 'select * from test wehre id = ?',
+      params: [1]
+    })
+  })
 })
 
 describe('_parseCond', () => {
@@ -98,6 +107,18 @@ describe('_parseCond', () => {
     })
     expect(ret).toEqual({ sql: '?,?', params: [ 1, 2 ] })
   })
+
+  test('for when array is undefined', () => {
+    let cond = { name: 'for', array: ':ids', sql: ':id', seperator: ',' }
+    let ret = sqlContainer._parseCond(cond, {})
+    expect(ret).toEqual(null)
+  })
+
+  test('for when array is empty', () => {
+    let cond = { name: 'for', array: ':ids', sql: ':id', seperator: ',' }
+    let ret = sqlContainer._parseCond(cond, {})
+    expect(ret).toEqual(null)
+  })
 })
 
 describe('_parseRawSql', () => {
@@ -118,6 +139,28 @@ describe('_parseRawSql', () => {
     expect(ret).toEqual({
       sql: 'select * from test where age = ? union all select * from test where ids in ( ?,?,? )',
       params: [ 20, 1, 2, 3 ]
+    })
+  })
+})
+
+describe('_parseRawSql when the array in for is undefined', () => {
+  test('normal', () => {
+    let sqlArray = [
+      'select * from test where ',
+      { name: 'if', test: ':age > 18', sql: 'and age = :age' },
+      { name: 'if', test: 'name', sql: 'and name = :name' },
+      'union all',
+      'select * from test where column1 = 1',
+      { name: 'if', test: ':ids', sql: ' and id in (' },
+      { name: 'for', array: ':ids', sql: ':id', seperator: ',' },
+      { name: 'if', test: ':ids', sql: ')' },
+    ]
+    let ret = sqlContainer._parseRawSql(sqlArray, {
+      age: 20,
+    })
+    expect(ret).toEqual({
+      sql: 'select * from test where age = ? union all select * from test where column1 = 1',
+      params: [ 20 ]
     })
   })
 })

@@ -31,31 +31,40 @@ describe('getInsertSql', () => {
 describe('getUpdateSql', () => {
   test('normal', () => {
     let ret = sqlBuilder.getUpdateSql('test', {
-      id: 'id',
       column1: 'column1'
     })
-    expect(ret).toMatchObject({
-      sql: 'update `test` set `column1` = ? where `id` = ?',
-      params: ['column1', 'id']
-    })
-  })
-
-  test('idKey is null', () => {
-    let ret = sqlBuilder.getUpdateSql('test', {
-      column1: 'column1'
-    }, null)
     expect(ret).toMatchObject({
       sql: 'update `test` set `column1` = ? ',
       params: ['column1']
     })
   })
 
-  test('idKey does not exist', () => {
-    expect(() => {
-      sqlBuilder.getUpdateSql('test', {
-        column1: 'column1'
-      })
-    }).toThrow()
+  test('have simple query', () => {
+    let ret = sqlBuilder.getUpdateSql('test', {
+      column1: 'column1'
+    },{
+      id: 'idValue'
+    })
+    expect(ret).toMatchObject({
+      sql: 'update `test` set `column1` = ? where `id` = ?',
+      params: ['column1', 'idValue']
+    })
+  })
+
+  test('have complex query', () => {
+    let ret = sqlBuilder.getUpdateSql('test', {
+      column1: 'column1',
+      column2: 'column2'
+    },{
+      id: 'idValue',
+      inTest: {
+        $in: ['a', 'b', 'c']
+      }
+    })
+    expect(ret).toMatchObject({
+      sql: 'update `test` set `column1` = ?,`column2` = ? where `id` = ? and `inTest` in (?,?,?)',
+      params: ['column1', 'column2', 'idValue', 'a', 'b', 'c']
+    })
   })
 
   test('tableName or data is null', () => {

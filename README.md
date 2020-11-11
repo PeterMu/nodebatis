@@ -237,15 +237,6 @@ batchInsert:
 * connection 为开启事务时，获取的支持事务的链接
 
 
-## nodebatis.update(tableName, data, idKey = "id"[, connection])
-更新数据
-
-* tablename 为要操作的表名
-* data 为传递的数据对象，data 的 key 为对应表的字段，值为要插入的值
-* idKey 为主键名称
-* connection 为开启事务时，获取的支持事务的链接
-
-
 ## nodebatis.del(tableName, id, idKey = "id"[, connection])
 删除数据
 
@@ -258,7 +249,7 @@ batchInsert:
 根据 queryData 生成查询语句，只支持单表查询
 
 * tablename 为要操作的表名
-* queryData 为查询条件对象，支持如下形式: `{ name: 'test' }, { name: { $eq: 'test' } }`, `$eq 为 =`, 还支持如下判断条件：`$eq, $neq, $lt, $lte, $gt, $gte, $like, $in` 
+* queryData 为查询条件对象，支持如下形式: `{ name: 'test' }, { name: { $eq: 'test' } }`, `$eq 为 =`, 还支持如下条件：`$eq, $neq, $lt, $lte, $gt, $gte, $like, $in` 
 * connection 为开启事务时，获取的支持事务的链接
 
 ## nodebatis.selectByPage(tableName, queryData, start = 0, limit = 10, orderBy, sort [, connection])
@@ -266,6 +257,15 @@ batchInsert:
 
 * tablename 为要操作的表名
 * queryData 为查询条件对象
+
+
+## nodebatis.update(tableName, data, idKey = "id" | queryData [, connection])
+更新数据
+
+* tablename 为要操作的表名
+* data 为传递的数据对象，data 的 key 为对应表的字段，值为要插入的值
+* idKey 为主键名称 | queryData 为查询条件对象
+* connection 为开启事务时，获取的支持事务的链接
 
 ## nodebatis.count(tableName, queryData [, connection])
 根据 queryData 生成 count 语句，只支持单表
