@@ -161,8 +161,8 @@ describe('getSelectSql', () => {
       }
     }, 0 , 10, 'orderName', 'desc')
     expect(ret).toMatchObject({
-      sql: 'select * from `test` where `equal` = ? and `neq` <> ? and `like` like ? and `in` in (?,?,?) order by ? ? limit ? offset ?',
-      params: [ 'equal', 'neq', '%like%', 1, 2, 3, 'orderName', 'desc', 10, 0 ]
+      sql: 'select * from `test` where `equal` = ? and `neq` <> ? and `like` like ? and `in` in (?,?,?) order by `orderName` desc limit ? offset ?',
+      params: [ 'equal', 'neq', '%like%', 1, 2, 3, 10, 0 ]
     })
   })
 
