@@ -77,21 +77,23 @@ exports.getDelSql = (tableName, id, idKey = 'id') => {
 const getSqlFromObject = data => {
   let sql = [], params = []
   for (let key in data) {
-    if (!_.isObject(data[key])) {
+    if (!_.isObject(data[key]) || _.isDate(data[key])) {
       sql.push(`${escapeId(key)} = ?`)
       params.push(data[key])
     } else {
-      let opKey = _.find(_.keys(data[key]), s => s.indexOf('$') === 0)
-      if (opKey && ops[opKey]) {
-        if (opKey === '$in') {
-          let holders = data[key][opKey].map(o => '?')
-          sql.push(`${escapeId(key)} ${ops[opKey]} (${holders.join(',')})`)
-          for (let item of data[key][opKey]) {
-            params.push(item)
+      let opKeys = _.filter(_.keys(data[key]), s => s.indexOf('$') === 0)
+      for (let opKey of opKeys) {
+        if (opKey && ops[opKey]) {
+          if (opKey === '$in') {
+            let holders = data[key][opKey].map(o => '?')
+            sql.push(`${escapeId(key)} ${ops[opKey]} (${holders.join(',')})`)
+            for (let item of data[key][opKey]) {
+              params.push(item)
+            }
+          } else {
+            sql.push(`${escapeId(key)} ${ops[opKey]} ?`)
+            params.push(data[key][opKey])
           }
-        } else {
-          sql.push(`${escapeId(key)} ${ops[opKey]} ?`)
-          params.push(data[key][opKey])
         }
       }
     }
@@ -120,12 +122,14 @@ exports.getSelectSql = (tableName, data, start, limit, orderBy, sort) => {
   }
 
   if (orderBy) {
-    holders.push('order by ?')
-    params.push(orderBy)
+    holders.push(`order by ${escapeId(orderBy)}`)
   }
   if (sort) {
-    holders.push('?')
-    params.push(sort)
+    if (sort === 'desc') {
+      holders.push('desc')
+    } else {
+      holders.push('asc')
+    }
   }
 
   if (/\d/.test(limit)) {

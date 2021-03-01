@@ -84,7 +84,7 @@ class NodeBatis {
         data = this._snakeCase(data)
       }
       let sqlObj = builder.getCountSql(tableName, data)
-      let key = `_auto_builder_count_{tableName}`
+      let key = `_auto_builder_count_${tableName}`
       if (this.debug) {
         console.info(key, sqlObj.sql, sqlObj.params || '')
       }
@@ -120,6 +120,7 @@ class NodeBatis {
    */
   async update(tableName, data, query = 'id', transactionConn) {
     let parsedQuery = {}
+    data = _.cloneDeep(data)
     if (typeof query === 'string') {
       if (data[query] === undefined) {
         throw new Error('The idKey: ${query} is undefined')

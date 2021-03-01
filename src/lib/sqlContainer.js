@@ -37,7 +37,7 @@ class SqlContainer {
     if (sqlMap) {
       sql = sqlMap.get(sqlKey)
       if (!sql) {
-        throw new Error('The sql:', key, 'not exists!')
+        throw new Error('The sql: ' + key + ' not exists!')
       } else {
         //fill {{key}}
         for (let i = 0; i < sql.length; i++) {
@@ -63,7 +63,7 @@ class SqlContainer {
         }
       }
     } else {
-      throw new Error('The namespace:', namespace, 'not exists!')
+      throw new Error('The namespace: ' + namespace + ' not exists!')
     }
     // 格式化 sql 数组
     return _.filter(_.flattenDeep(sql), s => s !== '')
